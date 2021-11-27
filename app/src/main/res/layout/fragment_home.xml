@@ -20,7 +20,7 @@
         map:uiZoomGestures="true" />
 
     <RelativeLayout
-        android:id="@+id/rl_maps_laoding"
+        android:id="@+id/rl_maps_loading"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:background="@drawable/loading_gradient"

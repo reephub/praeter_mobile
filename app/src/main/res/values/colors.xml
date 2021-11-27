@@ -30,7 +30,7 @@
     <color name="white">#ffffff</color>
 
 
-    <color name="good">#43A047</color>
+    <color name="success">#43A047</color>
     <color name="warning">#FB8C00</color>
     <color name="error">#d32f2f</color>
 

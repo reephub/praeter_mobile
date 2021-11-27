@@ -16,6 +16,13 @@
     <string name="enter">Enter</string>
     <string name="exit">Quit</string>
 
+    <!-- Network connection status -->
+    <string name="network_status_connected">Good! Connected to Internet</string>
+    <string name="network_status_disconnected">Sorry! Not connected to internet</string>
+    <string name="network_status_pending">Retry! Internet connection pending</string>
+    <string name="network_status_lost">Lost! Connection lost. Try to reconnect</string>
+    <string name="network_check_connection">Please check your cellular network or Wi-Fi network</string>
+
     <!-- Splash -->
     <string name="splash_catch_phrase">\"Fly away to the culture\"</string>
     <string name="version_placeholder">"v %1$s"</string>

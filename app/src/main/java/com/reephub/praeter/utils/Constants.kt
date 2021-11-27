@@ -16,7 +16,9 @@ object Constants {
     @SuppressLint("ConstantLocale")
     val BASE_ENDPOINT_PRAETER_URL =
         HTTP +
-            if (PraeterDeviceManager.getModel().trim().lowercase(Locale.getDefault()).contains("sdk")) EMULATOR_IP_ADDRESS
-            else IP_ADDRESS +
-            PORT
+                if (PraeterDeviceManager.getModel().trim().lowercase(Locale.getDefault())
+                        .contains("sdk")
+                ) EMULATOR_IP_ADDRESS
+                else IP_ADDRESS +
+                        PORT
 }

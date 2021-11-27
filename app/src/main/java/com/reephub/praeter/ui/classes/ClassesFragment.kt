@@ -34,6 +34,7 @@ class ClassesFragment : BaseFragment() {
         super.onDestroyView()
         _viewBinding = null
     }
+
     override fun onConnected(isConnected: Boolean) {
         // Ignored
     }

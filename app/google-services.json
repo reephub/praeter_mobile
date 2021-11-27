@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "705455226134",
+    "firebase_url": "https://praeter-34391.firebaseio.com",
+    "project_id": "praeter-34391",
+    "storage_bucket": "praeter-34391.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705455226134:android:e0f0dd43ddf2e4f229e437",
+        "android_client_info": {
+          "package_name": "com.praeter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705455226134-aqd2hda8ekvl7h9mlgbh2cg5k3hl9ucv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd4sCVOzQJwwSh1f39As4y-GLIIiGKeho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705455226134-aqd2hda8ekvl7h9mlgbh2cg5k3hl9ucv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

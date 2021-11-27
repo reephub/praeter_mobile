@@ -44,6 +44,8 @@ class PraeterApplication : MultiDexApplication() {
             )
 
         }*/
+
+        Timber.d("Application successfully created")
     }
 
     fun getContext(): Context {
