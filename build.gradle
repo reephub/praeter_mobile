@@ -10,6 +10,238 @@ ext {
     versionMinor = 0
     versionPatch = 0
     versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    // Kotlin
+    kotlinVersion = '1.6.0'
+    coroutinesVersion = '1.5.2'
+    activityKtxVersion = '1.4.0'
+    fragmentKtxVersion = '1.4.0'
+    kotlinPlayServices = '1.5.2-native-mt'
+
+    // App dependencies
+    multidexVersion = '2.0.1'
+    coreVersion = '1.7.0'
+    appCompatVersion = '1.4.0'
+    materialVersion = '1.4.0'
+    paletteVersion = '1.0.0'
+    constraintLayoutVersion = '2.1.2'
+    navigationFragmentVersion = '2.3.5'
+    navigationUiVersion = '2.3.5'
+    recyclerViewVersion = '1.2.1'
+    cardViewVersion = "1.0.0"
+    fragmentVersion = '1.4.0'
+    viewPager2Version = '1.0.0'
+    dynamicanimationVersion = '1.0.0'
+    cameraVersion = '1.0.2'
+    cameraAlphaVersion = '1.0.0-alpha31'
+
+    mediaVersion = '1.4.3'
+    mediaRouterVersion = '1.2.5'
+
+    autoFillVersion = '1.1.0'
+
+    // Worker
+    workerVersion = '2.7.1'
+    concurrentVersion = '1.1.0'
+
+    roomVersion = '2.3.0'
+
+    lifecycleVersion = '2.4.0'
+
+
+    // Dagger - Hilt
+    hiltVersion = '2.40.2'
+    hiltAndroidXVersion = '1.0.0'
+
+    googleApiClientVersion = '1.32.2'
+    googleApiClientAndroidVersion = '1.32.2'
+    googleApiClientOAuthVersion = '1.32.1'
+    googleHttpClientVersion = '1.40.1'
+
+    // Google Play
+    googlePlayServicesBaseVersion = '17.6.0'
+    googlePlayServicesVersion = '16.0.0'
+    playServicesAuthVersion = '19.2.0'
+
+    // Maps
+    mapsVersion = '18.0.0'
+    mapsUtilsVersion = '2.3.0'
+    locationVersion = '18.0.0'
+    placesVersion = '2.5.0'
+
+    // Firebase
+    firebaseBomVersion = '26.0.0'
+    firebaseKtxVersion = '23.0.3'
+    adsVersion = '20.3.0'
+
+    retrofit2Version = '2.9.0'
+    okhttpBomVersion = '5.0.0-alpha.2'
+    okhttpLoggingVersion = '5.0.0-alpha.2'
+
+    // Moshi
+    moshiVersion = '1.12.0'
+
+    // Glide
+    glideVersion = '4.12.0'
+    blurryVersion = '4.0.0'
+    glideTransformationVersion = '4.3.0'
+
+    // EventBus
+    eventBusVersion = '3.2.0'
+
+    // Dexter
+    dexterVersion = '6.2.3'
+
+    // GoldFinger
+    goldfingerVersion = '2.0.1'
+
+    // Lottie
+    lottieVersion = '4.2.1'
+
+    // Timber
+    timberVersion = '5.0.1'
+
+    //Tests
+    junitVersion = '4.13.2'
+    testJUnitVersion = '1.1.3'
+    testEspressoVersion = '3.4.0'
+
+
+    generalDependencies = [
+            // Kotlin
+            kotlinStdLib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            kotlinCoroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+            kotlinCoroutinesAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
+            kotlinParcelize         : "org.jetbrains.kotlin:kotlin-parcelize-runtime:$kotlinVersion",
+            kotlinPlaySevices       : "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinPlayServices",
+
+            // KTX framework
+            activityKTX             : "androidx.activity:activity-ktx:$activityKtxVersion",
+            fragmentKTX             : "androidx.fragment:fragment-ktx:$fragmentKtxVersion",
+            navigationKTX           : "androidx.navigation:navigation-ui-ktx:$navigationUiVersion",
+            navigationFragmentKTX   : "androidx.navigation:navigation-fragment-ktx:$navigationFragmentVersion",
+
+            multidex                : "androidx.multidex:multidex:$multidexVersion",
+            core                    : "androidx.core:core-ktx:$coreVersion",
+            appcompat               : "androidx.appcompat:appcompat:$appCompatVersion",
+            material                : "com.google.android.material:material:$materialVersion",
+            palette                 : "androidx.palette:palette-ktx:$paletteVersion",
+            constraintLayout        : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+            navigationFragment      : "androidx.navigation:navigation-fragment:$navigationFragmentVersion",
+            navigationUi            : "androidx.navigation:navigation-ui:$navigationUiVersion",
+            recyclerView            : "androidx.recyclerview:recyclerview:$recyclerViewVersion",
+            cardView                : "androidx.cardview:cardview:$cardViewVersion",
+            fragment                : "androidx.fragment:fragment:$fragmentVersion",
+            springForce             : "androidx.dynamicanimation:dynamicanimation:$dynamicanimationVersion",
+            viewPager2              : "androidx.viewpager2:viewpager2:$viewPager2Version",
+
+            // Camera
+            camera2                 : "androidx.camera:camera-camera2:$cameraVersion",
+            cameraLifecyle          : "androidx.camera:camera-lifecycle:$cameraVersion",
+            cameraView              : "androidx.camera:camera-view:$cameraAlphaVersion",
+            cameraExtensions        : "androidx.camera:camera-extensions:$cameraAlphaVersion",
+
+            media                   : "androidx.media:media:$mediaVersion",
+            mediaRouter             : "androidx.mediarouter:mediarouter:$mediaRouterVersion",
+
+            autoFill                : "androidx.autofill:autofill:$autoFillVersion",
+
+            // Worker
+            workerRuntime           : "androidx.work:work-runtime:$workerVersion",
+            workerRxJava3           : "androidx.work:work-rxjava3:$workerVersion",
+            workerMultiprocess      : "androidx.work:work-multiprocess:$workerVersion",
+            concurrent              : "androidx.concurrent:concurrent-futures:$concurrentVersion",
+
+            /* Android Architecture Component - Room Persistance Lib  */
+            roomRuntime             : "androidx.room:room-ktx:$roomVersion",
+            roomCompiler            : "androidx.room:room-compiler:$roomVersion",
+            // optional - Kotlin Extensions and Coroutines support for Room
+            roomExtCoroutinesSupport: "androidx.room:room-ktx:$roomVersion",
+
+            // Maps
+            maps                    : "com.google.android.gms:play-services-maps:$mapsVersion",
+            mapsUtils               : "com.google.maps.android:android-maps-utils:$mapsUtilsVersion",
+            location                : "com.google.android.gms:play-services-location:$locationVersion",
+            places                  : "com.google.android.libraries.places:places:$placesVersion",
+
+            // Firebase
+            firebasePlatform        : "com.google.firebase:firebase-bom:$firebaseBomVersion",
+            firebaseAnalitycs       : "com.google.firebase:firebase-analytics-ktx",
+            firebaseAuth            : "com.google.firebase:firebase-auth-ktx",
+            firebaseCraslytics      : "com.google.firebase:firebase-crashlytics-ktx",
+            firebaseMessaging       : "com.google.firebase:firebase-messaging-ktx",
+            firebaseCloudstorage    : "com.google.firebase:firebase-storage-ktx",
+            firebaseDatabase        : "com.google.firebase:firebase-database-ktx",
+            firebaseAds             : "com.google.android.gms:play-services-ads:$adsVersion",
+
+            /* Lifecycle */
+            lifecycleViewModel      : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
+            lifecycleLiveData       : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
+            lifecycleRuntime        : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+            lifecycleCompiler       : "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion",
+            lifecycleService        : "androidx.lifecycle:lifecycle-service:$lifecycleVersion",
+
+            /* Hilt - We are going to use hilt.android which includes
+             * support for Activity and fragment injection so we need to include
+             * the following dependencies */
+            hilt                    : "com.google.dagger:hilt-android:$hiltVersion",
+            hiltKaptCompiler        : "com.google.dagger:hilt-android-compiler:$hiltVersion",
+            // hiltLifecycle                : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion",
+            hiltKaptAndroidXCompiler: "androidx.hilt:hilt-compiler:1.0.0",// if you use the support libraries
+//            hiltKaptAndroidCompiler : "com.google.dagger:hilt-android-compiler:$hiltVersion",
+            //Hilt with workManager
+            hiltWorkerManager       : "androidx.hilt:hilt-work:$hiltAndroidXVersion",
+
+            /* Retrofit using RxJava3, Okhttp, Okhttp logging interceptor, Moshi  */
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofit2Version",
+            retrofitConverterMoshi  : "com.squareup.retrofit2:converter-moshi:$retrofit2Version",
+
+            // OkHttp
+            okHttpBom               : "com.squareup.okhttp3:okhttp-bom:$okhttpBomVersion",
+            okHttp                  : "com.squareup.okhttp3:okhttp",
+            okHttpLogging           : "com.squareup.okhttp3:logging-interceptor",
+
+            // Moshi
+            moshi                   : "com.squareup.moshi:moshi:$moshiVersion",
+            moshiKotlin             : "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion",
+
+            // EventBus
+            eventBus                : "org.greenrobot:eventbus:$eventBusVersion",
+
+            // Dexter
+            dexter                  : "com.karumi:dexter:$dexterVersion",
+
+            // Glide
+            glide                   : "com.github.bumptech.glide:glide:$glideVersion",
+            glideAnnotation         : "com.github.bumptech.glide:compiler:$glideVersion",
+
+            // Blurry
+            blurry                  : "jp.wasabeef:blurry:$blurryVersion",
+            glideTransformation     : "jp.wasabeef:glide-transformations:$glideTransformationVersion",
+
+            // GoldFinger
+            goldfinger              : "co.infinum:goldfinger:core:$goldfingerVersion",
+            goldfingerRX            : "co.infinum:goldfinger-rx:$goldfingerVersion",
+
+            // Lottie
+            lottie                  : "com.airbnb.android:lottie:$lottieVersion",
+
+            // Timber : Logging library
+            timber                  : "com.jakewharton.timber:timber:$timberVersion"
+    ]
+
+    testDependencies = [
+            junit                  : "junit:junit:$junitVersion",
+            testJUnit              : "androidx.test.ext:junit:$testJUnitVersion",
+            espresso               : "androidx.test.espresso:espresso-core:$testEspressoVersion",
+
+            workTest               : "androidx.work:work-testing:$workerVersion",
+
+            hiltAndroidTesting     : "com.google.dagger:hilt-android-testing:$hiltVersion",
+            hiltKaptAndroidCompiler: "com.google.dagger:hilt-android-compiler:$hiltVersion",
+            hiltKaptCompiler       : "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
+    ]
+
 }
 
 buildscript {
@@ -31,7 +263,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
-        // classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
