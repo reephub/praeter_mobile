@@ -3,7 +3,6 @@ package com.reephub.praeter.ui.splashscreen
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -51,6 +50,11 @@ class SplashScreenActivity : AppCompatActivity(),
             startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _viewBinding = null
     }
 
     /////////////////////////////////////

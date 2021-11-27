@@ -93,4 +93,7 @@
     <string name="menu_gallery">Classes</string>
     <string name="menu_slideshow">Meet the Ancient</string>
     <string name="book_class_btn">Book this class</string>
+    <string name="title_classes">Classes</string>
+    <string name="title_home">Home</string>
+    <string name="title_meet_ancients">Meet the ancients</string>
 </resources>
