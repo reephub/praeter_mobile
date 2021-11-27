@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/dark_grey">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_logo_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:contentDescription="app logo"
+            app:srcCompat="@drawable/ic_praeter_logo"
+            app:tint="@color/white"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:text="@string/splash_catch_phrase"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            tools:textColor="@color/white" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- ProgressBar -->
+    <!-- https://stackoverflow.com/questions/31021823/lollipop-progress-bar-tinting -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/big_margin"
+        android:layout_height="@dimen/big_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="72dp"
+        android:indeterminate="true"
+        android:indeterminateOnly="true"
+        app:indicatorColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:indicatorColor="@color/white"
+        tools:progress="45" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="@string/version_placeholder"
+        tools:textColor="@color/white" />
+</androidx.constraintlayout.widget.ConstraintLayout>

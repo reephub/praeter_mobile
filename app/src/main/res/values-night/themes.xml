@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Praeter" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/dark_grey</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -11,6 +11,40 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
+        <item name="android:navigationBarColor">@color/dark_grey</item>
+
+        <item name="android:textColor">@color/white</item>
+
+        <!-- Font overriding -->
+        <!-- https://stackoverflow.com/questions/16404820/how-to-set-default-font-family-for-entire-android-app -->
+        <!--        <item name="android:typeface">serif</item>-->
+        <item name="android:fontFamily">@font/samsungsans_thin</item>
+        <item name="fontFamily">@font/samsungsans_thin</item>
+
+
+        <!-- enable window activity transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform
+        </item>
     </style>
+
+    <style name="Theme.Praeter.Splashscreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

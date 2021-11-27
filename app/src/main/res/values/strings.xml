@@ -1,3 +1,96 @@
 <resources>
     <string name="app_name">Præter</string>
+
+    <!-- General -->
+    <string name="action_settings">Settings</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ipsum in placerat molestie. Fusce quis mauris a enim sollicitudin ultrices non eget velit. Aliquam eu pulvinar enim. Praesent libero nisl, ultricies vel maximus eu, maximus et nisi. Phasellus pharetra nec ligula vitae mollis. Quisque porttitor ornare magna, quis dignissim libero aliquam id. Donec sollicitudin ultrices ante, a semper erat tristique in. Vivamus sodales in ligula at sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla tempus bibendum nibh, ac tincidunt quam convallis non. Proin dolor nunc, egestas et tortor consequat, dignissim lacinia odio. Ut ut aliquet erat.  Ut non scelerisque elit. Morbi dolor neque, iaculis eu justo rutrum, aliquet dictum mauris. Phasellus quis massa ut ligula feugiat congue a et dolor. Etiam a dui a sapien ornare accumsan ac ut lorem. Suspendisse vehicula lorem dapibus nibh rhoncus ultricies. Proin sem nulla, elementum quis pharetra quis, commodo vitae nisi. Donec urna orci, posuere et iaculis sit amet, fringilla quis sapien. Pellentesque nec posuere felis. Praesent malesuada tellus nisi, non dictum justo interdum eget. Quisque mollis euismod libero, non aliquam lorem interdum vitae. Aliquam vehicula efficitur purus eget rutrum. Sed pulvinar fermentum risus ac viverra. Cras laoreet ligula quam, ac lacinia nisl elementum in. Aenean velit arcu, euismod a venenatis non, pulvinar pulvinar massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ipsum in placerat molestie. Fusce quis mauris a enim sollicitudin ultrices non eget velit. Aliquam eu pulvinar enim. Praesent libero nisl, ultricies vel maximus eu, maximus et nisi. Phasellus pharetra nec ligula vitae mollis. Quisque porttitor ornare magna, quis dignissim libero aliquam id. Donec sollicitudin ultrices ante, a semper erat tristique in. Vivamus sodales in ligula at sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla tempus bibendum nibh, ac tincidunt quam convallis non. Proin dolor nunc, egestas et tortor consequat, dignissim lacinia odio. Ut ut aliquet erat.  Ut non scelerisque elit. Morbi dolor neque, iaculis eu justo rutrum, aliquet dictum mauris. Phasellus quis massa ut ligula feugiat congue a et dolor. Etiam a dui a sapien ornare accumsan ac ut lorem. Suspendisse vehicula lorem dapibus nibh rhoncus ultricies. Proin sem nulla, elementum quis pharetra quis, commodo vitae nisi. Donec urna orci, posuere et iaculis sit amet, fringilla quis sapien. Pellentesque nec posuere felis. Praesent malesuada tellus nisi, non dictum justo interdum eget. Quisque mollis euismod libero, non aliquam lorem interdum vitae. Aliquam vehicula efficitur purus eget rutrum. Sed pulvinar fermentum risus ac viverra. Cras laoreet ligula quam, ac lacinia nisl elementum in. Aenean velit arcu, euismod a venenatis non, pulvinar pulvinar massa.</string>
+
+    <string name="no_connection">Not connected to the Internet :(</string>
+    <string name="check_your_connection">Please check your cellular network or Wi-Fi network</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="btn_continue">Continue</string>
+    <string name="later">Later</string>
+    <string name="enter">Enter</string>
+    <string name="exit">Quit</string>
+
+    <!-- Splash -->
+    <string name="splash_catch_phrase">\"Fly away to the culture\"</string>
+    <string name="version_placeholder">"v %1$s"</string>
+
+    <!-- Service picker -->
+    <string name="search_a_service_btn">Look for a service</string>
+    <string name="propose_a_service_btn">Propose a service</string>
+
+    <!-- Login -->
+    <string name="title_activity_login">Login</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="err_msg_wrong_email_or_password">Email or password is not correct. Please verified your credentials.</string>
+
+    <string name="no_account_register"><u>You don\'t have any account ?<br />Sign up</u></string>
+
+    <string name="action_logout">Logout</string>
+
+    <!-- License agreement -->
+    <string name="title_activity_license_agreement">License Agreement</string>
+    <string name="accept_agreement_license">I accept, general conditions displayed above</string>
+    <string name="err_msg_license_agreement_approval_mandatory">Your license agreement\'s approval is mandatory in order to continue.</string>
+
+    <!-- User Inscription Form  -->
+    <string name="title_activity_user_inscription_form">User Form</string>
+    <string name="hint_gender">Gender</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_confirm_password">Confirm your password</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="hint_date_of_birth">Date Of Birth (optional)</string>
+    <string name="err_msg_form_last_name">Enter your last name</string>
+    <string name="err_msg_form_first_name">Enter your first name</string>
+    <string name="err_msg_form_email">Wrong email format, verify your email</string>
+    <string name="err_msg_form_password">Enter a correct password</string>
+    <string name="err_msg_form_confirm_password">Make sure that the password matches the one above</string>
+    <string name="err_msg_form_phone_number">Enter your phone number</string>
+    <string name="err_msg_form_date_of_birth">Enter your date of birth</string>
+
+    <!-- Plan -->
+    <string name="title_activity_plan">Plan</string>
+
+    <!-- Premium Plan -->
+    <string name="title_activity_premium_plan">Premium Plan</string>
+    <string name="enter_credit_card_info">Please, enter your bank details</string>
+    <string name="hint_credit_card_owner_name">Card Owner Name</string>
+    <string name="hint_credit_card_number">Card Number</string>
+    <string name="credit_card_numbers_digits">"0123456789 "</string>
+    <string name="hint_credit_card_validity_time">Validity Period</string>
+    <string name="hint_credit_card_ccv">CCV</string>
+    <string name="msg_secure_transactions">Secured transactions via CB, Visa or MasterCard.<br />Important : we ensure that your data is not stored or analyzed at anytime.</string>
+    <string name="err_msg_credit_card_number">Wrong card number. Make sure that the credit card contains 16 characters</string>
+    <string name="err_msg_credit_card_ccv">Enter valid CCV number [ex : 254, 632, …]</string>
+
+
+    <!-- Successful Sign Up -->
+    <string name="title_activity_successful_sign_up">Validation</string>
+    <string name="msg_title_congratulations">Congratulations !</string>
+    <string name="dialog_msg_successfully_signed_up">You are successfully registered to the app.<br /><br />We wish you to have a nice experience using our application.<br /><br />Fly away to the culture.</string>
+
+
+    <!-- Main -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_home">Home</string>
+    <string name="menu_home">Next To Me</string>
+    <string name="menu_gallery">Classes</string>
+    <string name="menu_slideshow">Meet the Ancient</string>
+    <string name="book_class_btn">Book this class</string>
 </resources>
