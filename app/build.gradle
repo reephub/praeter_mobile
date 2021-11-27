@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    //id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 def buildDateTime =
@@ -10,14 +14,19 @@ def buildDateTime =
 
 
 android {
-    compileSdk 31
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.reephub.praeter"
-        minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode buildDateTime
+        versionName rootProject.ext.versionName
+
+        // Enabling multidex support.
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
