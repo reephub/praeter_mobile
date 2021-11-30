@@ -48,6 +48,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Praeter"
+        android:networkSecurityConfig="@xml/network_config"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
 
         <!--Indiquer le numéro de version des services Google Play-->

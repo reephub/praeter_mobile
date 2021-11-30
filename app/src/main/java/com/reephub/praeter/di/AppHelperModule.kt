@@ -23,6 +23,7 @@ object AppHelperModule {
         ApiImpl(
             ApiModule.provideDbAPIService(),
             ApiModule.provideUserAPIService(),
+            ApiModule.provideOrderAPIService()
         )
 
     @Provides

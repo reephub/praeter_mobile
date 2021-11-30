@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.reephub.praeter.databinding.FragmentClassesBinding
 import com.reephub.praeter.ui.base.BaseFragment
+import com.reephub.praeter.ui.mainactivity.MainActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ClassesFragment : BaseFragment() {
 
     private var _viewBinding: FragmentClassesBinding? = null
     private val binding get() = _viewBinding!!
+
+    private val mViewModel: MainActivityViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +34,8 @@ class ClassesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mViewModel.fetchOrders()
     }
 
     override fun onDestroyView() {

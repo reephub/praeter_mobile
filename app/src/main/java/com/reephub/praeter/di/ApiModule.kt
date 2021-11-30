@@ -2,6 +2,7 @@ package com.reephub.praeter.di
 
 import com.reephub.praeter.data.local.bean.TimeOut
 import com.reephub.praeter.data.remote.api.DbApiService
+import com.reephub.praeter.data.remote.api.OrderApiService
 import com.reephub.praeter.data.remote.api.UserApiService
 import com.reephub.praeter.utils.Constants
 import dagger.Module
@@ -39,17 +40,12 @@ internal object ApiModule {
                 val original = chain.request()
                 // Customize the request
                 val request = original.newBuilder()
-                    .header(
-                        Headers.headersOf("content-type").toString(),
-                        "application/json; charset=utf-8"
-                    )
-                    .header(
-                        Headers.headersOf("connection").toString(),
-                        "close"
-                    )
-                    .header(
-                        Headers.headersOf("accept-encoding").toString(),
-                        "Identity"
+                    .headers(
+                        Headers.headersOf(
+                            "Content-Type", "application/json; charset=utf-8",
+                            "Connection", "close",
+                            "Accept-Encoding", "Identity"
+                        )
                     )
                     .build()
                 val response = chain.proceed(request)
@@ -85,6 +81,14 @@ internal object ApiModule {
     fun provideUserAPIService(): UserApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL)
             .create(UserApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @NotNull
+    fun provideOrderAPIService(): OrderApiService {
+        return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL)
+            .create(OrderApiService::class.java)
     }
 
 }

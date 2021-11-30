@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.reephub.praeter.data.local.DbImpl
 import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
+import com.reephub.praeter.data.remote.dto.OrderDto
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -62,6 +63,10 @@ class RepositoryImpl @Inject constructor(
     /////////////////////////////////
     override suspend fun getDbConnection() {
         mApiImpl.getDbConnection()
+    }
+
+    override suspend fun getOrders(): List<OrderDto> {
+        return mApiImpl.getOrders()
     }
 
     override suspend fun saveUser(user: User) {

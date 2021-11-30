@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(),
             )
         )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
 
         setListeners()
@@ -86,6 +86,13 @@ class MainActivity : AppCompatActivity(),
     override fun onResume() {
         super.onResume()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        // If current fragment not is home - go to home
+        // then if home fragment - leave application
     }
 
     override fun onDestroy() {
