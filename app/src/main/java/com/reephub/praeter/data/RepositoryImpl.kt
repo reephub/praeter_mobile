@@ -6,6 +6,7 @@ import com.reephub.praeter.data.local.DbImpl
 import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
 import com.reephub.praeter.data.remote.dto.OrderDto
+import com.reephub.praeter.data.remote.dto.OrderItemDto
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -65,7 +66,7 @@ class RepositoryImpl @Inject constructor(
         mApiImpl.getDbConnection()
     }
 
-    override suspend fun getOrders(): List<OrderDto> {
+    override suspend fun getOrders(): List<OrderItemDto> {
         return mApiImpl.getOrders()
     }
 

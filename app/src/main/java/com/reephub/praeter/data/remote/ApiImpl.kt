@@ -4,7 +4,7 @@ import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.api.DbApiService
 import com.reephub.praeter.data.remote.api.OrderApiService
 import com.reephub.praeter.data.remote.api.UserApiService
-import com.reephub.praeter.data.remote.dto.OrderDto
+import com.reephub.praeter.data.remote.dto.OrderItemDto
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(
@@ -21,8 +21,17 @@ class ApiImpl @Inject constructor(
         mDbApiService.getDbConnection()
     }
 
-    override suspend fun getOrders(): List<OrderDto> {
-        return mOrderApiService.getOrders()
+    override suspend fun getOrders(): List<OrderItemDto> {
+        return OrderItemDto.orderStorage
+        /*val list = mOrderApiService.getOrders()
+
+        if (list.isNullOrEmpty()) {
+            Timber.e("list is null or empty")
+        } else {
+            Timber.d("list : $list")
+        }
+
+        return list*/
     }
 
     override suspend fun saveUser(user: User) {

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/default_dark"
+    tools:background="@color/default_dark">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -33,7 +35,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                tools:background="@color/teal_700" />
+                app:titleTextColor="@color/white"
+                tools:background="@color/teal_700"
+                tools:title="@string/title_classes" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

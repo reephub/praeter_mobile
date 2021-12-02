@@ -10,7 +10,6 @@
         <variable
             name="orderItem"
             type="com.reephub.praeter.data.remote.dto.OrderItemDto" />
-
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +23,7 @@
         android:elevation="@dimen/small_margin"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="?android:attr/colorBackground"
+        app:cardBackgroundColor="@color/default_dark"
         app:cardCornerRadius="@dimen/small_margin"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
@@ -32,85 +31,72 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <!--android:background="?android:attr/colorBackground"-->
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <!-- Icon -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/row_icon_imageView"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:fitsSystemWindows="true"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_praeter_logo" />
+
+
+            <!-- app Details -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_margin"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="@dimen/small_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                tools:background="@color/jet">
 
-                <!-- Icon -->
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/row_icon_imageView"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:fitsSystemWindows="true"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_praeter_logo" />
-
-
-                <!-- app Details -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/row_title_textView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/small_margin"
-                    android:paddingStart="@dimen/medium_margin"
-                    android:paddingEnd="@dimen/medium_margin"
-                    tools:background="@color/jet">
+                    android:gravity="center|start"
+                    android:text='@{orderItem.item}'
+                    android:textAppearance="@android:style/TextAppearance.Material.Title"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="NewApi"
+                    tools:text="Title app" />
 
-                    <TextView
-                        android:id="@+id/row_title_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|start"
-                        android:textAppearance="@android:style/TextAppearance.Material.Title"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:ignore="NewApi"
-                        tools:text="Title app" />
-
-                    <TextView
-                        android:id="@+id/row_description_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|start"
-                        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                        android:textColor="@color/white"
-                        android:textStyle="normal"
-                        tools:ignore="NewApi"
-                        tools:text="App description" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/row_description_textView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/big_margin"
-                        android:layout_height="@dimen/big_margin"
-                        android:fitsSystemWindows="true"
-                        android:src="@drawable/ic_arrow_right" />
-                </LinearLayout>
+                    android:gravity="center|start"
+                    android:text='@{String.valueOf(orderItem.price)}'
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textColor="@color/white"
+                    android:textStyle="normal"
+                    tools:ignore="NewApi"
+                    tools:text="App description" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/extra_small_margin"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="@dimen/big_margin"
-                android:background="@drawable/item_separator_view_gradient" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/big_margin"
+                    android:layout_height="@dimen/big_margin"
+                    android:fitsSystemWindows="true"
+                    android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
