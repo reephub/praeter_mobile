@@ -23,7 +23,9 @@ object AppHelperModule {
         ApiImpl(
             ApiModule.provideDbAPIService(),
             ApiModule.provideUserAPIService(),
-            ApiModule.provideOrderAPIService()
+            ApiModule.provideOrderAPIService(),
+            ApiModule.provideClassesAPIService(),
+            ApiModule.provideAncientAPIService()
         )
 
     @Provides

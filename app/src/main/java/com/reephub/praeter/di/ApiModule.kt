@@ -1,9 +1,7 @@
 package com.reephub.praeter.di
 
 import com.reephub.praeter.data.local.bean.TimeOut
-import com.reephub.praeter.data.remote.api.DbApiService
-import com.reephub.praeter.data.remote.api.OrderApiService
-import com.reephub.praeter.data.remote.api.UserApiService
+import com.reephub.praeter.data.remote.api.*
 import com.reephub.praeter.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -36,7 +34,7 @@ internal object ApiModule {
         return OkHttpClient.Builder()
             .readTimeout(TimeOut.TIME_OUT_READ.value.toLong(), TimeUnit.SECONDS)
             .connectTimeout(TimeOut.TIME_OUT_CONNECTION.value.toLong(), TimeUnit.SECONDS)
-            .addInterceptor(Interceptor { chain: Interceptor.Chain ->
+            /*.addInterceptor(Interceptor { chain: Interceptor.Chain ->
                 val original = chain.request()
                 // Customize the request
                 val request = original.newBuilder()
@@ -51,7 +49,7 @@ internal object ApiModule {
                 val response = chain.proceed(request)
                 response.cacheResponse
                 response
-            })
+            })*/
             .addInterceptor(provideOkHttpLogger())
             .build()
     }
@@ -89,6 +87,22 @@ internal object ApiModule {
     fun provideOrderAPIService(): OrderApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL)
             .create(OrderApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @NotNull
+    fun provideClassesAPIService(): ClassesApiService {
+        return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL)
+            .create(ClassesApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @NotNull
+    fun provideAncientAPIService(): AncientApiService {
+        return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL)
+            .create(AncientApiService::class.java)
     }
 
 }

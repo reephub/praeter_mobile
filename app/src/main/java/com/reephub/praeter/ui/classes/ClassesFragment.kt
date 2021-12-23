@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reephub.praeter.R
+import com.reephub.praeter.data.remote.dto.OrderDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
 import com.reephub.praeter.databinding.FragmentClassesBinding
 import com.reephub.praeter.ui.base.BaseFragment
@@ -51,6 +52,7 @@ class ClassesFragment : BaseFragment() {
 
         initViewModelObservers()
 
+        mViewModel.fetchClasses()
         mViewModel.fetchOrders()
     }
 
@@ -69,6 +71,10 @@ class ClassesFragment : BaseFragment() {
         Timber.d("initViewModelObservers()")
         mViewModel.getOrders().observe(viewLifecycleOwner, {
             bindData(it)
+        })
+
+        mViewModel.getClasses().observe(viewLifecycleOwner, {
+            // bindData(it)
         })
     }
 

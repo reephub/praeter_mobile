@@ -1,38 +1,42 @@
 package com.reephub.praeter.data.remote
 
 import com.reephub.praeter.data.local.model.User
-import com.reephub.praeter.data.remote.api.DbApiService
-import com.reephub.praeter.data.remote.api.OrderApiService
-import com.reephub.praeter.data.remote.api.UserApiService
+import com.reephub.praeter.data.remote.api.*
+import com.reephub.praeter.data.remote.dto.AncientDto
+import com.reephub.praeter.data.remote.dto.ClassesDto
+import com.reephub.praeter.data.remote.dto.OrderDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(
     dbApiService: DbApiService,
     userApiService: UserApiService,
-    orderApiService: OrderApiService
+    orderApiService: OrderApiService,
+    classesApiService: ClassesApiService,
+    ancientApiService: AncientApiService,
 ) : IApi {
 
     private var mDbApiService: DbApiService = dbApiService
     private var mUserApiService: UserApiService = userApiService
     private var mOrderApiService: OrderApiService = orderApiService
+    private var mClassesApiService: ClassesApiService = classesApiService
+    private var mAncientApiService: AncientApiService = ancientApiService
 
     override suspend fun getDbConnection() {
         mDbApiService.getDbConnection()
     }
 
-    override suspend fun getOrders(): List<OrderItemDto> {
-        return OrderItemDto.orderStorage
-        /*val list = mOrderApiService.getOrders()
-
-        if (list.isNullOrEmpty()) {
-            Timber.e("list is null or empty")
-        } else {
-            Timber.d("list : $list")
-        }
-
-        return list*/
+    override suspend fun getOrders(): List<OrderDto> {
+        return mOrderApiService.getOrders()
     }
+
+    override suspend fun getLocalOrders(): List<OrderItemDto> {
+        return OrderItemDto.orderStorage
+    }
+
+    override suspend fun getClasses(): List<ClassesDto> = mClassesApiService.getClasses()
+
+    override suspend fun getAncients(): List<AncientDto> = mAncientApiService.getAncients()
 
     override suspend fun saveUser(user: User) {
         mUserApiService.saveUser(user)

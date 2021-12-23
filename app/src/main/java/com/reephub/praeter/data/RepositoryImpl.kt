@@ -5,6 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import com.reephub.praeter.data.local.DbImpl
 import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
+import com.reephub.praeter.data.remote.dto.AncientDto
+import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.data.remote.dto.OrderDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
 import kotlinx.coroutines.flow.Flow
@@ -66,9 +68,17 @@ class RepositoryImpl @Inject constructor(
         mApiImpl.getDbConnection()
     }
 
-    override suspend fun getOrders(): List<OrderItemDto> {
+    override suspend fun getOrders(): List<OrderDto> {
         return mApiImpl.getOrders()
     }
+
+    override suspend fun getLocalOrders(): List<OrderItemDto> {
+        return mutableListOf()
+    }
+
+    override suspend fun getClasses(): List<ClassesDto> = mApiImpl.getClasses()
+
+    override suspend fun getAncients(): List<AncientDto> = mApiImpl.getAncients()
 
     override suspend fun saveUser(user: User) {
         mApiImpl.saveUser(user)
