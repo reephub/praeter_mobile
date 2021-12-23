@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.reephub.praeter.R
 import com.reephub.praeter.data.remote.dto.AncientDto
 import com.reephub.praeter.databinding.FragmentMeetAncientsBinding
 import com.reephub.praeter.ui.base.BaseFragment
@@ -19,6 +21,12 @@ class MeetAncientsFragment : BaseFragment() {
 
     private val mViewModel: MainActivityViewModel by activityViewModels()
 
+
+    /////////////////////////////////////
+    //
+    // OVERRIDE
+    //
+    /////////////////////////////////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -34,6 +42,10 @@ class MeetAncientsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Timber.d("onViewCreated()")
+        binding.toolbar.title = requireActivity().getString(R.string.title_meet_ancients)
+        binding.toolbar.setTitleTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
 
         initViewModelObservers()
 

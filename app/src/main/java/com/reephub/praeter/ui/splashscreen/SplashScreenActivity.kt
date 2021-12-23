@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.reephub.praeter.R
 import com.reephub.praeter.databinding.ActivitySplashscreenBinding
+import com.reephub.praeter.ui.login.LoginActivity
 import com.reephub.praeter.ui.mainactivity.MainActivity
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -47,7 +48,7 @@ class SplashScreenActivity : AppCompatActivity(),
         lifecycleScope.launch(coroutineContext) {
             delay(TimeUnit.SECONDS.toMillis(3))
 
-            startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
             finish()
         }
     }

@@ -4,12 +4,9 @@
     <data>
 
         <variable
-            name="order"
-            type="com.reephub.praeter.data.remote.dto.OrderDto" />
+            name="classItem"
+            type="com.reephub.praeter.data.remote.dto.ClassesDto" />
 
-        <variable
-            name="orderItem"
-            type="com.reephub.praeter.data.remote.dto.OrderItemDto" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"
-                    android:text='@{orderItem.item}'
+                    android:text='@{classItem.name}'
                     android:textAppearance="@android:style/TextAppearance.Material.Title"
                     android:textColor="@color/white"
                     android:textSize="16sp"
@@ -76,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"
-                    android:text='@{String.valueOf(orderItem.price)}'
+                    android:text='@{classItem.type}'
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textColor="@color/white"
                     android:textStyle="normal"

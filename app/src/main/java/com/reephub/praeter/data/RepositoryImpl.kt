@@ -10,6 +10,7 @@ import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.data.remote.dto.OrderDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
 import kotlinx.coroutines.flow.Flow
+import okhttp3.Response
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -80,11 +81,13 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getAncients(): List<AncientDto> = mApiImpl.getAncients()
 
+    override suspend fun login(user: User): Response = mApiImpl.login(user)
+
     override suspend fun saveUser(user: User) {
         mApiImpl.saveUser(user)
     }
 
-    override suspend fun login(user: User) {
+    /*override suspend fun login(user: User) {
         mApiImpl.login(user)
-    }
+    }*/
 }

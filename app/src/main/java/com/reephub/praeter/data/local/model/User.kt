@@ -30,7 +30,21 @@ data class User(
     val isCustomer: Boolean,
     @ColumnInfo(name = "isProvider")
     val isProvider: Boolean
-)
+) {
+    constructor(firstName: String, lastName: String) : this(
+        -1L,
+        "",
+        firstName,
+        lastName,
+        "",
+        "",
+        "",
+        "",
+        false,
+        false,
+        false
+    )
+}
 
 fun UserDto.toModel(): User = User(
     0L,

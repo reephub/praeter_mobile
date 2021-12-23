@@ -9,8 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reephub.praeter.R
-import com.reephub.praeter.data.remote.dto.OrderDto
-import com.reephub.praeter.data.remote.dto.OrderItemDto
+import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.databinding.FragmentClassesBinding
 import com.reephub.praeter.ui.base.BaseFragment
 import com.reephub.praeter.ui.mainactivity.MainActivityViewModel
@@ -69,16 +68,13 @@ class ClassesFragment : BaseFragment() {
     /////////////////////////////////////
     private fun initViewModelObservers() {
         Timber.d("initViewModelObservers()")
-        mViewModel.getOrders().observe(viewLifecycleOwner, {
-            bindData(it)
-        })
 
         mViewModel.getClasses().observe(viewLifecycleOwner, {
-            // bindData(it)
+            bindData(it)
         })
     }
 
-    private fun bindData(items: List<OrderItemDto>) {
+    private fun bindData(items: List<ClassesDto>) {
         Timber.d("bindData()")
 
         val adapter = ClassesAdapter(items/*, this*/)

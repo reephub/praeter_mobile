@@ -1,6 +1,7 @@
 package com.reephub.praeter.ui.classes
 
 import androidx.recyclerview.widget.RecyclerView
+import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
 import com.reephub.praeter.databinding.RowClassBinding
 
@@ -11,7 +12,7 @@ class RowClassesViewHolder(val binding: RowClassBinding) : RecyclerView.ViewHold
     init {
     }
 
-    fun bind(classItem: OrderItemDto) {
-        viewBinding.orderItem = classItem
+    fun bind(classItem: ClassesDto) {
+        viewBinding.classItem = classItem
     }
 }

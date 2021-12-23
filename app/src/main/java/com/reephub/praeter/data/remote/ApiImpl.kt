@@ -6,6 +6,7 @@ import com.reephub.praeter.data.remote.dto.AncientDto
 import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.data.remote.dto.OrderDto
 import com.reephub.praeter.data.remote.dto.OrderItemDto
+import okhttp3.Response
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(
@@ -38,12 +39,14 @@ class ApiImpl @Inject constructor(
 
     override suspend fun getAncients(): List<AncientDto> = mAncientApiService.getAncients()
 
+    override suspend fun login(user: User): Response = mUserApiService.login(user)
+
     override suspend fun saveUser(user: User) {
         mUserApiService.saveUser(user)
     }
 
-    override suspend fun login(user: User) {
+    /*override suspend fun login(user: User) {
         mUserApiService.login(user)
-    }
+    }*/
 
 }
