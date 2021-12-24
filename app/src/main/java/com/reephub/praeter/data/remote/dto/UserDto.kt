@@ -25,4 +25,18 @@ data class UserDto(
     val isCustomer: Boolean,
     @Json(name = "isProvider")
     val isProvider: Boolean
-)
+) {
+
+    constructor(email: String, password: String) : this(
+        "",
+        "",
+        "",
+        email,
+        password,
+        "",
+        "",
+        false,
+        false,
+        false
+    )
+}

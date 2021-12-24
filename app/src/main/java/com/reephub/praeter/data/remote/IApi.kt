@@ -1,11 +1,9 @@
 package com.reephub.praeter.data.remote
 
 import com.reephub.praeter.data.local.model.User
-import com.reephub.praeter.data.remote.dto.AncientDto
-import com.reephub.praeter.data.remote.dto.ClassesDto
-import com.reephub.praeter.data.remote.dto.OrderDto
-import com.reephub.praeter.data.remote.dto.OrderItemDto
+import com.reephub.praeter.data.remote.dto.*
 import okhttp3.Response
+import okhttp3.ResponseBody
 
 interface IApi {
     // GET
@@ -20,7 +18,7 @@ interface IApi {
     suspend fun getAncients(): List<AncientDto>
 
     // POST
-    suspend fun login(user: User): Response
+    suspend fun login(user: UserDto): LoginResponse
     suspend fun saveUser(user: User)
 
     // PATCH

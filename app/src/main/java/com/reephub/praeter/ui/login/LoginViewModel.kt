@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.reephub.praeter.data.IRepository
-import com.reephub.praeter.data.local.model.User
-import com.reephub.praeter.ui.mainactivity.MainActivityViewModel
+import com.reephub.praeter.data.remote.dto.LoginResponse
+import com.reephub.praeter.data.remote.dto.UserDto
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,14 +17,14 @@ class LoginViewModel @Inject constructor(
     private val repository: IRepository
 ) : ViewModel() {
 
-    private val login: MutableLiveData<String> = MutableLiveData()
+    private val login: MutableLiveData<LoginResponse> = MutableLiveData()
 
     ///////////////
     //
     // Observers
     //
     ///////////////
-    fun getLogin(): LiveData<String> = login
+    fun getLogin(): LiveData<LoginResponse> = login
 
 
     ///////////////
@@ -34,15 +32,18 @@ class LoginViewModel @Inject constructor(
     // Functions
     //
     ///////////////
-    fun makeCallLogin(user: User) {
+    fun makeCallLogin(user: UserDto) {
         Timber.d("makeCallLogin()")
-        viewModelScope.launch(MainActivityViewModel.ioContext) {
+        viewModelScope.launch(ioContext) {
             try {
                 supervisorScope {
                     val response = repository.login(user)
                     Timber.d("$response")
 
-                    when (response.code) {
+                    withContext(mainContext) {
+                        login.value = response
+                    }
+                    /*when (response?.code) {
                         200 -> {
                             Timber.e("OK")
                             withContext(MainActivityViewModel.mainContext) {
@@ -61,7 +62,7 @@ class LoginViewModel @Inject constructor(
                                 login.value = "else"
                             }
                         }
-                    }
+                    }*/
 
                 }
             } catch (e: Exception) {
@@ -70,5 +71,11 @@ class LoginViewModel @Inject constructor(
             }
         }
 
+    }
+
+
+    companion object {
+        val ioContext = Dispatchers.IO + Job()
+        val mainContext = Dispatchers.Main + Job()
     }
 }

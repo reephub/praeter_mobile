@@ -5,12 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import com.reephub.praeter.data.local.DbImpl
 import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
-import com.reephub.praeter.data.remote.dto.AncientDto
-import com.reephub.praeter.data.remote.dto.ClassesDto
-import com.reephub.praeter.data.remote.dto.OrderDto
-import com.reephub.praeter.data.remote.dto.OrderItemDto
+import com.reephub.praeter.data.remote.dto.*
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Response
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -81,7 +79,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getAncients(): List<AncientDto> = mApiImpl.getAncients()
 
-    override suspend fun login(user: User): Response = mApiImpl.login(user)
+    override suspend fun login(user: UserDto): LoginResponse = mApiImpl.login(user)
 
     override suspend fun saveUser(user: User) {
         mApiImpl.saveUser(user)

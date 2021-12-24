@@ -1,15 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Motion Layout main -->
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:padding="@dimen/medium_margin"
+    app:layoutDescription="@xml/activity_login_scene"
     tools:background="@color/oil"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity"
+    tools:motionDebug="SHOW_ALL">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        android:contentDescription="app logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_praeter_logo"
+        app:tint="@color/white"
+        tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_login_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -17,14 +35,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_margin">
+            android:layout_margin="@dimen/small_margin"
+            app:hintTextColor="@color/purple_500">
 
             <!--
             https://stackoverflow.com/questions/17989733/move-to-another-edittext-when-soft-keyboard-next-is-clicked-on-android
@@ -45,54 +65,48 @@
 
 
         <!-- Password -->
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <FrameLayout
+            <!-- Password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                app:hintTextColor="@color/purple_500">
 
-                <RelativeLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                    <!-- Password -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/small_margin">
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/input_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/hint_password"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+            <ImageButton
+                android:id="@+id/btn_password_visibility"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:background="@null"
+                android:contentDescription="password visibility switcher"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_visibility"
+                tools:ignore="HardcodedText" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_password_visibility"
-                        style="@style/Widget.AppCompat.ImageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/big_margin"
-                        android:background="@null"
-                        android:src="@drawable/ic_visibility" />
-
-                </RelativeLayout>
-            </FrameLayout>
-
-        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_enter"
@@ -116,6 +130,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/big_margin"
+        android:progress="25"
         android:visibility="gone"
         app:indicatorColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/btn_no_account_register"
@@ -134,6 +149,6 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

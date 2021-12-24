@@ -18,17 +18,26 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.reephub.praeter.BuildConfig
 import com.reephub.praeter.R
 import com.reephub.praeter.core.utils.UIManager
-import com.reephub.praeter.data.local.model.User
+import com.reephub.praeter.data.remote.dto.UserDto
 import com.reephub.praeter.databinding.ActivityLoginBinding
 import com.reephub.praeter.ui.mainactivity.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(),
+    CoroutineScope,
     View.OnClickListener, TextView.OnEditorActionListener {
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + Job()
 
     private var _viewBinding: ActivityLoginBinding? = null
 
@@ -48,7 +57,20 @@ class LoginActivity : AppCompatActivity(),
 
         setListeners()
         initViewModelObservers()
-        preloadData()
+
+        if (BuildConfig.DEBUG) {
+            preloadData()
+        }
+
+        lifecycleScope.launch(coroutineContext) {
+            delay(TimeUnit.SECONDS.toMillis(1))
+            binding.motionLayout.transitionToEnd()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 
     override fun onDestroy() {
@@ -70,12 +92,15 @@ class LoginActivity : AppCompatActivity(),
     private fun initViewModelObservers() {
         Timber.d("initViewModelObservers()")
         mViewModel.getLogin().observe(this, {
-            when (it) {
-                "OK" -> {
+            when (it.message) {
+                "Login okay" -> {
                     onLoginSuccessful()
                 }
                 "Not Found" -> {
                     onLoginFailed()
+                }
+                else -> {
+                    Timber.e("else, ${it.message}")
                 }
             }
         })
@@ -121,7 +146,7 @@ class LoginActivity : AppCompatActivity(),
 
         Timber.d("make rest call login")
 
-        mViewModel.makeCallLogin(User(email, password))
+        mViewModel.makeCallLogin(UserDto(email, password))
     }
 
 

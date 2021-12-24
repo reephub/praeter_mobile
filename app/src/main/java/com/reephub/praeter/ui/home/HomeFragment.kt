@@ -241,6 +241,7 @@ class HomeFragment : BaseFragment(),
             mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
             mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
             mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
+            mMap.uiSettings.setAllGesturesEnabled(true)
 
             setLocationSettings()
             hideLoading()
