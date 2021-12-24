@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:background="@color/default_dark">
+
+            <!-- Guidelines -->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_top"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".2" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_banks_services_logos"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".7" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_bottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".9" />
+
+            <!-- Credit card message -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/enter_credit_card_info"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/guideline_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <!-- Credit card info -->
+            <LinearLayout
+                android:id="@+id/ll_credit_card_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/guideline_banks_services_logos"
+                app:layout_constraintTop_toBottomOf="@id/guideline_top">
+
+                <!-- Name -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_credit_card_owner_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_credit_card_owner_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_credit_card_owner_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_credit_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/small_margin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_credit_card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/credit_card_numbers_digits"
+                        android:hint="@string/hint_credit_card_number"
+                        android:imeOptions="actionNext"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Validity & CCV -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Validity -->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/small_margin"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/hint_credit_card_validity_time"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/sp_card_month"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/separator"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/small_margin"
+                                android:layout_marginEnd="@dimen/small_margin"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="/"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText" />
+
+                            <Spinner
+                                android:id="@+id/sp_card_year"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+
+                        </LinearLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <!-- CCV -->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/small_margin"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_layout_credit_card_ccv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/input_credit_card_ccv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hint_credit_card_ccv"
+                                android:imeOptions="actionDone"
+                                android:inputType="number"
+                                android:maxLength="3"
+                                android:maxLines="1"
+                                android:singleLine="true" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+
+
+            <!--  Encart logos bancaires (CB, VISA, etc),
+                    plus clauses de non sauvegardes
+                     des données bancaires,
+                    sécurité transaction en ligne,  etc-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+                app:layout_constraintTop_toBottomOf="@id/ll_credit_card_info_container">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/msg_secure_transactions"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small_margin">
+
+                    <!-- CB -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="96dp"
+                        android:layout_height="50dp"
+                        android:fitsSystemWindows="true"
+                        android:padding="@dimen/small_margin"
+                        android:src="@drawable/cb_icon" />
+                    <!-- Visa -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="96dp"
+                        android:layout_height="50dp"
+                        android:fitsSystemWindows="true"
+                        android:src="@drawable/visa_icon" />
+                    <!-- Master card -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="96dp"
+                        android:layout_height="50dp"
+                        android:fitsSystemWindows="true"
+                        android:padding="@dimen/extra_small_margin"
+                        android:src="@drawable/master_card_icon" />
+                </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_500"
+                android:text="@string/btn_continue"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_bottom"
+                tools:ignore="UnusedAttribute" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

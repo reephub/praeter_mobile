@@ -45,6 +45,7 @@
             android:layout_marginVertical="@dimen/small_margin"
             android:gravity="center"
             android:text="@string/btn_continue"
+            android:textColor="@color/white"
             app:backgroundTint="@color/purple_500"
             tools:ignore="UnusedAttribute" />
     </androidx.appcompat.widget.LinearLayoutCompat>

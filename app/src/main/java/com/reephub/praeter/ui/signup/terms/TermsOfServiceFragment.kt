@@ -1,12 +1,14 @@
 package com.reephub.praeter.ui.signup.terms
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.reephub.praeter.R
 import com.reephub.praeter.databinding.FragmentTermsOfServiceBinding
@@ -71,6 +73,11 @@ class TermsOfServiceFragment : Fragment(),
         binding.cbAcceptLicense.setOnCheckedChangeListener(this)
     }
 
+    /////////////////////////////////////
+    //
+    // IMPLEMENTS
+    //
+    /////////////////////////////////////
     override fun onClick(view: View?) {
         Timber.d("onContinueButtonClicked()")
 
@@ -91,6 +98,17 @@ class TermsOfServiceFragment : Fragment(),
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         binding.btnContinue.isEnabled = isChecked
+
+        binding.btnContinue.backgroundTintList =
+            ColorStateList.valueOf(
+                if (!isChecked) ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.transparent
+                ) else ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.purple_500
+                )
+            )
     }
 
     companion object {

@@ -6,25 +6,25 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UserDto(
     @Json(name = "gender")
-    val gender: String,
+    var gender: String,
     @Json(name = "firstName")
-    val firstName: String,
+    var firstName: String,
     @Json(name = "lastName")
-    val lastName: String,
+    var lastName: String,
     @Json(name = "email")
-    val email: String,
+    var email: String,
     @Json(name = "password")
-    val password: String,
+    var password: String,
     @Json(name = "phoneNumber")
-    val phoneNumber: String,
+    var phoneNumber: String,
     @Json(name = "dateOfBirth")
-    val dateOfBirth: String,
+    var dateOfBirth: String,
     @Json(name = "isPremium")
-    val isPremium: Boolean,
+    var isPremium: Boolean,
     @Json(name = "isCustomer")
-    val isCustomer: Boolean,
+    var isCustomer: Boolean,
     @Json(name = "isProvider")
-    val isProvider: Boolean
+    var isProvider: Boolean
 ) {
 
     constructor() : this(
@@ -48,6 +48,27 @@ data class UserDto(
         password,
         "",
         "",
+        false,
+        false,
+        false
+    )
+
+    constructor(
+        gender: String,
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        phoneNumber: String,
+        dateOfBirth: String
+    ) : this(
+        gender,
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNumber,
+        dateOfBirth,
         false,
         false,
         false

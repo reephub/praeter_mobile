@@ -241,7 +241,6 @@ ext {
             hiltKaptAndroidCompiler: "com.google.dagger:hilt-android-compiler:$hiltVersion",
             hiltKaptCompiler       : "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
     ]
-
 }
 
 buildscript {

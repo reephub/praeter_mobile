@@ -1,6 +1,7 @@
 package com.reephub.praeter.ui.signup
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.reephub.praeter.databinding.ActivitySignUpBinding
+import com.reephub.praeter.ui.mainactivity.MainActivity
+import com.reephub.praeter.ui.signup.plan.PlanFragment
+import com.reephub.praeter.ui.signup.premium.PremiumFragment
+import com.reephub.praeter.ui.signup.successfulsignup.SuccessfulSignUpFragment
 import com.reephub.praeter.ui.signup.terms.TermsOfServiceFragment
+import com.reephub.praeter.ui.signup.userform.UserFormFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -18,7 +24,7 @@ import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 class SignUpActivity : AppCompatActivity(),
-    CoroutineScope , NextViewPagerClickListener{
+    CoroutineScope, NextViewPagerClickListener {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
@@ -70,15 +76,18 @@ class SignUpActivity : AppCompatActivity(),
 
         // add Fragments in your ViewPagerFragmentAdapter class
         fragmentList!!.add(TermsOfServiceFragment.newInstance())
-        /*fragmentList!!.add(UserFormFragment.newInstance())
+        fragmentList!!.add(UserFormFragment.newInstance())
         fragmentList!!.add(PlanFragment.newInstance())
-        fragmentList!!.add(PremiumFragment.newInstance())*/
+        fragmentList!!.add(PremiumFragment.newInstance())
+        fragmentList!!.add(SuccessfulSignUpFragment.newInstance())
 
         pagerAdapter = ViewPager2Adapter(this@SignUpActivity, fragmentList as ArrayList<Fragment>)
 
         // set Orientation in your ViewPager2
         binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.viewPager.adapter = pagerAdapter
+
+        binding.viewPager.isUserInputEnabled = false
 
         binding.tabLayout.let { tabLayout ->
             binding.viewPager.let { viewPager2 ->
@@ -96,8 +105,16 @@ class SignUpActivity : AppCompatActivity(),
 
     override fun onNextViewPagerClicked() {
         Timber.d("onNextViewPagerClicked()")
+        binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
+    }
 
-        binding.viewPager.setCurrentItem(binding.viewPager.currentItem, true)
+    override fun onLastViewPagerClicked() {
+        binding.viewPager.setCurrentItem(pagerAdapter?.itemCount?.minus(1)!!, true)
+    }
+
+    override fun onFinishSignUp() {
+        startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+        finish()
     }
 
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/default_dark">
+
+    <FrameLayout
+        android:id="@+id/fl_plan_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_continue"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/extra_big_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/big_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <include layout="@layout/free_plan_radio_button_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/big_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <include layout="@layout/premium_plan_radio_button_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Free Plan -->
+            <RadioButton
+                android:id="@+id/rb_free_plan"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/big_margin"
+                android:layout_weight="1" />
+
+            <!-- Premium Plan -->
+            <RadioButton
+                android:id="@+id/rb_premium_plan"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/big_margin"
+                android:layout_weight="1" />
+        </RadioGroup>
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_continue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin"
+        android:backgroundTint="@color/purple_500"
+        android:text="@string/btn_continue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_plan_container"
+        tools:ignore="UnusedAttribute" />
+</androidx.constraintlayout.widget.ConstraintLayout>
