@@ -27,6 +27,19 @@ data class UserDto(
     val isProvider: Boolean
 ) {
 
+    constructor() : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        false,
+        false,
+        false
+    )
+
     constructor(email: String, password: String) : this(
         "",
         "",

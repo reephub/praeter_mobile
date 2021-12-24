@@ -30,6 +30,7 @@ class SplashScreenActivity : AppCompatActivity(),
 
     private val mViewModel: SplashScreenViewModel by viewModels()
 
+
     /////////////////////////////////////
     //
     // OVERRIDE

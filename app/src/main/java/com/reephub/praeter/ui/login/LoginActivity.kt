@@ -25,6 +25,7 @@ import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.remote.dto.UserDto
 import com.reephub.praeter.databinding.ActivityLoginBinding
 import com.reephub.praeter.ui.mainactivity.MainActivity
+import com.reephub.praeter.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -182,21 +183,19 @@ class LoginActivity : AppCompatActivity(),
         return true
     }
 
-
     private fun isValidEmail(email: String): Boolean {
         return (!TextUtils.isEmpty(email)
                 && Patterns.EMAIL_ADDRESS.matcher(email).matches())
     }
 
-
-    fun callMainActivity() {
+    private fun callMainActivity() {
         Timber.d("callMainActivity()")
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
     }
 
-    fun callSignUpActivity() {
+    private fun callSignUpActivity() {
         Timber.d("callSignUpActivity()")
-
+        startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
     }
 
     override fun onClick(view: View?) {

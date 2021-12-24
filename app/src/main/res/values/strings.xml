@@ -47,9 +47,9 @@
     <string name="action_logout">Logout</string>
 
     <!-- License agreement -->
-    <string name="title_activity_license_agreement">License Agreement</string>
-    <string name="accept_agreement_license">I accept, general conditions displayed above</string>
-    <string name="err_msg_license_agreement_approval_mandatory">Your license agreement\'s approval is mandatory in order to continue.</string>
+    <string name="title_activity_license_agreement">Terms Of Service</string>
+    <string name="accept_agreement_license">I accept the terms of service displayed above</string>
+    <string name="err_msg_license_agreement_approval_mandatory">Your terms of service agreement\'s approval is mandatory in order to continue.</string>
 
     <!-- User Inscription Form  -->
     <string name="title_activity_user_inscription_form">User Form</string>
