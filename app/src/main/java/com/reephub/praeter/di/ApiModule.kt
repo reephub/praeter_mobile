@@ -1,11 +1,13 @@
 package com.reephub.praeter.di
 
+import android.content.Context
 import com.reephub.praeter.data.local.bean.TimeOut
 import com.reephub.praeter.data.remote.api.*
 import com.reephub.praeter.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -103,4 +105,10 @@ internal object ApiModule {
             .create(AncientApiService::class.java)
     }
 
+    @Provides
+    @NotNull
+    fun provideGoogleApiService(): GoogleDirectionsApiService {
+        return provideRetrofit(Constants.BASE_ENDPOINT_GOOGLE_DIRECTIONS_API)
+            .create(GoogleDirectionsApiService::class.java)
+    }
 }

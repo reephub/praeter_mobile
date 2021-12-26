@@ -22,7 +22,7 @@ class AncientAdapter(val items: List<AncientDto>) : RecyclerView.Adapter<RowAnci
     }
 
     override fun getItemCount(): Int {
-        return items.size ?: 0
+        return items.size
     }
 
 }

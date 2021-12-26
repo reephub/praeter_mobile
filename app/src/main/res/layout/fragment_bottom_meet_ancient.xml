@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="selectedAncient"
+            type="com.reephub.praeter.data.remote.dto.AncientDto" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corners"
+            android:orientation="vertical"
+            tools:background="@color/oil">
+
+            <!-- ImageView -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:background="@drawable/round_corners"
+                android:gravity="center"
+                android:orientation="horizontal"
+                tools:background="@color/oil">
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_corners">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_image_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Blurred background image -->
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_class_thumb_blurred"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/round_corners"
+                            android:maxHeight="@dimen/max_card_image_height"
+                            android:scaleType="center"
+                            app:srcCompat="@drawable/visa_icon" />
+
+                        <!-- Fade Gradient -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/iv_class_thumb_blurred"
+                            android:layout_alignBottom="@id/iv_class_thumb_blurred"
+                            android:background="@drawable/bottom_sheet_image_blurred_gradient" />
+
+                        <!-- Front thumb -->
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_class_thumb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:adjustViewBounds="true"
+                                android:fitsSystemWindows="true"
+                                app:srcCompat="@drawable/ic_praeter_logo"
+                                app:tint="@color/white" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </RelativeLayout>
+
+
+                    <!-- Close Icon -->
+                    <ImageButton
+                        android:id="@+id/close_bottom_sheet_btn"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:contentDescription="close_button"
+                        android:foreground="?android:selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_close"
+                        tools:ignore="HardcodedText,UnusedAttribute" />
+                </FrameLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!-- Content -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/medium_margin">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/white"
+                    tools:text="Class Name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/white"
+                    tools:text="Class Type" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ultra_small_margin"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/extra_small_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/extra_small_margin"
+                android:background="@drawable/view_separator_gradient" />
+
+
+            <!--Bottom Reservation Button -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_book"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/medium_margin"
+                    android:text="@string/book_class_btn"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:ignore="UnusedAttribute" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

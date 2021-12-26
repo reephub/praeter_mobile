@@ -12,11 +12,11 @@ ext {
     versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
     // Kotlin
-    kotlinVersion = '1.6.0'
-    coroutinesVersion = '1.5.2'
+    kotlinVersion = '1.6.10'
+    coroutinesVersion = '1.6.0-native-mt'
     activityKtxVersion = '1.4.0'
     fragmentKtxVersion = '1.4.0'
-    kotlinPlayServices = '1.5.2-native-mt'
+    kotlinPlayServices = '1.6.0-native-mt'
 
     // App dependencies
     multidexVersion = '2.0.1'
@@ -44,13 +44,13 @@ ext {
     workerVersion = '2.7.1'
     concurrentVersion = '1.1.0'
 
-    roomVersion = '2.3.0'
+    roomVersion = '2.4.0'
 
     lifecycleVersion = '2.4.0'
 
 
     // Dagger - Hilt
-    hiltVersion = '2.40.2'
+    hiltVersion = '2.40.5'
     hiltAndroidXVersion = '1.0.0'
 
     googleApiClientVersion = '1.32.2'
@@ -64,9 +64,10 @@ ext {
     playServicesAuthVersion = '19.2.0'
 
     // Maps
-    mapsVersion = '18.0.0'
+    mapsVersion = '18.0.1'
+    mapsKTXVersion = '3.3.0'
     mapsUtilsVersion = '2.3.0'
-    locationVersion = '18.0.0'
+    locationVersion = '19.0.0'
     placesVersion = '2.5.0'
 
     // Firebase
@@ -83,11 +84,11 @@ ext {
 
     // Glide
     glideVersion = '4.12.0'
-    blurryVersion = '4.0.0'
+    blurryVersion = '4.0.1'
     glideTransformationVersion = '4.3.0'
 
     // EventBus
-    eventBusVersion = '3.2.0'
+    eventBusVersion = '3.3.1'
 
     // Dexter
     dexterVersion = '6.2.3'
@@ -96,7 +97,7 @@ ext {
     goldfingerVersion = '2.0.1'
 
     // Lottie
-    lottieVersion = '4.2.1'
+    lottieVersion = '4.2.2'
 
     // Timber
     timberVersion = '5.0.1'
@@ -158,8 +159,13 @@ ext {
             // optional - Kotlin Extensions and Coroutines support for Room
             roomExtCoroutinesSupport: "androidx.room:room-ktx:$roomVersion",
 
+            // Play Services
+            googleBasePlayServices      : "com.google.android.gms:play-services-base:$googlePlayServicesBaseVersion",
+
             // Maps
             maps                    : "com.google.android.gms:play-services-maps:$mapsVersion",
+            mapsKTX                 : "com.google.maps.android:maps-ktx:$mapsKTXVersion",
+            mapsKTXUtils            : "com.google.maps.android:maps-utils-ktx:$mapsKTXVersion",
             mapsUtils               : "com.google.maps.android:android-maps-utils:$mapsUtilsVersion",
             location                : "com.google.android.gms:play-services-location:$locationVersion",
             places                  : "com.google.android.libraries.places:places:$placesVersion",
@@ -262,11 +268,19 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
+        // Hilt
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+
+        // Google Services
+        classpath 'com.google.gms:google-services:4.3.10'
+        // Add the Crashlytics Gradle plugin (be sure to add version
+        // 2.0.0 or later if you built your app with Android Studio 4.1).
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+
+        // Navigation
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
     }
 }

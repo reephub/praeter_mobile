@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import androidx.multidex.MultiDexApplication
+import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.reephub.praeter.core.utils.PraeterDeviceManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -19,22 +21,43 @@ class PraeterApplication : MultiDexApplication() {
 
         mInstance = this
         init()
+        initTimber()
+        initFirebase()
+//        initAds()
+
+        Timber.d("Application successfully created")
     }
 
     private fun init() {
         LAB_PACKAGE_NAME = packageName
 
-        if (BuildConfig.DEBUG) {
-            // Timber : logging
-            Timber.plant(Timber.DebugTree())
+    }
+
+    private fun initTimber() {
+        // Timber : logging
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
+
+    private fun initFirebase() {
+        // Operations on FirebaseCrashlytics.
+        FirebaseApp.initializeApp(this@PraeterApplication)
+        mFirebaseCrashlytics = FirebaseCrashlytics.getInstance()
+
+        if (null == mFirebaseCrashlytics) {
+            Timber.e("Firebase initialisation error. Failed to get instance")
+        } else {
+            mFirebaseCrashlytics?.setCrashlyticsCollectionEnabled(true)
+            if (BuildConfig.DEBUG) {
+                mFirebaseCrashlytics?.setUserId("wayne")
+            }
+
+            mFirebaseCrashlytics?.setCustomKey("Device", PraeterDeviceManager.getManufacturer())
+            mFirebaseCrashlytics?.setCustomKey("Model", PraeterDeviceManager.getModel())
         }
+    }
 
-        // Firebase Crashlytics
-        /*mFirebaseCrashlytics = FirebaseCrashlytics.getInstance()
-        mFirebaseCrashlytics?.setCrashlyticsCollectionEnabled(true)
-        mFirebaseCrashlytics?.setUserId("wayne")*/
 
-        // Mobile ADS
+    private fun initAds() {
 
         // Mobile ADS
         /*MobileAds.initialize(this) { initializationStatus: InitializationStatus ->
@@ -44,8 +67,6 @@ class PraeterApplication : MultiDexApplication() {
             )
 
         }*/
-
-        Timber.d("Application successfully created")
     }
 
     fun getContext(): Context {

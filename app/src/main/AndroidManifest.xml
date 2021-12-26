@@ -50,7 +50,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Praeter"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup,UnusedAttribute">
 
         <!--Indiquer le numéro de version des services Google Play-->
         <meta-data

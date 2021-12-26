@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def buildDateTime =
@@ -132,15 +134,21 @@ dependencies {
     kapt rootProject.ext.generalDependencies.lifecycleCompiler
     implementation rootProject.ext.generalDependencies.lifecycleService
 
-    // Google Play
+    // Google Play Services
+    implementation rootProject.ext.generalDependencies.googleBasePlayServices
     // Maps
     implementation rootProject.ext.generalDependencies.maps
+    implementation rootProject.ext.generalDependencies.mapsKTX
+    implementation rootProject.ext.generalDependencies.mapsKTXUtils
     implementation rootProject.ext.generalDependencies.mapsUtils
     implementation rootProject.ext.generalDependencies.location
     implementation rootProject.ext.generalDependencies.places
 
     // Firebase
+    // Import the Firebase BoM
     implementation platform(rootProject.ext.generalDependencies.firebasePlatform)
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
     implementation rootProject.ext.generalDependencies.firebaseAnalitycs
     implementation rootProject.ext.generalDependencies.firebaseCraslytics
     implementation rootProject.ext.generalDependencies.firebaseDatabase

@@ -16,7 +16,8 @@ import com.reephub.praeter.ui.signup.NextViewPagerClickListener
 import com.reephub.praeter.ui.signup.SignUpViewModel
 import timber.log.Timber
 
-class PlanFragment : Fragment(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+class PlanFragment : Fragment(),
+    View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private var _viewBinding: FragmentPlanBinding? = null
 

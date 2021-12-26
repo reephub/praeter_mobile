@@ -2,6 +2,7 @@ package com.reephub.praeter.data.remote
 
 import com.reephub.praeter.data.remote.api.*
 import com.reephub.praeter.data.remote.dto.*
+import com.reephub.praeter.data.remote.dto.directions.GoogleDirectionsResponse
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(
@@ -10,6 +11,7 @@ class ApiImpl @Inject constructor(
     orderApiService: OrderApiService,
     classesApiService: ClassesApiService,
     ancientApiService: AncientApiService,
+    googleDirectionsApiService: GoogleDirectionsApiService
 ) : IApi {
 
     private var mDbApiService: DbApiService = dbApiService
@@ -17,6 +19,7 @@ class ApiImpl @Inject constructor(
     private var mOrderApiService: OrderApiService = orderApiService
     private var mClassesApiService: ClassesApiService = classesApiService
     private var mAncientApiService: AncientApiService = ancientApiService
+    private var mGoogleDirectionsApiService: GoogleDirectionsApiService = googleDirectionsApiService
 
     override suspend fun getDbConnection() {
         mDbApiService.getDbConnection()
@@ -33,6 +36,10 @@ class ApiImpl @Inject constructor(
     override suspend fun getClasses(): List<ClassesDto> = mClassesApiService.getClasses()
 
     override suspend fun getAncients(): List<AncientDto> = mAncientApiService.getAncients()
+    override suspend fun getDirections(
+        origin: String,
+        destination: String
+    ): GoogleDirectionsResponse =mGoogleDirectionsApiService.getDirections(origin, destination)
 
     override suspend fun login(user: UserDto): LoginResponse = mUserApiService.login(user)
 

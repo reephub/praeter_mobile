@@ -6,6 +6,7 @@ import com.reephub.praeter.data.local.DbImpl
 import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
 import com.reephub.praeter.data.remote.dto.*
+import com.reephub.praeter.data.remote.dto.directions.GoogleDirectionsResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -76,6 +77,10 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getClasses(): List<ClassesDto> = mApiImpl.getClasses()
 
     override suspend fun getAncients(): List<AncientDto> = mApiImpl.getAncients()
+    override suspend fun getDirections(
+        origin: String,
+        destination: String
+    ): GoogleDirectionsResponse = mApiImpl.getDirections(origin, destination)
 
     override suspend fun login(user: UserDto): LoginResponse = mApiImpl.login(user)
 

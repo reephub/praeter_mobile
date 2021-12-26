@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="currentLocation"
+            type="android.location.Location" />
+
+        <variable
+            name="currentPlace"
+            type="com.google.android.libraries.places.api.model.Place" />
+
+        <variable
+            name="targetLocation"
+            type="android.location.Location" />
+
+        <variable
+            name="targetPlace"
+            type="com.google.android.libraries.places.api.model.Place" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_maps_loading_gradient">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            app:cardBackgroundColor="@color/oil"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:cardPreventCornerOverlap="true"
+            app:checkedIcon="@drawable/check_anim">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_close_bottom_sheet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintBottom_toTopOf="@id/til_current_location"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- TOP -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_current_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="Current place"
+                    app:boxBackgroundColor="?android:attr/colorBackground"
+                    app:layout_constraintBottom_toTopOf="@id/til_target_location"
+                    app:layout_constraintTop_toBottomOf="@id/btn_close_bottom_sheet"
+                    tools:ignore="HardcodedText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{currentPlace.name}"
+                        android:textColor="@color/white"
+                        tools:text="Current Location" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_target_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="Target place"
+                    app:boxBackgroundColor="?android:attr/colorBackground"
+                    app:layout_constraintBottom_toTopOf="@id/btn_launch_itinerary"
+                    app:layout_constraintTop_toBottomOf="@id/til_current_location"
+                    tools:ignore="HardcodedText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{targetPlace.name}"
+                        android:textColor="@color/white"
+                        tools:text="Target Location" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!-- BOTTOM -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_launch_itinerary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Go !"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+</layout>

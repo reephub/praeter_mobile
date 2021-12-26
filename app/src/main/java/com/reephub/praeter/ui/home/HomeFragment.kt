@@ -3,6 +3,7 @@ package com.reephub.praeter.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.IntentSender
 import android.location.Criteria
 import android.location.Geocoder
@@ -18,6 +19,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.lifecycle.coroutineScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
@@ -26,7 +29,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.ktx.awaitMap
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -41,9 +46,7 @@ import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.local.bean.MapsEnum
 import com.reephub.praeter.databinding.FragmentHomeBinding
 import com.reephub.praeter.ui.base.BaseFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import java.text.DateFormat
@@ -52,7 +55,9 @@ import kotlin.coroutines.CoroutineContext
 
 class HomeFragment : BaseFragment(),
     CoroutineScope,
-    android.location.LocationListener {
+    android.location.LocationListener,
+    GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener,
+    GoogleMap.OnMarkerClickListener {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
@@ -112,9 +117,10 @@ class HomeFragment : BaseFragment(),
                 override fun onPermissionsChecked(multiplePermissionsReport: MultiplePermissionsReport) {
                     if (multiplePermissionsReport.areAllPermissionsGranted()) {
                         Timber.i("All permissions are granted")
+                        // initAutoCompleteView()
                         mRequestingLocationUpdates = true
+                        initGoogleMap()
                         initLocationSettings()
-                        setupMap()
                     } else {
                         Timber.e("All permissions are not granted")
                     }
@@ -152,6 +158,10 @@ class HomeFragment : BaseFragment(),
         updateLocationUI()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _viewBinding = null
@@ -162,6 +172,45 @@ class HomeFragment : BaseFragment(),
     // CLASS METHODS
     //
     /////////////////////////////////////
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     *
+     *
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @SuppressLint("MissingPermission")
+    private fun initGoogleMap() {
+        Timber.i("setupMap()")
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        mapFragment = this.childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+
+        // Setup Google Map using coroutines
+        lifecycle.coroutineScope.launchWhenCreated {
+            Timber.d("Setup Google Map using coroutines")
+            mMap = mapFragment.awaitMap()
+
+            setupMap()
+
+            // Set a preference for minimum and maximum zoom.
+            mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
+            mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
+            //mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
+
+            CoroutineScope(coroutineContext).launch {
+                delay(3000)
+                setLocationSettings()
+                hideLoading()
+            }
+
+        }
+    }
+
     private fun initLocationSettings() {
         Timber.i("initLocationSettings()")
 
@@ -195,57 +244,48 @@ class HomeFragment : BaseFragment(),
     private fun setupMap() {
         Timber.i("setupMap()")
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        // mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera. In this case,
-         * we just add a marker near Sydney, Australia.
-         *
-         *
-         * If Google Play services is not installed on the device, the user will be prompted to install
-         * it inside the SupportMapFragment. This method will only be triggered once the user has
-         * installed Google Play services and returned to the app.
+        // TODO: Before enabling the My Location layer, you must request
+        // location permission from the user. This sample does not include
+        // a request for location permission.
+        // Used for finding current location with button
+        mMap.isMyLocationEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+
+        mMap.setOnMyLocationButtonClickListener(this)
+        mMap.setOnMyLocationClickListener(this)
+
+        /*
+            source :  https://stackoverflow.com/questions/36785542/how-to-change-the-position-of-my-location-button-in-google-maps-using-android-st
          */
-        mapFragment.getMapAsync {
-            Timber.i("onMapReady()")
-            mMap = it
-
-            // Used for finding current location with button
-            mMap.isMyLocationEnabled = true
-            mMap.uiSettings.isMyLocationButtonEnabled = true
-
-            /*
-                source :  https://stackoverflow.com/questions/36785542/how-to-change-the-position-of-my-location-button-in-google-maps-using-android-st
-             */
-            if (mapFragment.view != null) {
-                Timber.d("Get the button view")
-                // Get the button view
-                val locationButton =
-                    (mapFragment.requireView()
-                        .findViewById<View>("1".toInt()).parent as View)
-                        .findViewById<View>("2".toInt())
-                Timber.d("and next place it, on bottom right (as Google Maps app)")
-                // and next place it, on bottom right (as Google Maps app)
-                val layoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
-                Timber.d("position on right bottom")
-                // position on right bottom
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                layoutParams.setMargins(0, 0, 30, 260)
-            }
-
-            // Set a preference for minimum and maximum zoom.
-            mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
-            mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
-            mMap.uiSettings.setAllGesturesEnabled(true)
-
-            setLocationSettings()
-            hideLoading()
+        if (mapFragment.view != null) {
+            Timber.d("Get the button view")
+            // Get the button view
+            val locationButton =
+                (mapFragment.requireView()
+                    .findViewById<View>("1".toInt()).parent as View)
+                    .findViewById<View>("2".toInt())
+            Timber.d("and next place it, on bottom right (as Google Maps app)")
+            // and next place it, on bottom right (as Google Maps app)
+            val layoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
+            Timber.d("position on right bottom")
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+            layoutParams.setMargins(0, 0, 30, 260)
         }
+
+        // Set a preference for minimum and maximum zoom.
+        mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
+        mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
+        mMap.uiSettings.setAllGesturesEnabled(true)
+
+        setLocationSettings()
+        hideLoading()
+
     }
 
     private fun setLocationSettings() {
@@ -448,6 +488,31 @@ class HomeFragment : BaseFragment(),
         Timber.d("onProviderDisabled()")
     }
 
+    override fun onMyLocationClick(myLocation: Location) {
+        Timber.e("onMyLocationClick() - $myLocation")
+
+        BottomSheetLocationFragment
+            .newInstance(myLocation)
+            .show(
+                this.childFragmentManager,
+                BottomSheetLocationFragment.TAG
+            )
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Timber.d("onMyLocationButtonClick()")
+
+        Toast.makeText(requireActivity(), "MyLocation button clicked", Toast.LENGTH_SHORT).show()
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        Timber.d("onMarkerClick()")
+        return true
+    }
+
     companion object {
         val TAG = HomeFragment::class.java.simpleName
 
@@ -467,4 +532,5 @@ class HomeFragment : BaseFragment(),
             return fragment
         }
     }
+
 }

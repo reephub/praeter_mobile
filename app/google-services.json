@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:705455226134:android:e0f0dd43ddf2e4f229e437",
+        "mobilesdk_app_id": "1:705455226134:android:0ab27d393e238d7d29e437",
         "android_client_info": {
-          "package_name": "com.praeter"
+          "package_name": "com.reephub.praeter"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "705455226134-qdnp79a8n94ba6ci401cuaajvrlf6ol1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reephub.praeter",
+            "certificate_hash": "c568a845389066dd5fb69b204f3669bca58137fb"
+          }
+        },
         {
           "client_id": "705455226134-aqd2hda8ekvl7h9mlgbh2cg5k3hl9ucv.apps.googleusercontent.com",
           "client_type": 3
@@ -21,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCd4sCVOzQJwwSh1f39As4y-GLIIiGKeho"
+          "current_key": "AIzaSyDiS1KlR2yNBu7JW7D9ZGhBHryfn5UqVpM"
         }
       ],
       "services": {

@@ -24,6 +24,6 @@ class ClassesAdapter(val items: List<ClassesDto>) : RecyclerView.Adapter<RowClas
     }
 
     override fun getItemCount(): Int {
-        return items.size ?: 0
+        return items.size
     }
 }

@@ -25,7 +25,8 @@ object AppHelperModule {
             ApiModule.provideUserAPIService(),
             ApiModule.provideOrderAPIService(),
             ApiModule.provideClassesAPIService(),
-            ApiModule.provideAncientAPIService()
+            ApiModule.provideAncientAPIService(),
+            ApiModule.provideGoogleApiService()
         )
 
     @Provides
