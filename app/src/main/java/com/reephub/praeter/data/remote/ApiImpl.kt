@@ -1,10 +1,7 @@
 package com.reephub.praeter.data.remote
 
-import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.api.*
 import com.reephub.praeter.data.remote.dto.*
-import okhttp3.Response
-import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class ApiImpl @Inject constructor(
@@ -39,9 +36,8 @@ class ApiImpl @Inject constructor(
 
     override suspend fun login(user: UserDto): LoginResponse = mUserApiService.login(user)
 
-    override suspend fun saveUser(user: User) {
-        mUserApiService.saveUser(user)
-    }
+    override suspend fun saveUser(user: UserDto): UserResponse = mUserApiService.saveUser(user)
+
 
     /*override suspend fun login(user: User) {
         mUserApiService.login(user)

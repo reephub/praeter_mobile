@@ -43,34 +43,12 @@ class LoginViewModel @Inject constructor(
                     withContext(mainContext) {
                         login.value = response
                     }
-                    /*when (response?.code) {
-                        200 -> {
-                            Timber.e("OK")
-                            withContext(MainActivityViewModel.mainContext) {
-                                login.value = response.message
-                            }
-                        }
-                        404 -> {
-                            Timber.e("Not Found")
-                            withContext(MainActivityViewModel.mainContext) {
-                                login.value = response.message
-                            }
-                        }
-                        else -> {
-                            Timber.e("else")
-                            withContext(MainActivityViewModel.mainContext) {
-                                login.value = "else"
-                            }
-                        }
-                    }*/
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 Timber.e(e.message)
             }
         }
-
     }
 
 

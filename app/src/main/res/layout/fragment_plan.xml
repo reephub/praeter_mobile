@@ -75,6 +75,7 @@
         android:layout_margin="@dimen/medium_margin"
         android:backgroundTint="@color/purple_500"
         android:text="@string/btn_continue"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

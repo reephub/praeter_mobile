@@ -71,10 +71,8 @@ class SuccessfulSignUpFragment : Fragment(),
         setListeners()
         initViewModelsObservers()
 
-        lifecycleScope.launch(coroutineContext) {
-            delay(TimeUnit.SECONDS.toMillis(1))
-            startChainedAnimations()
-        }
+        mViewModel.saveUser()
+
     }
 
     override fun onDestroyView() {
@@ -93,9 +91,27 @@ class SuccessfulSignUpFragment : Fragment(),
 
     private fun initViewModelsObservers() {
         Timber.d("initViewModelsObservers()")
+
+        mViewModel.getSaveUserSuccessful().observe(requireActivity(), {
+            Timber.e("getSaveUserSuccessful().observe")
+
+            binding.clSavingUserProcess.visibility = View.GONE
+            binding.motionLayout.visibility = View.VISIBLE
+
+            lifecycleScope.launch(coroutineContext) {
+                delay(TimeUnit.SECONDS.toMillis(1))
+                startChainedAnimations()
+            }
+        })
+
+        mViewModel.getSaveUserError().observe(requireActivity(), {
+            Timber.e("getSaveUserError().observe")
+            Timber.e("Error - $it")
+        })
     }
 
     private fun startChainedAnimations() {
+        Timber.d("startChainedAnimations()")
         binding.motionLayout.setTransition(R.id.start, R.id.start_to_title)
         binding.motionLayout.transitionToEnd {
             binding.motionLayout.setTransition(R.id.start_to_title, R.id.title_to_message)

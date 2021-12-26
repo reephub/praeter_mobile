@@ -1,17 +1,22 @@
 package com.reephub.praeter.ui.signup.plan
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.reephub.praeter.R
 import com.reephub.praeter.databinding.FragmentPlanBinding
 import com.reephub.praeter.ui.signup.NextViewPagerClickListener
 import com.reephub.praeter.ui.signup.SignUpViewModel
+import timber.log.Timber
 
-class PlanFragment : Fragment(), View.OnClickListener {
+class PlanFragment : Fragment(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private var _viewBinding: FragmentPlanBinding? = null
 
@@ -22,6 +27,8 @@ class PlanFragment : Fragment(), View.OnClickListener {
     private val mViewModel: SignUpViewModel by activityViewModels()
 
     private lateinit var mListener: NextViewPagerClickListener
+
+    private var hasPlanSelected: Boolean = false
 
 
     /////////////////////////////////////
@@ -66,7 +73,38 @@ class PlanFragment : Fragment(), View.OnClickListener {
     //
     /////////////////////////////////////
     private fun setListeners() {
+        binding.rbFreePlan.setOnCheckedChangeListener(this)
+        binding.rbPremiumPlan.setOnCheckedChangeListener(this)
         binding.btnContinue.setOnClickListener(this)
+    }
+
+    private fun changeButtonState(isEnable: Boolean) {
+        Timber.d("changeButtonState() to $isEnable")
+
+        if (!hasPlanSelected) {
+            binding.btnContinue.isEnabled = isEnable
+
+            binding.btnContinue.backgroundTintList =
+                ColorStateList.valueOf(
+                    if (!isEnable) ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.transparent
+                    ) else ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.purple_500
+                    )
+                )
+
+            binding.btnContinue.setTextColor(
+                if (!isEnable) ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.jumbo
+                ) else ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white
+                )
+            )
+        }
     }
 
     /////////////////////////////////////
@@ -85,12 +123,23 @@ class PlanFragment : Fragment(), View.OnClickListener {
             mViewModel.setUserPremium(true)
             mListener.onNextViewPagerClicked()
         }
+    }
 
-        mListener.onNextViewPagerClicked()
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        Timber.d("onCheckedChanged()")
+
+        if (hasPlanSelected)
+            return
+        else {
+            if (!hasPlanSelected)
+                changeButtonState(isChecked)
+
+            hasPlanSelected = true
+        }
     }
 
     companion object {
-        val TAG = PlanFragment::class.java.simpleName
+        val TAG: String = PlanFragment::class.java.simpleName
 
         fun newInstance(): PlanFragment {
             val args = Bundle()
@@ -99,4 +148,5 @@ class PlanFragment : Fragment(), View.OnClickListener {
             return fragment
         }
     }
+
 }

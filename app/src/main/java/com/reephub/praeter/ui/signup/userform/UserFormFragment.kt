@@ -2,6 +2,7 @@ package com.reephub.praeter.ui.signup.userform
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,7 +24,8 @@ import com.reephub.praeter.ui.signup.NextViewPagerClickListener
 import com.reephub.praeter.ui.signup.SignUpViewModel
 import timber.log.Timber
 
-class UserFormFragment : Fragment(), View.OnClickListener {
+class UserFormFragment : Fragment(),
+    AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private var _viewBinding: FragmentUserFormBinding? = null
 
@@ -68,8 +69,8 @@ class UserFormFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setListeners()
         setupSpinner()
+        setListeners()
 
         if (BuildConfig.DEBUG) preloadData()
     }
@@ -85,59 +86,20 @@ class UserFormFragment : Fragment(), View.OnClickListener {
     //
     /////////////////////////////////////
     private fun setListeners() {
+        binding.spGender.onItemSelectedListener = this
         binding.btnPasswordVisibility.setOnClickListener(this)
         binding.btnContinue.setOnClickListener(this)
     }
 
     private fun setupSpinner() {
-        val adapter: ArrayAdapter<String> = ArrayAdapter(
+        val adapter: GenderSpinnerAdapter = GenderSpinnerAdapter(
             requireActivity(),
             android.R.layout.simple_spinner_item,
             requireActivity().resources.getStringArray(R.array.user_form_gender).toList()
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }/*{
-            override fun isEnabled(position: Int): Boolean {
-                return position != 0
-            }
-
-            override fun getDropDownView(
-                position: Int, convertView: View,
-                parent: ViewGroup
-            ): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val tv = view as TextView
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY)
-                } else {
-                    tv.setTextColor(Color.WHITE)
-                }
-                return view
-            }
-        }*/
-
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spGender.adapter = adapter
-        binding.spGender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                Timber.d("Position : %s", position)
-                when (position) {
-                    1 -> szGender = "male"
-                    2 -> szGender = "female"
-                    else -> {}
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                Timber.e("Nothing selected")
-            }
         }
+        binding.spGender.adapter = adapter
     }
 
     @SuppressLint("SetTextI18n")
@@ -303,6 +265,33 @@ class UserFormFragment : Fragment(), View.OnClickListener {
         }
     }
 
+
+    private fun changeButtonState(isEnable: Boolean) {
+        Timber.d("changeButtonState() to $isEnable")
+        binding.btnContinue.isEnabled = isEnable
+
+        binding.btnContinue.backgroundTintList =
+            ColorStateList.valueOf(
+                if (!isEnable) ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.transparent
+                ) else ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.purple_500
+                )
+            )
+
+        binding.btnContinue.setTextColor(
+            if (!isEnable) ContextCompat.getColor(
+                requireActivity(),
+                R.color.jumbo
+            ) else ContextCompat.getColor(
+                requireActivity(),
+                R.color.white
+            )
+        )
+    }
+
     /////////////////////////////////////
     //
     // IMPLEMENTS
@@ -359,6 +348,28 @@ class UserFormFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        Timber.d("Position : %s", position)
+
+        when (position) {
+            1 -> {
+                szGender = "Male"
+                changeButtonState(true)
+            }
+            2 -> {
+                szGender = "Female"
+                changeButtonState(true)
+            }
+            else -> {
+                Timber.e("else")
+            }
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        Timber.e("Nothing selected")
+    }
+
     companion object {
         val TAG: String = UserFormFragment::class.java.simpleName
 
@@ -369,4 +380,5 @@ class UserFormFragment : Fragment(), View.OnClickListener {
             return fragment
         }
     }
+
 }

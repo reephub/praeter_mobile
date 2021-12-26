@@ -43,10 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="@dimen/small_margin"
+            android:enabled="false"
             android:gravity="center"
             android:text="@string/btn_continue"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/purple_500"
+            android:textColor="@color/jumbo"
+            app:backgroundTint="@color/transparent"
             tools:ignore="UnusedAttribute" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,6 @@ import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.ApiImpl
 import com.reephub.praeter.data.remote.dto.*
 import kotlinx.coroutines.flow.Flow
-import okhttp3.Response
-import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -81,9 +79,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun login(user: UserDto): LoginResponse = mApiImpl.login(user)
 
-    override suspend fun saveUser(user: User) {
-        mApiImpl.saveUser(user)
-    }
+    override suspend fun saveUser(user: UserDto) = mApiImpl.saveUser(user)
 
     /*override suspend fun login(user: User) {
         mApiImpl.login(user)

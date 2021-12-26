@@ -85,6 +85,8 @@
 
     <!-- Successful Sign Up -->
     <string name="title_activity_successful_sign_up">Validation</string>
+    <string name="msg_title_saving_in_progress">Saving in progress</string>
+    <string name="msg_text_please_wait">Please, wait until the process is finished…</string>
     <string name="msg_title_congratulations">Congratulations !</string>
     <string name="dialog_msg_successfully_signed_up">You are successfully registered to the app.<br /><br />We wish you to have a nice experience using our application.<br /><br />Fly away to the culture.</string>
 

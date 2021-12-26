@@ -73,6 +73,32 @@ class TermsOfServiceFragment : Fragment(),
         binding.cbAcceptLicense.setOnCheckedChangeListener(this)
     }
 
+    private fun changeButtonState(isEnable: Boolean) {
+        Timber.d("changeButtonState() to $isEnable")
+        binding.btnContinue.isEnabled = isEnable
+
+        binding.btnContinue.backgroundTintList =
+            ColorStateList.valueOf(
+                if (!isEnable) ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.transparent
+                ) else ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.purple_500
+                )
+            )
+
+        binding.btnContinue.setTextColor(
+            if (!isEnable) ContextCompat.getColor(
+                requireActivity(),
+                R.color.jumbo
+            ) else ContextCompat.getColor(
+                requireActivity(),
+                R.color.white
+            )
+        )
+    }
+
     /////////////////////////////////////
     //
     // IMPLEMENTS
@@ -97,18 +123,7 @@ class TermsOfServiceFragment : Fragment(),
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        binding.btnContinue.isEnabled = isChecked
-
-        binding.btnContinue.backgroundTintList =
-            ColorStateList.valueOf(
-                if (!isChecked) ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.transparent
-                ) else ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.purple_500
-                )
-            )
+        changeButtonState(isChecked)
     }
 
     companion object {

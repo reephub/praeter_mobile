@@ -20,11 +20,11 @@ data class UserDto(
     @Json(name = "dateOfBirth")
     var dateOfBirth: String,
     @Json(name = "isPremium")
-    var isPremium: Boolean,
+    var isPremium: Boolean = false,
     @Json(name = "isCustomer")
-    var isCustomer: Boolean,
+    var isCustomer: Boolean = false,
     @Json(name = "isProvider")
-    var isProvider: Boolean
+    var isProvider: Boolean = false
 ) {
 
     constructor() : this(

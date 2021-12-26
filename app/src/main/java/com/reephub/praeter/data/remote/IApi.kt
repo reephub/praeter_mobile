@@ -1,9 +1,6 @@
 package com.reephub.praeter.data.remote
 
-import com.reephub.praeter.data.local.model.User
 import com.reephub.praeter.data.remote.dto.*
-import okhttp3.Response
-import okhttp3.ResponseBody
 
 interface IApi {
     // GET
@@ -19,7 +16,7 @@ interface IApi {
 
     // POST
     suspend fun login(user: UserDto): LoginResponse
-    suspend fun saveUser(user: User)
+    suspend fun saveUser(user: UserDto): UserResponse
 
     // PATCH
 //    suspend fun login(user: User)
