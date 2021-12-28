@@ -11,10 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.reephub.praeter.data.IRepository
 import com.reephub.praeter.data.remote.dto.directions.GoogleDirectionsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -45,7 +42,10 @@ class HomeLocationViewModel @Inject constructor(
 
                     Timber.d("$route")
 
-                    route
+                    if (null != route)
+                        withContext(mainContext) {
+                            googleDirection.value = route
+                        }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

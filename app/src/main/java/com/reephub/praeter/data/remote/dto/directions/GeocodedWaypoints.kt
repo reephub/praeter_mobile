@@ -9,6 +9,4 @@ data class GeocodedWaypoints constructor(
     val status: String,
     @Json(name = "place_id")
     val placeID: String
-) {
-
-}
+)

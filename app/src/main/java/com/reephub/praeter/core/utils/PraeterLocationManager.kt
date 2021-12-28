@@ -249,6 +249,13 @@ class PraeterLocationManager constructor(
         return this.location
     }
 
+    fun convertLatLngLocationToString(location: Location): String {
+        val lat = location.latitude.toString()
+        val lng = location.longitude.toString()
+
+        return StringBuilder().append(lat).append(",").append(lng).toString()
+    }
+
 
     /**
      * Function to show settings alert dialog On pressing Settings button will

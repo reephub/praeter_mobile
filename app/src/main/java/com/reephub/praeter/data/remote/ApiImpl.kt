@@ -39,7 +39,7 @@ class ApiImpl @Inject constructor(
     override suspend fun getDirections(
         origin: String,
         destination: String
-    ): GoogleDirectionsResponse =mGoogleDirectionsApiService.getDirections(origin, destination)
+    ): GoogleDirectionsResponse = mGoogleDirectionsApiService.getDirections(origin, destination)
 
     override suspend fun login(user: UserDto): LoginResponse = mUserApiService.login(user)
 

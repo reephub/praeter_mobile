@@ -24,7 +24,9 @@ data class UserDto(
     @Json(name = "isCustomer")
     var isCustomer: Boolean = false,
     @Json(name = "isProvider")
-    var isProvider: Boolean = false
+    var isProvider: Boolean = false,
+    @Json(name = "token")
+    var token: String
 ) {
 
     constructor() : this(
@@ -37,7 +39,8 @@ data class UserDto(
         "",
         false,
         false,
-        false
+        false,
+        ""
     )
 
     constructor(email: String, password: String) : this(
@@ -50,7 +53,8 @@ data class UserDto(
         "",
         false,
         false,
-        false
+        false,
+        ""
     )
 
     constructor(
@@ -71,6 +75,7 @@ data class UserDto(
         dateOfBirth,
         false,
         false,
-        false
+        false,
+        ""
     )
 }

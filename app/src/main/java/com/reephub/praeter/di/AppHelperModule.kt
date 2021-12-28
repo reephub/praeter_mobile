@@ -1,5 +1,6 @@
 package com.reephub.praeter.di
 
+import android.content.Context
 import com.reephub.praeter.data.IRepository
 import com.reephub.praeter.data.RepositoryImpl
 import com.reephub.praeter.data.local.DbImpl
@@ -9,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
@@ -19,14 +21,14 @@ object AppHelperModule {
     fun provideDbHelper(appDatabase: PraeterDatabase) = DbImpl(appDatabase.getUserDao())
 
     @Provides
-    fun provideApiHelper() =
+    fun provideApiHelper(@ApplicationContext appContext: Context) =
         ApiImpl(
-            ApiModule.provideDbAPIService(),
-            ApiModule.provideUserAPIService(),
-            ApiModule.provideOrderAPIService(),
-            ApiModule.provideClassesAPIService(),
-            ApiModule.provideAncientAPIService(),
-            ApiModule.provideGoogleApiService()
+            ApiModule.provideDbAPIService(appContext),
+            ApiModule.provideUserAPIService(appContext),
+            ApiModule.provideOrderAPIService(appContext),
+            ApiModule.provideClassesAPIService(appContext),
+            ApiModule.provideAncientAPIService(appContext),
+            ApiModule.provideGoogleApiService(appContext)
         )
 
     @Provides

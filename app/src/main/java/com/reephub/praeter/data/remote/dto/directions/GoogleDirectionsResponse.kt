@@ -13,8 +13,4 @@ class GoogleDirectionsResponse constructor(
 
     @Json(name = "status")
     val status: String
-) {
-    override fun toString(): String {
-        return "GoogleDirectionsResponse(geocodedWaypoints=$geocodedWaypoints, routes=$routes, status='$status')"
-    }
-}
+)

@@ -2,6 +2,7 @@ package com.reephub.praeter.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.IntentSender
@@ -18,19 +19,30 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.PlaceLikelihood
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.maps.android.PolyUtil
+import com.google.maps.android.ktx.addMarker
 import com.google.maps.android.ktx.awaitMap
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -44,8 +56,11 @@ import com.reephub.praeter.core.utils.PraeterLocationManager
 import com.reephub.praeter.core.utils.PraeterLocationUtils
 import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.local.bean.MapsEnum
+import com.reephub.praeter.data.remote.dto.directions.Steps
 import com.reephub.praeter.databinding.FragmentHomeBinding
 import com.reephub.praeter.ui.base.BaseFragment
+import com.reephub.praeter.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
@@ -53,17 +68,21 @@ import java.text.DateFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment(),
     CoroutineScope,
     android.location.LocationListener,
     GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMarkerClickListener {
+    GoogleMap.OnMarkerClickListener,
+    PlaceSelectionListener {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
     private var _viewBinding: FragmentHomeBinding? = null
     private val binding get() = _viewBinding!!
+
+    private val mLocationViewModel: HomeLocationViewModel by viewModels()
 
     private lateinit var mapFragment: SupportMapFragment
     private var geocoder: Geocoder? = null
@@ -86,6 +105,13 @@ class HomeFragment : BaseFragment(),
 
     // location last updated time
     private var mLastUpdateTime: String? = null
+
+    private var CURRENT_LOCATION_TO_STRING: String = ""
+    private var TARGET_LOCATION_TO_STRING: String = ""
+
+    private var placesClient: PlacesClient? = null
+    private var currentPlace: Place? = null
+    private var request: FindCurrentPlaceRequest? = null
 
     /////////////////////////////////////
     //
@@ -117,7 +143,7 @@ class HomeFragment : BaseFragment(),
                 override fun onPermissionsChecked(multiplePermissionsReport: MultiplePermissionsReport) {
                     if (multiplePermissionsReport.areAllPermissionsGranted()) {
                         Timber.i("All permissions are granted")
-                        // initAutoCompleteView()
+                        initAutoCompleteView()
                         mRequestingLocationUpdates = true
                         initGoogleMap()
                         initLocationSettings()
@@ -136,6 +162,8 @@ class HomeFragment : BaseFragment(),
             .withErrorListener { dexterError: DexterError -> Timber.e(dexterError.toString()) }
             .onSameThread()
             .check()
+
+        initViewModelsObservers()
     }
 
     override fun onPause() {
@@ -160,6 +188,20 @@ class HomeFragment : BaseFragment(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Timber.e("onActivityResult()")
+        // Check for the integer request code originally supplied to startResolutionForResult().
+        if (requestCode == Constants.REQUEST_CHECK_SETTINGS) {
+            when (resultCode) {
+                Activity.RESULT_OK -> Timber.e("User agreed to make required location settings changes.")
+                Activity.RESULT_CANCELED -> {
+                    Timber.e("User chose not to make required location settings changes.")
+                    mRequestingLocationUpdates = false
+                }
+                else -> {
+                    Timber.e("else branch")
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -172,6 +214,177 @@ class HomeFragment : BaseFragment(),
     // CLASS METHODS
     //
     /////////////////////////////////////
+    private fun initViewModelsObservers() {
+        Timber.i("initViewModelsObservers()")
+        mLocationViewModel.getGoogleDirection()
+            .observe(
+                requireActivity(),
+                { response ->
+                    Timber.d("getGoogleDirection().observe")
+
+                    try {
+                        Timber.d("Overview : ${response.routes[0].overviewPolyline.points}")
+                        val overview = response.routes[0].overviewPolyline.points
+
+                        val stepsNumber = response.routes[0].legs[0].steps.size
+
+                        val polylines: Array<String?> = arrayOfNulls(stepsNumber)
+
+                        for ((i, step: Steps) in response.routes[0].legs[0].steps.withIndex()) {
+
+                            val polygone: String = step.polyline.points
+
+                            polylines[i] = polygone
+                        }
+
+                        Timber.e("Polylines : $polylines")
+                        val polylinesCount = polylines.size
+
+                        for (i in 0..polylinesCount) {
+
+                            val option = PolylineOptions()
+                            option.color(
+                                ContextCompat.getColor(
+                                    requireActivity(),
+                                    R.color.black
+                                )
+                            )
+                            option.addAll(PolyUtil.decode(overview))
+
+                            mMap.addPolyline(option)
+                        }
+
+                        val southWestBounds = TARGET_LOCATION_TO_STRING.split(",")
+                        val northEastBounds = CURRENT_LOCATION_TO_STRING.split(",")
+
+
+                        val australiaBounds = LatLngBounds(
+                            LatLng(
+                                southWestBounds[0].toDouble(),
+                                southWestBounds[1].toDouble()
+                            ),  // SW bounds
+                            LatLng(
+                                northEastBounds[0].toDouble(),
+                                northEastBounds[1].toDouble()
+                            ) // NE bounds
+                        )
+                        mMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                australiaBounds.center,
+                                10f
+                            )
+                        )
+
+                    } catch (exception: Exception) {
+                        exception.printStackTrace()
+                    }
+                })
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun initAutoCompleteView() {
+        Timber.i("initAutoCompleteView()")
+
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment =
+            this.childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+
+        // ref : https://stackoverflow.com/questions/36398061/how-to-change-text-size-in-places-autocompletefragment-in-android
+        // placeAutocompleteFragment - is my PlaceAutocompleteFragment instance
+        (autocompleteFragment.view
+            ?.findViewById(R.id.places_autocomplete_search_input) as EditText)
+            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (!Places.isInitialized()) {
+            Places.initialize(
+                requireContext(),
+                getString(R.string.google_maps_key),
+                Locale.FRANCE
+            )
+        }
+
+        placesClient = Places.createClient(requireContext())
+
+        // Use the builder to create a FindCurrentPlaceRequest.
+        request = FindCurrentPlaceRequest.newInstance(Constants.CURRENT_PLACE_FIELDS)
+
+        placesClient
+            ?.findCurrentPlace(request!!)
+            ?.addOnSuccessListener { task ->
+                Timber.d("onSuccessListener")
+
+                var previousPercentage = 0.0
+
+                for (placeLikelihood: PlaceLikelihood in task.placeLikelihoods) {
+                    Timber.e(
+                        "Place '${placeLikelihood.place.name}' has likelihood: ${placeLikelihood.likelihood}"
+                    )
+
+                    if (previousPercentage < placeLikelihood.likelihood) {
+                        previousPercentage = placeLikelihood.likelihood
+                        currentPlace = placeLikelihood.place
+                    }
+                }
+
+                Timber.d("final place : $currentPlace")
+            }
+            ?.addOnFailureListener { exception ->
+                Timber.e("onFailureListener")
+
+                if (exception is ApiException) {
+                    Timber.e("Place not found: ${exception.statusCode}")
+                }
+            }
+            ?.addOnCompleteListener { _ ->
+                Timber.d("onCompleteListener")
+            }
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Constants.PLACES_FIELDS)
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(this)
+    }
+
+    private fun showBottomItineraryFragment(currentPlace: Place, targetPlace: Place) {
+        Timber.d("showBottomItineraryFragment()")
+
+        BottomSheetItineraryFragment
+            .newInstance(currentPlace, targetPlace)
+            .show(
+                this.childFragmentManager,
+                BottomSheetItineraryFragment.TAG
+            )
+    }
+
+    private fun buildItinerary(currentPlace: Place, targetPlace: Place) {
+        Timber.d("buildItinerary()")
+
+        val currentLocation = Location("")
+        currentLocation.latitude = currentPlace.latLng?.latitude!!
+        currentLocation.longitude = currentPlace.latLng?.longitude!!
+
+        val targetLocation = Location("")
+        targetLocation.latitude = targetPlace.latLng?.latitude!!
+        targetLocation.longitude = targetPlace.latLng?.longitude!!
+
+        val mPLM =
+            PraeterLocationManager(requireActivity(), requireContext())
+
+        CURRENT_LOCATION_TO_STRING =
+            mPLM.convertLatLngLocationToString(currentLocation)
+        TARGET_LOCATION_TO_STRING =
+            mPLM.convertLatLngLocationToString(targetLocation)
+
+        mLocationViewModel.getItinerary(CURRENT_LOCATION_TO_STRING, TARGET_LOCATION_TO_STRING)
+    }
+
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -330,7 +543,7 @@ class HomeFragment : BaseFragment(),
     private fun startAnimation(view: View) {
         Timber.d("startAnimation()")
         val animFadeOut =
-            AnimationUtils.loadAnimation(requireContext(), com.reephub.praeter.R.anim.fade_out)
+            AnimationUtils.loadAnimation(requireContext(), R.anim.fade_out)
         animFadeOut.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
                 Timber.d("onAnimationStart()")
@@ -513,8 +726,65 @@ class HomeFragment : BaseFragment(),
         return true
     }
 
+    override fun onError(status: Status) {
+        // TODO: Handle the error.
+        Timber.e("An error occurred: $status")
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onPlaceSelected(place: Place) {
+        // TODO: Get info about the selected place.
+        Timber.i("onPlaceSelected() - Place: ${place.name}, ${place.id}, ${place.latLng}")
+
+        placesClient
+            ?.findCurrentPlace(request!!)
+            ?.addOnSuccessListener { task ->
+                Timber.d("onSuccessListener")
+
+                var previousPercentage = 0.0
+
+                for (placeLikelihood: PlaceLikelihood in task.placeLikelihoods) {
+                    Timber.e(
+                        "Place '${placeLikelihood.place.name}' has likelihood: ${placeLikelihood.likelihood}"
+                    )
+
+                    if (previousPercentage < placeLikelihood.likelihood) {
+                        previousPercentage = placeLikelihood.likelihood
+                        currentPlace = placeLikelihood.place
+                    }
+                }
+
+                Timber.d("final place : $currentPlace")
+
+                place.latLng?.let {
+                    mMap.addMarker {
+                        position(it)
+                    }
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
+                }
+
+                if (null != currentPlace) {
+                    showBottomItineraryFragment(currentPlace!!, place)
+                    buildItinerary(currentPlace!!, place)
+                } else {
+                    Timber.e("currentPlace is NULL")
+                }
+            }
+            ?.addOnFailureListener { exception ->
+                Timber.e("onFailureListener")
+
+                if (exception is ApiException) {
+                    Timber.e("Place not found: ${exception.statusCode}")
+                }
+            }
+            ?.addOnCompleteListener { _ ->
+                Timber.d("onCompleteListener")
+            }
+
+    }
+
     companion object {
-        val TAG = HomeFragment::class.java.simpleName
+        val TAG: String = HomeFragment::class.java.simpleName
 
         // location updates interval - 10sec
         private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
@@ -532,5 +802,6 @@ class HomeFragment : BaseFragment(),
             return fragment
         }
     }
+
 
 }
