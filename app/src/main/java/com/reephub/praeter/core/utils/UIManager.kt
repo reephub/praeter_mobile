@@ -84,7 +84,7 @@ class UIManager private constructor() {
                     //launchActivity(context, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED|Intent.FLAG_ACTIVITY_NEW_TASK, null, null);
                 }
                 if (negativeMessage.equals("Réessayer", ignoreCase = true)
-                    && PraeterNetworkManagerNewAPI.isConnected
+//                    && PraeterNetworkManagerNewAPI.getInstance().isConnected
                 ) {
                     dialog.dismiss()
                 }

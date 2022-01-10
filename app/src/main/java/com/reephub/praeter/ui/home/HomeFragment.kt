@@ -33,7 +33,10 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.PlaceLikelihood
@@ -186,6 +189,14 @@ class HomeFragment : BaseFragment(),
         updateLocationUI()
     }
 
+    override fun onConnected() {
+        // Ignored
+    }
+
+    override fun onDisconnected() {
+        // Ignored
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Timber.e("onActivityResult()")
@@ -258,7 +269,7 @@ class HomeFragment : BaseFragment(),
                         val northEastBounds = CURRENT_LOCATION_TO_STRING.split(",")
 
 
-                        val australiaBounds = LatLngBounds(
+                        /*val australiaBounds = LatLngBounds(
                             LatLng(
                                 southWestBounds[0].toDouble(),
                                 southWestBounds[1].toDouble()
@@ -273,7 +284,7 @@ class HomeFragment : BaseFragment(),
                                 australiaBounds.center,
                                 10f
                             )
-                        )
+                        )*/
 
                     } catch (exception: Exception) {
                         exception.printStackTrace()
@@ -655,9 +666,9 @@ class HomeFragment : BaseFragment(),
     // IMPLEMENTS
     //
     /////////////////////////////////////
-    override fun onConnected(isConnected: Boolean) {
+    /*override fun onConnected(isConnected: Boolean) {
         // Ignored
-    }
+    }*/
 
     @SuppressLint("MissingPermission", "SetTextI18n")
     override fun onLocationChanged(location: Location) {
@@ -788,11 +799,14 @@ class HomeFragment : BaseFragment(),
 
         // location updates interval - 10sec
         private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
+//        private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5 * 60 * 1000
 
         // fastest updates interval - 5 sec
         // location updates will be received if another app is requesting the locations
         // than your app can handle
         private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 5000
+
+        //        private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = 2 * 60 * 5000
         private const val REQUEST_CHECK_SETTINGS = 100
 
         fun newInstance(): HomeFragment {
@@ -802,6 +816,4 @@ class HomeFragment : BaseFragment(),
             return fragment
         }
     }
-
-
 }

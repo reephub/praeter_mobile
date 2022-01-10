@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reephub.praeter.R
+import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
+import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.remote.dto.ClassesDto
 import com.reephub.praeter.databinding.FragmentClassesBinding
 import com.reephub.praeter.ui.base.BaseFragment
@@ -17,13 +19,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class ClassesFragment : BaseFragment() {
+class ClassesFragment : BaseFragment(), ClassClickListener {
 
     private var _viewBinding: FragmentClassesBinding? = null
     private val binding get() = _viewBinding!!
 
     private val mViewModel: MainActivityViewModel by activityViewModels()
 
+    private var isConnected: Boolean = false
 
     /////////////////////////////////////
     //
@@ -72,12 +75,26 @@ class ClassesFragment : BaseFragment() {
         mViewModel.getClasses().observe(viewLifecycleOwner, {
             bindData(it)
         })
+
+        PraeterNetworkManagerNewAPI
+            .getInstance(requireContext())
+            .getConnectionState()
+            .observe(
+                viewLifecycleOwner,
+                {
+                    isConnected = it
+
+                    UIManager.showConnectionStatusInSnackBar(
+                        requireActivity(),
+                        isConnected
+                    )
+                })
     }
 
     private fun bindData(items: List<ClassesDto>) {
         Timber.d("bindData()")
 
-        val adapter = ClassesAdapter(items/*, this*/)
+        val adapter = ClassesAdapter(items, this)
 
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
@@ -104,7 +121,22 @@ class ClassesFragment : BaseFragment() {
     // IMPLEMENTS
     //
     /////////////////////////////////////
-    override fun onConnected(isConnected: Boolean) {
+    override fun onConnected() {
         // Ignored
+    }
+
+    override fun onDisconnected() {
+        // Ignored
+    }
+
+    override fun onClassClicked(view: View, selectedClass: ClassesDto) {
+        Timber.d("$selectedClass")
+
+        BottomSheetClassFragment
+            .newInstance(selectedClass)
+            .show(
+                this.childFragmentManager,
+                BottomSheetClassFragment.TAG
+            )
     }
 }

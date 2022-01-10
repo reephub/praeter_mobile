@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.reephub.praeter.data.remote.dto.ClassesDto
-import com.reephub.praeter.data.remote.dto.OrderItemDto
 import com.reephub.praeter.databinding.RowClassBinding
 
-class ClassesAdapter(val items: List<ClassesDto>) : RecyclerView.Adapter<RowClassesViewHolder>() {
+class ClassesAdapter(
+    val items: List<ClassesDto>,
+    private val mListener: ClassClickListener
+) : RecyclerView.Adapter<RowClassesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowClassesViewHolder {
         val rowBinding =
@@ -16,7 +18,7 @@ class ClassesAdapter(val items: List<ClassesDto>) : RecyclerView.Adapter<RowClas
                 parent,
                 false
             )
-        return RowClassesViewHolder(rowBinding)
+        return RowClassesViewHolder(rowBinding, mListener)
     }
 
     override fun onBindViewHolder(holder: RowClassesViewHolder, position: Int) {

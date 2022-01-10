@@ -7,6 +7,10 @@
             name="classItem"
             type="com.reephub.praeter.data.remote.dto.ClassesDto" />
 
+        <variable
+            name="mListener"
+            type="com.reephub.praeter.ui.classes.ClassClickListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,6 +24,7 @@
         android:elevation="@dimen/small_margin"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{(view) -> mListener.onClassClicked(view, classItem)}"
         app:cardBackgroundColor="@color/default_dark"
         app:cardCornerRadius="@dimen/small_margin"
         app:cardPreventCornerOverlap="true"

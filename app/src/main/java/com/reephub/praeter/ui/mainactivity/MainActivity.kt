@@ -9,10 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.reephub.praeter.R
+import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
 import com.reephub.praeter.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
@@ -79,15 +84,6 @@ class MainActivity : AppCompatActivity(),
                 || super.onSupportNavigateUp()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
 
@@ -142,4 +138,30 @@ class MainActivity : AppCompatActivity(),
             )
         return true
     }
+/*
+    override fun onConnected() {
+        try {
+            navController.currentDestination?.id
+            val navHostFragment: NavHostFragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment?
+            navHostFragment!!.childFragmentManager.fragments[0].onConnected {
+                UIManager.showConnectionStatusInSnackBar(this@MainActivity, true)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    override fun onLostConnection() {
+        try {
+            navController.currentDestination?.id
+            val navHostFragment: NavHostFragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment?
+            navHostFragment!!.childFragmentManager.fragments[0].onDisconnected {
+                UIManager.showConnectionStatusInSnackBar(this@MainActivity, false)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }*/
 }

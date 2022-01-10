@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
-            app:hintTextColor="@color/purple_500">
+            app:hintTextColor="@color/white">
 
             <!--
             https://stackoverflow.com/questions/17989733/move-to-another-edittext-when-soft-keyboard-next-is-clicked-on-android
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_margin"
-                app:hintTextColor="@color/purple_500">
+                app:hintTextColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_password"
@@ -104,7 +104,6 @@
                 android:minHeight="48dp"
                 android:src="@drawable/ic_visibility"
                 tools:ignore="HardcodedText" />
-
         </RelativeLayout>
 
 

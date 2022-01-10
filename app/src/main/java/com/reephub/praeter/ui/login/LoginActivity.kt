@@ -3,6 +3,10 @@ package com.reephub.praeter.ui.login
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -21,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.reephub.praeter.BuildConfig
 import com.reephub.praeter.R
+import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
 import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.remote.dto.UserDto
 import com.reephub.praeter.databinding.ActivityLoginBinding
@@ -50,7 +55,10 @@ class LoginActivity : AppCompatActivity(),
 
     private val mViewModel: LoginViewModel by viewModels()
 
+    private var mNetworkManager: PraeterNetworkManagerNewAPI? = null
 
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _viewBinding = ActivityLoginBinding.inflate(layoutInflater)
@@ -61,16 +69,24 @@ class LoginActivity : AppCompatActivity(),
 
         if (BuildConfig.DEBUG) {
             preloadData()
+            //getConnectionInfo()
+
+            mNetworkManager = PraeterNetworkManagerNewAPI.getInstance(this@LoginActivity)
+            /*if (!mNetworkManager?.isWifiConn!!) {
+                mNetworkManager?.changeWifiState(
+                    PraeterApplication.getInstance().applicationContext,
+                    this@LoginActivity
+                )
+            }*/
+
+           val isOnline =  mNetworkManager?.isOnline()
+            Timber.d("Is app online : $isOnline")
         }
 
         lifecycleScope.launch(coroutineContext) {
-            delay(TimeUnit.SECONDS.toMillis(1))
+            delay(TimeUnit.MILLISECONDS.toMillis(750))
             binding.motionLayout.transitionToEnd()
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
 
     }
 
@@ -95,9 +111,11 @@ class LoginActivity : AppCompatActivity(),
         mViewModel.getLogin().observe(this, {
             when (it.message) {
                 "Login okay" -> {
+                    hideLoading()
                     onLoginSuccessful()
                 }
                 "Not Found" -> {
+                    hideLoading()
                     onLoginFailed()
                 }
                 else -> {
@@ -105,6 +123,15 @@ class LoginActivity : AppCompatActivity(),
                 }
             }
         })
+
+         mNetworkManager?.getConnectionState()?.observe(
+             this,
+             {
+                 UIManager.showConnectionStatusInSnackBar(
+                     this,
+                     it
+                 )
+             })
     }
 
     @SuppressLint("SetTextI18n")
@@ -112,6 +139,55 @@ class LoginActivity : AppCompatActivity(),
         Timber.d("preloadData()")
         binding.inputEmail.setText("janedoe@test.fr")
         binding.inputPassword.setText("test")
+    }
+
+    @SuppressLint("NewApi")
+    private fun getConnectionInfo() {
+        Timber.d("setListeners()")
+        var isWifiConn: Boolean = false
+        var isMobileConn: Boolean = false
+        val connectivityManager: ConnectivityManager =
+            getSystemService(ConnectivityManager::class.java)
+        val currentNetwork: Network? = connectivityManager.activeNetwork
+
+        val caps = connectivityManager.getNetworkCapabilities(currentNetwork)
+        val linkProperties = connectivityManager.getLinkProperties(currentNetwork)
+
+        connectivityManager.registerDefaultNetworkCallback(object :
+            ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                Timber.e("The default network is now: $network")
+            }
+
+            override fun onLost(network: Network) {
+                Timber.e("The application no longer has a default network. The last default network was $network")
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                Timber.e("The default network changed capabilities: $networkCapabilities")
+            }
+
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                Timber.e("The default network changed link properties: $linkProperties")
+            }
+        })
+
+        connectivityManager.allNetworks.forEach { network ->
+            connectivityManager.getNetworkInfo(network)?.apply {
+                if (type == ConnectivityManager.TYPE_WIFI) {
+                    isWifiConn = isWifiConn or isConnected
+                }
+                if (type == ConnectivityManager.TYPE_MOBILE) {
+                    isMobileConn = isMobileConn or isConnected
+                }
+            }
+        }
+
+        Timber.d("Wifi connected: $isWifiConn")
+        Timber.d("Mobile connected: $isMobileConn")
     }
 
     private fun onLoginSuccessful() {
@@ -146,6 +222,8 @@ class LoginActivity : AppCompatActivity(),
         val password: String = binding.inputPassword.text.toString()
 
         Timber.d("make rest call login")
+
+        showLoading()
 
         mViewModel.makeCallLogin(UserDto(email, password))
     }
@@ -187,6 +265,19 @@ class LoginActivity : AppCompatActivity(),
         return (!TextUtils.isEmpty(email)
                 && Patterns.EMAIL_ADDRESS.matcher(email).matches())
     }
+
+    private fun showLoading() {
+        if (View.VISIBLE != binding.progressBar.visibility) {
+            binding.progressBar.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        if (View.VISIBLE == binding.progressBar.visibility) {
+            binding.progressBar.visibility = View.INVISIBLE
+        }
+    }
+
 
     private fun callMainActivity() {
         Timber.d("callMainActivity()")

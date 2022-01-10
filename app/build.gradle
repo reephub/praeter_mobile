@@ -9,12 +9,6 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
-def buildDateTime =
-        project.hasProperty('devBuild')
-                ? 100
-                : new Date().format('yyMMddHHmm').toInteger()
-
-
 android {
     compileSdk rootProject.ext.compileSdkVersion
 
@@ -22,7 +16,7 @@ android {
         applicationId "com.reephub.praeter"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
-        versionCode buildDateTime
+        versionCode 1
         versionName rootProject.ext.versionName
 
         // Enabling multidex support.

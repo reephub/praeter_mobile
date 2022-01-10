@@ -42,10 +42,9 @@ class HomeLocationViewModel @Inject constructor(
 
                     Timber.d("$route")
 
-                    if (null != route)
-                        withContext(mainContext) {
-                            googleDirection.value = route
-                        }
+                    withContext(mainContext) {
+                        googleDirection.value = route
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

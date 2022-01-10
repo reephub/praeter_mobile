@@ -21,7 +21,6 @@ class MeetAncientsFragment : BaseFragment() {
 
     private val mViewModel: MainActivityViewModel by activityViewModels()
 
-
     /////////////////////////////////////
     //
     // OVERRIDE
@@ -95,7 +94,11 @@ class MeetAncientsFragment : BaseFragment() {
     }
 
 
-    override fun onConnected(isConnected: Boolean) {
+    override fun onConnected() {
+        // Ignored
+    }
+
+    override fun onDisconnected() {
         // Ignored
     }
 }
