@@ -3,4 +3,4 @@ package com.reephub.praeter.data.remote.dto
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class UserResponse(val code:Int, val message: String, val token:String)
+data class UserResponse(val code: Int, val message: String, val token: String)

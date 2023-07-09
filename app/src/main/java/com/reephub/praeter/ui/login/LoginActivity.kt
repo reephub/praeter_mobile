@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity(),
                 )
             }*/
 
-           val isOnline =  mNetworkManager?.isOnline()
+            val isOnline = mNetworkManager?.isOnline()
             Timber.d("Is app online : $isOnline")
         }
 
@@ -124,14 +124,14 @@ class LoginActivity : AppCompatActivity(),
             }
         })
 
-         mNetworkManager?.getConnectionState()?.observe(
-             this,
-             {
-                 UIManager.showConnectionStatusInSnackBar(
-                     this,
-                     it
-                 )
-             })
+        mNetworkManager?.getConnectionState()?.observe(
+            this,
+            {
+                UIManager.showConnectionStatusInSnackBar(
+                    this,
+                    it
+                )
+            })
     }
 
     @SuppressLint("SetTextI18n")
@@ -225,7 +225,12 @@ class LoginActivity : AppCompatActivity(),
 
         showLoading()
 
-        mViewModel.makeCallLogin(UserDto(email, password))
+        mViewModel.makeCallLogin(
+            UserDto(
+                email,
+                LoginUtils.encodedHashedPassword(LoginUtils.convertToSHA1(password)!!)!!
+            )
+        )
     }
 
 

@@ -19,7 +19,7 @@ data class Legs(
     val startLocation: LatLongLocation,
     @Json(name = "steps")
     val steps: List<Steps>,
-){
+) {
     override fun toString(): String {
         return "Legs(distance=$distance, duration=$duration, endAddress='$endAddress', endLocation=$endLocation, startAddress='$startAddress', startLocation=$startLocation, steps=$steps)"
     }

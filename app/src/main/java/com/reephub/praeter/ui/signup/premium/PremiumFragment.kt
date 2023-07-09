@@ -167,7 +167,8 @@ class PremiumFragment : Fragment(),
         val cardOwnerName: String =
             binding.inputCreditCardOwnerName.text.toString().trim { it <= ' ' }
         if (cardOwnerName.isEmpty()) {
-            binding.inputLayoutCreditCardOwnerName.error = context!!.getString(R.string.err_msg_email)
+            binding.inputLayoutCreditCardOwnerName.error =
+                context!!.getString(R.string.err_msg_email)
             requestFocus(binding.inputCreditCardOwnerName)
             return false
         } else {
@@ -182,7 +183,8 @@ class PremiumFragment : Fragment(),
         if (binding.inputCreditCardNumber.text.toString().trim { it <= ' ' }.isEmpty()
             || binding.inputCreditCardNumber.length() != 16
         ) {
-            binding.inputLayoutCreditCardNumber.error = context!!.getString(R.string.err_msg_credit_card_number)
+            binding.inputLayoutCreditCardNumber.error =
+                context!!.getString(R.string.err_msg_credit_card_number)
             requestFocus(binding.inputCreditCardNumber)
             return false
         } else {
@@ -197,7 +199,8 @@ class PremiumFragment : Fragment(),
         if (binding.inputCreditCardCcv.text.toString().trim { it <= ' ' }.isEmpty()
             || binding.inputCreditCardCcv.length() != 3
         ) {
-            binding.inputLayoutCreditCardCcv.error = context!!.getString(R.string.err_msg_credit_card_ccv)
+            binding.inputLayoutCreditCardCcv.error =
+                context!!.getString(R.string.err_msg_credit_card_ccv)
             requestFocus(binding.inputCreditCardCcv)
             return false
         } else {

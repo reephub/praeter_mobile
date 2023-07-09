@@ -1,6 +1,5 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.reephub.praeter.data.remote.dto.directions.Bounds
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

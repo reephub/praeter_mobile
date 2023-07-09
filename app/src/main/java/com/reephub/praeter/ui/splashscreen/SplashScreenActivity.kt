@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import com.reephub.praeter.R
 import com.reephub.praeter.databinding.ActivitySplashscreenBinding
 import com.reephub.praeter.ui.login.LoginActivity
-import com.reephub.praeter.ui.mainactivity.MainActivity
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit

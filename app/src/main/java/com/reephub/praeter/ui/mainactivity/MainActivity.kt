@@ -16,7 +16,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.reephub.praeter.R
-import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
 import com.reephub.praeter.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

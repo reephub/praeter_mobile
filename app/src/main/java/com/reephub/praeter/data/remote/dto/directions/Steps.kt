@@ -19,7 +19,7 @@ data class Steps(
     val polyline: Polyline,
     @Json(name = "travel_mode")
     val travelMode: String,
-){
+) {
     override fun toString(): String {
         return "Steps(distance=$distance, duration=$duration, endLocation=$endLocation, startLocation=$startLocation, htmlInstruction='$htmlInstruction', polyline=$polyline, travelMode='$travelMode')"
     }

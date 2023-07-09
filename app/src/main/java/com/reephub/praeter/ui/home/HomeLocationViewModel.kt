@@ -11,9 +11,13 @@ import androidx.lifecycle.viewModelScope
 import com.reephub.praeter.data.IRepository
 import com.reephub.praeter.data.remote.dto.directions.GoogleDirectionsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,7 +61,7 @@ class HomeLocationViewModel @Inject constructor(
     fun getAddressFromLocation(context: Context, location: Location) {
         Timber.d("getAddressFromLocation()")
 
-        val addresses: List<Address>
+        var addresses: List<Address>? = null
         val geocoder = Geocoder(context, Locale.getDefault())
 
         addresses = geocoder.getFromLocation(
@@ -66,7 +70,7 @@ class HomeLocationViewModel @Inject constructor(
             1
         ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-        address.value = addresses[0]
+        address.value = addresses?.get(0)
     }
 
     companion object {

@@ -16,7 +16,7 @@ class GenderSpinnerAdapter(
     private val genderList get() = itemList
 
     override fun isEnabled(position: Int): Boolean {
-         return position != 0
+        return position != 0
     }
 
     override fun getCount(): Int {

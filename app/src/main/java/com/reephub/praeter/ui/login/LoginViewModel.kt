@@ -8,7 +8,11 @@ import com.reephub.praeter.data.IRepository
 import com.reephub.praeter.data.remote.dto.LoginResponse
 import com.reephub.praeter.data.remote.dto.UserDto
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,13 +38,13 @@ class LoginViewModel @Inject constructor(
     ///////////////
     fun makeCallLogin(user: UserDto) {
         Timber.d("makeCallLogin()")
-        viewModelScope.launch(ioContext) {
+        viewModelScope.launch(IO) {
             try {
                 supervisorScope {
                     val response = repository.login(user)
                     Timber.d("$response")
 
-                    withContext(mainContext) {
+                    withContext(Main) {
                         login.value = response
                     }
                 }
@@ -49,11 +53,5 @@ class LoginViewModel @Inject constructor(
                 Timber.e(e.message)
             }
         }
-    }
-
-
-    companion object {
-        val ioContext = Dispatchers.IO + Job()
-        val mainContext = Dispatchers.Main + Job()
     }
 }
