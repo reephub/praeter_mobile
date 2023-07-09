@@ -27,5 +27,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "build-logic"
-//include(":config")
+include(":config")
 //include(":convention")
