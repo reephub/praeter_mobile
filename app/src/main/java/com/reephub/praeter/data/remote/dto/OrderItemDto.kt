@@ -1,13 +1,15 @@
 package com.reephub.praeter.data.remote.dto
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class OrderItemDto(
-    @Json(name = "item") val item: String,
-    @Json(name = "amount") val amount: Int,
-    @Json(name = "price") val price: Double
+
+@Serializable
+data class OrderItemDto @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("item") val item: String,
+    @JsonNames("amount") val amount: Int,
+    @JsonNames("price") val price: Double
 ) {
     companion object {
 

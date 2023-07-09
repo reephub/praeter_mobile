@@ -1,6 +1,6 @@
 package com.reephub.praeter.data.remote.dto
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class UserResponse(val code: Int, val message: String, val token: String)

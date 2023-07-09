@@ -1,12 +1,11 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class GeocodedWaypoints constructor(
-    @Json(name = "geocoder_status")
-    val status: String,
-    @Json(name = "place_id")
-    val placeID: String
+@Serializable
+data class GeocodedWaypoints @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("geocoder_status") val status: String,
+    @JsonNames("place_id") val placeID: String
 )

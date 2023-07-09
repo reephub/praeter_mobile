@@ -1,7 +1,10 @@
 package com.reephub.praeter.data.remote.dto
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class LoginResponse(@Json(name = "message") val message: String)
+@Serializable
+data class LoginResponse @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("message") val message: String
+)

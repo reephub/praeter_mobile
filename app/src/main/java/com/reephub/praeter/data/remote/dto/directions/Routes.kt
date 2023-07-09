@@ -1,23 +1,23 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
+@Serializable
 class Routes constructor(
-    @Json(name = "bounds")
+    @JsonNames("bounds")
     val bounds: Bounds,
 
-    @Json(name = "copyrights")
+    @JsonNames("copyrights")
     val copyrights: String,
 
-    @Json(name = "overview_polyline")
+    @JsonNames("overview_polyline")
     val overviewPolyline: Polyline,
 
-    @Json(name = "legs")
+    @JsonNames("legs")
     val legs: List<Legs>,
 
-    @Json(name = "summary")
+    @JsonNames("summary")
     val summary: String
 ) {
     override fun toString(): String {

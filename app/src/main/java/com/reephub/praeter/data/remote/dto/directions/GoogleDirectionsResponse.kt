@@ -1,16 +1,16 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
+@Serializable
 class GoogleDirectionsResponse constructor(
-    @Json(name = "geocoded_waypoints")
+    @JsonNames("geocoded_waypoints")
     val geocodedWaypoints: List<GeocodedWaypoints>,
 
-    @Json(name = "routes")
+    @JsonNames("routes")
     val routes: List<Routes>,
 
-    @Json(name = "status")
+    @JsonNames("status")
     val status: String
 )

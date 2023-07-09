@@ -1,31 +1,32 @@
 package com.reephub.praeter.data.remote.dto
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class UserDto(
-    @Json(name = "gender")
+@Serializable
+data class UserDto @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("gender")
     var gender: String,
-    @Json(name = "firstName")
+    @JsonNames("firstName")
     var firstName: String,
-    @Json(name = "lastName")
+    @JsonNames("lastName")
     var lastName: String,
-    @Json(name = "email")
+    @JsonNames("email")
     var email: String,
-    @Json(name = "password")
+    @JsonNames("password")
     var password: String,
-    @Json(name = "phoneNumber")
+    @JsonNames("phoneNumber")
     var phoneNumber: String,
-    @Json(name = "dateOfBirth")
+    @JsonNames("dateOfBirth")
     var dateOfBirth: String,
-    @Json(name = "isPremium")
+    @JsonNames("isPremium")
     var isPremium: Boolean = false,
-    @Json(name = "isCustomer")
+    @JsonNames("isCustomer")
     var isCustomer: Boolean = false,
-    @Json(name = "isProvider")
+    @JsonNames("isProvider")
     var isProvider: Boolean = false,
-    @Json(name = "token")
+    @JsonNames("token")
     var token: String
 ) {
 

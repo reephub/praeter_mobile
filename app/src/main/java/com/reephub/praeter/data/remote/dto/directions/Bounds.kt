@@ -1,13 +1,14 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class Bounds constructor(
-    @Json(name = "northeast")
+@Serializable
+data class Bounds @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("northeast")
     val northeast: LatLongLocation,
-    @Json(name = "southwest")
+    @JsonNames( "southwest")
     val southwest: LatLongLocation
 ) {
     override fun toString(): String {

@@ -1,10 +1,9 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
+@Serializable
 class Polyline(
-    @Json(name = "points")
-    val points: String
+    @JsonNames("points") val points: String
 )

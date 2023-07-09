@@ -208,6 +208,11 @@ dependencies {
     implementation(libs.firebase.database)
 
 
+    /* Retrofit using RxJava3, Okhttp, Okhttp logging interceptor, Moshi  */
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.moshi)
+    implementation(libs.retrofit.kotlin.serialization)
+
     // OkHttp
     // define a BOM and its version
     implementation(platform(libs.okhttp.bom))

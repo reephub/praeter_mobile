@@ -1,23 +1,24 @@
 package com.reephub.praeter.data.remote.dto.directions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
-@JsonClass(generateAdapter = true)
-data class Legs(
-    @Json(name = "distance")
+@Serializable
+data class Legs @OptIn(ExperimentalSerializationApi::class) constructor(
+    @JsonNames("distance")
     val distance: TextValue,
-    @Json(name = "duration")
+    @JsonNames("duration")
     val duration: TextValue,
-    @Json(name = "end_address")
+    @JsonNames("end_address")
     val endAddress: String,
-    @Json(name = "end_location")
+    @JsonNames("end_location")
     val endLocation: LatLongLocation,
-    @Json(name = "start_address")
+    @JsonNames("start_address")
     val startAddress: String,
-    @Json(name = "start_location")
+    @JsonNames("start_location")
     val startLocation: LatLongLocation,
-    @Json(name = "steps")
+    @JsonNames("steps")
     val steps: List<Steps>,
 ) {
     override fun toString(): String {
