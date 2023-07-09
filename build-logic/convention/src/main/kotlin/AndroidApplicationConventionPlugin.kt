@@ -1,7 +1,7 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.riders.thelab.configureKotlinAndroid
-import com.riders.thelab.configurePrintApksTask
+import com.reephub.praeter.configureKotlinAndroid
+import com.reephub.praeter.configurePrintApksTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

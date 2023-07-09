@@ -1,7 +1,7 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import com.riders.thelab.configureKotlinAndroid
-import com.riders.thelab.configurePrintApksTask
+import com.reephub.praeter.configureKotlinAndroid
+import com.reephub.praeter.configurePrintApksTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
