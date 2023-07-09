@@ -1,0 +1,252 @@
+plugins {
+    /**
+     * You should use `apply false` in the top-level build.gradle file
+     * to add a Gradle plugin as a build dependency, but not apply it to the
+     * current (root) project. You should not use `apply false` in sub-projects.
+     * For more information, see
+     * Applying external plugins with same version to subprojects.
+     */
+
+    /**
+     * Defined in build-logic/convention/build.gradle.kts class
+     */
+    id("praeter.android.application")
+    id("praeter.android.application.compose")
+    id("praeter.android.application.jacoco")
+    id("praeter.android.hilt")
+    id("jacoco")
+    id("androidx.navigation.safeargs.kotlin")
+//    id("praeter.firebase")
+}
+
+android {
+
+    defaultConfig {
+        applicationId = "com.reephub.praeter"
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isDebuggable = false
+
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            isMinifyEnabled = false
+
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+
+    // Increase build gradle time
+    // https://medium.com/@AthorNZ/how-to-speed-up-your-slow-gradle-builds-5d9a9545f91a
+
+    // Disable multi-APK (in development)
+    /*if (project.hasProperty("devBuild")) {
+        splits.abi.enable = false
+        splits.density.enable = false
+        aaptOptions.cruncherEnabled = false
+    }*/
+
+    buildFeatures {
+        // Determines whether to support View Binding.
+        // Note that the viewBinding.enabled property is now deprecated.
+        viewBinding = true
+        // Determines whether to support Data Binding.
+        // Note that the dataBinding.enabled property is now deprecated.
+        dataBinding = true
+    }
+
+    lint {
+        abortOnError = false
+    }
+
+    namespace = "com.reephub.praeter"
+}
+
+dependencies {
+
+    /////////////////////////////
+    // General Dependencies
+    /////////////////////////////
+    //Kotlin
+    implementation(platform(libs.kotlin.bom))
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlin.parcelize)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.play.services)
+
+
+    // AndroidX
+    implementation(libs.androidx.multidex)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.palette)
+    implementation(libs.androidx.recyclerView)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.dynamicanimation)
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.window.manager)
+    implementation(libs.androidx.window.extensions)
+
+
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.compiler)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.animation)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.material.icons)
+    implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.androidx.compose.fonts)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Coil
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.compose)
+    implementation(libs.coil.kt.svg)
+
+    // Navigation
+    implementation(libs.androidx.navigation.ktx)
+    implementation(libs.androidx.navigation.fragment)
+
+    // CameraX
+    implementation(libs.androidx.camera)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+
+    // Media
+    implementation(libs.androidx.media)
+    implementation(libs.androidx.media.router)
+    implementation(libs.androidx.media.exoplayer)
+    implementation(libs.androidx.media.ui)
+
+    // Auto fill
+    implementation(libs.androidx.autofill)
+
+    // Room
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    androidTestImplementation(libs.room.testing)
+
+    // Worker & concurrent
+    implementation(libs.androidx.work.ktx)
+    implementation(libs.androidx.work.multiprocess)
+    implementation(libs.androidx.concurrent)
+    androidTestImplementation(libs.androidx.work.testing)
+
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewModel.ktx)
+    implementation(libs.androidx.lifecycle.viewModel.savedState)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    kapt(libs.androidx.lifecycle.compiler)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.process)
+
+    // Datastore and Preferences
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.preferences)
+
+    /* Hilt - We are going to use hilt.android which includes
+     * support for Activity and fragment injection so we need to include
+     * the following dependencies */
+    // Hilt
+    //implementation(Dependencies.hilt)
+    //kapt(Dependencies.hiltCompiler)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.ext.work)
+    kapt(libs.hilt.ext.compiler)
+
+    // Google Location (Maps / Places)
+    implementation(libs.maps)
+    implementation(libs.maps.utils)
+    implementation(libs.location)
+    implementation(libs.places)
+
+    // Firebase
+    // Import the Firebase BoM
+    implementation(platform(libs.firebase.bom))
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.database)
+
+
+    // OkHttp
+    // define a BOM and its version
+    implementation(platform(libs.okhttp.bom))
+    // define any required OkHttp artifacts without version
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+
+    // Dexter
+    implementation(libs.dexter)
+
+    // Glide
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
+    implementation(libs.glide.blurry)
+    implementation(libs.glide.transformation)
+    implementation(libs.glide.landscapist)
+
+    // Lottie
+    implementation(libs.lottie)
+    implementation(libs.lottie.compose)
+
+    // Timber : Logging library
+    implementation("com.jakewharton.timber:timber:5.0.0")
+
+
+    /////////////////////////////
+    // Tests Dependencies
+    /////////////////////////////
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.mockito)
+    androidTestImplementation(libs.mockito.android)
+
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
+
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+    kaptAndroidTest(libs.hilt.ext.compiler)
+}

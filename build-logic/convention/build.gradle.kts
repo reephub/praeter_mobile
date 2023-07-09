@@ -18,7 +18,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        val appId="com.reephub.praeter"
+        val appId = "praeter"
         register("androidApplicationCompose") {
             id = "${appId}.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"

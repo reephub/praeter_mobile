@@ -13,10 +13,10 @@ class FirebaseConventionPlugin : Plugin<Project> {
                 version = "4.3.15"
             }
             pluginManager.findPlugin("com.google.firebase.crashlytics").apply {
-                version = "2.9.4"
+                version = "2.9.6"
             }
             pluginManager.findPlugin("com.google.firebase.firebase-perf").apply {
-                version = "1.4.1"
+                version = "1.4.2"
             }
         }
     }

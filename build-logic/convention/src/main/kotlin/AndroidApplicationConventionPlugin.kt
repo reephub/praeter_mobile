@@ -24,6 +24,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.versionCode = AndroidConfiguration.Application.code
                 defaultConfig.versionName = AndroidConfiguration.Application.version.toString()
                 // configureFlavors(this)
+
+                // Enabling multidex support.
+                defaultConfig.multiDexEnabled = true
+
+                defaultConfig.vectorDrawables.useSupportLibrary = true
             }
             extensions.configure<ApplicationAndroidComponentsExtension> {
                 configurePrintApksTask(this)
