@@ -108,7 +108,7 @@ class LoginActivity : AppCompatActivity(),
 
     private fun initViewModelObservers() {
         Timber.d("initViewModelObservers()")
-        mViewModel.getLogin().observe(this, {
+        mViewModel.getLogin().observe(this) {
             when (it.message) {
                 "Login okay" -> {
                     hideLoading()
@@ -122,7 +122,7 @@ class LoginActivity : AppCompatActivity(),
                     Timber.e("else, ${it.message}")
                 }
             }
-        })
+        }
 
         mNetworkManager?.getConnectionState()?.observe(
             this,

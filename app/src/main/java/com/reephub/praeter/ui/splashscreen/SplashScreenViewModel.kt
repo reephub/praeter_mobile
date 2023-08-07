@@ -3,25 +3,26 @@ package com.reephub.praeter.ui.splashscreen
 import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import timber.log.Timber
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenViewModel : ViewModel() {
 
-    private val appVersion: MutableLiveData<String> = MutableLiveData()
+    /////////////////////////////////////
+    //
+    // Composable states
+    //
+    /////////////////////////////////////
+    private var appVersion: String? by mutableStateOf(null)
+        private set
 
-    /////////////////////////////////////
-    //
-    // OBSERVERS
-    //
-    /////////////////////////////////////
-    fun getAppVersion(): LiveData<String> {
-        return appVersion
+    fun updateAppVersion(version: String) {
+        this.appVersion = version
     }
-
 
     /////////////////////////////////////
     //
@@ -36,8 +37,7 @@ class SplashScreenViewModel : ViewModel() {
                     .getPackageInfo(activity.packageName, 0)
             val version = pInfo.versionName
 
-            appVersion.value = version
-
+            updateAppVersion(version)
         } catch (error: PackageManager.NameNotFoundException) {
             Timber.e(error)
         }

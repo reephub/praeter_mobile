@@ -2,6 +2,7 @@ package com.reephub.praeter.data.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.reephub.praeter.data.remote.dto.UserDto
 
@@ -31,6 +32,8 @@ data class User(
     @ColumnInfo(name = "isProvider")
     val isProvider: Boolean
 ) {
+
+    @Ignore
     constructor(firstName: String, lastName: String) : this(
         -1L,
         "",

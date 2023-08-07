@@ -16,7 +16,7 @@ plugins {
     id("praeter.android.hilt")
     id("jacoco")
     id("androidx.navigation.safeargs.kotlin")
-//    id("praeter.firebase")
+    id("praeter.firebase")
 }
 
 android {
@@ -234,9 +234,6 @@ dependencies {
     // Lottie
     implementation(libs.lottie)
     implementation(libs.lottie.compose)
-
-    // Timber : Logging library
-    implementation("com.jakewharton.timber:timber:5.0.0")
 
 
     /////////////////////////////

@@ -55,7 +55,7 @@ data class UserDto @OptIn(ExperimentalSerializationApi::class) constructor(
         false,
         false,
         false,
-        ""
+        "0I23D47IG16G4D1I4F24H1DDFII9E27G1FF733FH"
     )
 
     constructor(

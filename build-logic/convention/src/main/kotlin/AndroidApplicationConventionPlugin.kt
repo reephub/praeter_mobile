@@ -29,6 +29,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.multiDexEnabled = true
 
                 defaultConfig.vectorDrawables.useSupportLibrary = true
+
+                buildFeatures {
+                    buildConfig = true
+                }
             }
             extensions.configure<ApplicationAndroidComponentsExtension> {
                 configurePrintApksTask(this)

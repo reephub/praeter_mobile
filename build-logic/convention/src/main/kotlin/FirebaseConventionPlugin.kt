@@ -9,7 +9,7 @@ class FirebaseConventionPlugin : Plugin<Project> {
                 apply("com.google.firebase.crashlytics")
                 apply("com.google.firebase.firebase-perf")
             }
-            pluginManager.findPlugin("com.google.gms:google-services").apply {
+            /*pluginManager.findPlugin("com.google.gms:google-services").apply {
                 version = "4.3.15"
             }
             pluginManager.findPlugin("com.google.firebase.crashlytics").apply {
@@ -17,7 +17,7 @@ class FirebaseConventionPlugin : Plugin<Project> {
             }
             pluginManager.findPlugin("com.google.firebase.firebase-perf").apply {
                 version = "1.4.2"
-            }
+            }*/
         }
     }
 }

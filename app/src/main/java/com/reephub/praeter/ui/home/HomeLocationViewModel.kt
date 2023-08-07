@@ -68,7 +68,7 @@ class HomeLocationViewModel @Inject constructor(
             location.latitude,
             location.longitude,
             1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        ) as List<Address> // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         address.value = addresses?.get(0)
     }

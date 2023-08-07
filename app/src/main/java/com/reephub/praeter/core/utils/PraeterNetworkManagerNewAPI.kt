@@ -49,21 +49,25 @@ class PraeterNetworkManagerNewAPI private constructor(
     init {
         Timber.d("init")
 
-        connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         currentNetwork = connectivityManager.activeNetwork
         caps = connectivityManager.getNetworkCapabilities(currentNetwork)
         linkProperties = connectivityManager.getLinkProperties(currentNetwork)
 
-        connectivityManager.registerDefaultNetworkCallback(this)
 
-        @Suppress("DEPRECATION")
-        connectivityManager.allNetworks.forEach { network ->
-            connectivityManager.getNetworkInfo(network)?.apply {
-                if (type == ConnectivityManager.TYPE_WIFI) {
-                    isWifiConn = isWifiConn or isConnected
-                }
-                if (type == ConnectivityManager.TYPE_MOBILE) {
-                    isMobileConn = isMobileConn or isConnected
+        if (PraeterCompatibilityManager.isNougat()) {
+            connectivityManager.registerDefaultNetworkCallback(this)
+
+            @Suppress("DEPRECATION")
+            connectivityManager.allNetworks.forEach { network ->
+                connectivityManager.getNetworkInfo(network)?.apply {
+                    if (type == ConnectivityManager.TYPE_WIFI) {
+                        isWifiConn = isWifiConn or isConnected
+                    }
+                    if (type == ConnectivityManager.TYPE_MOBILE) {
+                        isMobileConn = isMobileConn or isConnected
+                    }
                 }
             }
         }

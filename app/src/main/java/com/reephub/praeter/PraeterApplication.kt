@@ -41,18 +41,15 @@ class PraeterApplication : MultiDexApplication() {
     private fun initFirebase() {
         // Operations on FirebaseCrashlytics.
         FirebaseApp.initializeApp(this@PraeterApplication)
-        mFirebaseCrashlytics = FirebaseCrashlytics.getInstance()
 
-        if (null == mFirebaseCrashlytics) {
-            Timber.e("Firebase initialisation error. Failed to get instance")
-        } else {
-            mFirebaseCrashlytics?.setCrashlyticsCollectionEnabled(true)
+        FirebaseCrashlytics.getInstance().apply {
+            setCrashlyticsCollectionEnabled(true)
             if (BuildConfig.DEBUG) {
-                mFirebaseCrashlytics?.setUserId("wayne")
+                setUserId("wayne")
             }
 
-            mFirebaseCrashlytics?.setCustomKey("Device", PraeterDeviceManager.getManufacturer())
-            mFirebaseCrashlytics?.setCustomKey("Model", PraeterDeviceManager.getModel())
+            setCustomKey("Device", PraeterDeviceManager.getManufacturer())
+            setCustomKey("Model", PraeterDeviceManager.getModel())
         }
     }
 
@@ -125,6 +122,4 @@ class PraeterApplication : MultiDexApplication() {
             return mInstance as PraeterApplication
         }
     }
-
-
 }
