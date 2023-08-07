@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.reephub.praeter.R
+import com.reephub.praeter.core.utils.PraeterCompatibilityManager
 import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
 import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.remote.dto.ClassesDto
@@ -31,17 +32,21 @@ class BottomSheetClassFragment : BottomSheetDialogFragment(),
 
     private var storedClass: ClassesDto? = null
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate()")
         assert(arguments != null)
 
-        if (null == arguments?.getParcelable(CLASS_ITEM_BUNDLE)) {
+        if (null == arguments?.getSerializable(CLASS_ITEM_BUNDLE)) {
             Timber.e("Bundle with key : CLASS_ITEM_BUNDLE, is null ")
             return
         }
 
-        storedClass = arguments?.getParcelable(CLASS_ITEM_BUNDLE)
+        storedClass = if (PraeterCompatibilityManager.isTiramisu()) arguments?.getSerializable(
+            CLASS_ITEM_BUNDLE,
+            ClassesDto::class.java
+        ) else arguments?.getSerializable(CLASS_ITEM_BUNDLE) as ClassesDto
     }
 
     override fun onCreateView(
@@ -74,15 +79,15 @@ class BottomSheetClassFragment : BottomSheetDialogFragment(),
             .getInstance(requireContext())
             .getConnectionState()
             .observe(
-                viewLifecycleOwner,
-                {
-                    isConnected = it
+                viewLifecycleOwner
+            ) {
+                isConnected = it
 
-                    UIManager.showConnectionStatusInSnackBar(
-                        requireActivity(),
-                        isConnected
-                    )
-                })
+                UIManager.showConnectionStatusInSnackBar(
+                    requireActivity(),
+                    isConnected
+                )
+            }
     }
 
     private fun setListeners() {
@@ -142,7 +147,7 @@ class BottomSheetClassFragment : BottomSheetDialogFragment(),
 
         fun newInstance(classDto: ClassesDto): BottomSheetClassFragment {
             val args = Bundle()
-            args.putParcelable(CLASS_ITEM_BUNDLE, classDto)
+            args.putSerializable(CLASS_ITEM_BUNDLE, classDto)
             val fragment = BottomSheetClassFragment()
             fragment.arguments = args
             return fragment

@@ -35,7 +35,6 @@ class PraeterLocationManager constructor(
 
         // The minimum time between updates in milliseconds
         private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 1).toLong() // 1 minute
-
     }
 
     // Declaring a Location Manager

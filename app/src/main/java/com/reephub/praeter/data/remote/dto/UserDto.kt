@@ -28,7 +28,7 @@ data class UserDto @OptIn(ExperimentalSerializationApi::class) constructor(
     var isProvider: Boolean = false,
     @JsonNames("token")
     var token: String
-) {
+): java.io.Serializable {
 
     constructor() : this(
         "",

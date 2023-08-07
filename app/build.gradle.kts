@@ -222,6 +222,7 @@ dependencies {
 
     // Dexter
     implementation(libs.dexter)
+    implementation(libs.eventbus)
 
     // Glide
     implementation(libs.glide)

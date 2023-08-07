@@ -45,8 +45,8 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.maps.android.PolyUtil
-import com.google.maps.android.ktx.addMarker
-import com.google.maps.android.ktx.awaitMap
+/*import com.google.maps.android.ktx.addMarker
+import com.google.maps.android.ktx.awaitMap*/
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -417,7 +417,7 @@ class HomeFragment : BaseFragment(),
         // Setup Google Map using coroutines
         lifecycle.coroutineScope.launchWhenCreated {
             Timber.d("Setup Google Map using coroutines")
-            mMap = mapFragment.awaitMap()
+            mMap /*= mapFragment.awaitMap()*/
 
             setupMap()
 
@@ -509,7 +509,6 @@ class HomeFragment : BaseFragment(),
 
         setLocationSettings()
         hideLoading()
-
     }
 
     private fun setLocationSettings() {
@@ -517,6 +516,7 @@ class HomeFragment : BaseFragment(),
         mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
         mCriteria = Criteria()
         mProvider = mLocationManager?.getBestProvider(mCriteria!!, true)!!
+
         if (null == mProvider) {
             Timber.e("Cannot get location please enable position")
             val locationManager = PraeterLocationManager(requireActivity(), requireActivity())
@@ -541,7 +541,6 @@ class HomeFragment : BaseFragment(),
                     e.printStackTrace()
                 }
             }
-
         }
     }
 
@@ -768,9 +767,9 @@ class HomeFragment : BaseFragment(),
                 Timber.d("final place : $currentPlace")
 
                 place.latLng?.let {
-                    mMap.addMarker {
+                    /*mMap.addMarker {
                         position(it)
-                    }
+                    }*/
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
                 }
 

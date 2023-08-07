@@ -102,7 +102,7 @@ class PraeterCompatibilityManager private constructor() {
          * Red Velvet Cake
          */
         fun isR(): Boolean {
-            return getSdkVersion() == VERSION_CODES.R
+            return getSdkVersion() >= VERSION_CODES.R
         }
 
 
@@ -111,8 +111,14 @@ class PraeterCompatibilityManager private constructor() {
          * Snow Cone
          */
         fun isS(): Boolean {
-            return getSdkVersion() == VERSION_CODES.S
+            return getSdkVersion() >= VERSION_CODES.S
         }
+
+        /**
+         * Determine if the device is running API level 33 or higher.
+         * Tiramisu
+         */
+        fun isTiramisu(): Boolean = getSdkVersion() >= VERSION_CODES.TIRAMISU
 
 
         /**
@@ -202,6 +208,7 @@ class PraeterCompatibilityManager private constructor() {
             if (name.startsWith("O_")) return "Oreo++"
             return if (name.startsWith("N_")) "Nougat++" else "UNKNOWN"
         }
+
     }
 }
 

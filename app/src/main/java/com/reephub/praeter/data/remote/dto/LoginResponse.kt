@@ -7,4 +7,4 @@ import kotlinx.serialization.json.JsonNames
 @Serializable
 data class LoginResponse @OptIn(ExperimentalSerializationApi::class) constructor(
     @JsonNames("message") val message: String
-)
+): java.io.Serializable

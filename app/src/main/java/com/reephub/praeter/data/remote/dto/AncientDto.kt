@@ -9,4 +9,4 @@ data class AncientDto(
     var name: String? = null,
     var latitude: Double = 0.0,
     var longitude: Double = 0.0
-)
+): java.io.Serializable
