@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,7 +31,11 @@ fun Context.findActivity(): Activity? = when (this) {
 
 @Composable
 @ReadOnlyComposable
-private fun resourcesAsComposable(): Resources = LocalContext.current.resources
+fun resourcesAsComposable(): Resources = LocalContext.current.resources
+
+@Composable
+@ReadOnlyComposable
+fun isPreview(): Boolean = LocalInspectionMode.current
 
 
 @Composable

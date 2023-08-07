@@ -17,10 +17,10 @@ class SplashScreenViewModel : ViewModel() {
     // Composable states
     //
     /////////////////////////////////////
-    private var appVersion: String? by mutableStateOf(null)
+    var appVersion: String? by mutableStateOf(null)
         private set
 
-    fun updateAppVersion(version: String) {
+    private fun updateAppVersion(version: String) {
         this.appVersion = version
     }
 

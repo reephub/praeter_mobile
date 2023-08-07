@@ -28,6 +28,7 @@ import com.reephub.praeter.R
 import com.reephub.praeter.core.compose.annotation.DevicePreviews
 import com.reephub.praeter.core.compose.theme.PraeterTheme
 import com.reephub.praeter.core.compose.utils.findActivity
+import com.reephub.praeter.core.compose.utils.isPreview
 import com.reephub.praeter.ui.login.LoginActivity
 import kotlinx.coroutines.delay
 import timber.log.Timber
@@ -55,7 +56,7 @@ fun SplashScreenContent(viewModel: SplashScreenViewModel) {
                     painter = painterResource(id = R.drawable.ic_praeter_logo),
                     contentDescription = "praeter logo"
                 )
-                AnimatedVisibility(visible = if (LocalInspectionMode.current) true else expanded) {
+                AnimatedVisibility(visible = if (isPreview()) true else expanded) {
                     Text(text = stringResource(id = R.string.splash_catch_phrase))
                 }
             }
@@ -64,10 +65,17 @@ fun SplashScreenContent(viewModel: SplashScreenViewModel) {
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(36.dp),
-                visible = if (LocalInspectionMode.current) true else loadingVisible
+                visible = if (isPreview()) true else loadingVisible
             ) {
                 CircularProgressIndicator()
             }
+
+            Text(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(36.dp),
+                text = if (isPreview()) "1.0.0" else "${viewModel.appVersion}"
+            )
         }
     }
 

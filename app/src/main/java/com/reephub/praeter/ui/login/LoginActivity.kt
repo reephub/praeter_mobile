@@ -19,10 +19,18 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.reephub.praeter.BuildConfig
 import com.reephub.praeter.R
 import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
@@ -34,12 +42,10 @@ import com.reephub.praeter.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity(),
-    CoroutineScope,
+class LoginActivity : ComponentActivity(), CoroutineScope,
     View.OnClickListener, TextView.OnEditorActionListener {
 
     override val coroutineContext: CoroutineContext
@@ -62,32 +68,28 @@ class LoginActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _viewBinding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        //  setContentView(binding.root)
 
         setListeners()
         initViewModelObservers()
 
         if (BuildConfig.DEBUG) {
-            preloadData()
-            //getConnectionInfo()
-
-            mNetworkManager = PraeterNetworkManagerNewAPI.getInstance(this@LoginActivity)
-            /*if (!mNetworkManager?.isWifiConn!!) {
-                mNetworkManager?.changeWifiState(
-                    PraeterApplication.getInstance().applicationContext,
-                    this@LoginActivity
-                )
-            }*/
-
-            val isOnline = mNetworkManager?.isOnline()
-            Timber.d("Is app online : $isOnline")
+            mViewModel.checkConnectivity(this@LoginActivity)
         }
 
-        lifecycleScope.launch(coroutineContext) {
-            delay(TimeUnit.MILLISECONDS.toMillis(750))
-            binding.motionLayout.transitionToEnd()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                setContent {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        LoginContent(viewModel = mViewModel)
+                    }
+                }
+            }
         }
-
     }
 
     override fun onDestroy() {
@@ -114,10 +116,12 @@ class LoginActivity : AppCompatActivity(),
                     hideLoading()
                     onLoginSuccessful()
                 }
+
                 "Not Found" -> {
                     hideLoading()
                     onLoginFailed()
                 }
+
                 else -> {
                     Timber.e("else, ${it.message}")
                 }
@@ -125,21 +129,15 @@ class LoginActivity : AppCompatActivity(),
         }
 
         mNetworkManager?.getConnectionState()?.observe(
-            this,
-            {
-                UIManager.showConnectionStatusInSnackBar(
-                    this,
-                    it
-                )
-            })
+            this
+        ) {
+            UIManager.showConnectionStatusInSnackBar(
+                this,
+                it
+            )
+        }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun preloadData() {
-        Timber.d("preloadData()")
-        binding.inputEmail.setText("janedoe@test.fr")
-        binding.inputPassword.setText("test")
-    }
 
     @SuppressLint("NewApi")
     private fun getConnectionInfo() {
@@ -225,12 +223,12 @@ class LoginActivity : AppCompatActivity(),
 
         showLoading()
 
-        mViewModel.makeCallLogin(
+        /*mViewModel.makeCallLogin(
             UserDto(
                 email,
                 LoginUtils.encodedHashedPassword(LoginUtils.convertToSHA1(password)!!)!!
             )
-        )
+        )*/
     }
 
 
@@ -339,9 +337,11 @@ class LoginActivity : AppCompatActivity(),
 
                 isPasswordVisible = !isPasswordVisible
             }
+
             R.id.btn_enter -> {
                 login()
             }
+
             R.id.btn_no_account_register -> {
                 callSignUpActivity()
             }

@@ -16,10 +16,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreenActivity : ComponentActivity(), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + Job()
+class SplashScreenActivity : ComponentActivity() {
 
     private val mViewModel: SplashScreenViewModel by viewModels()
 
