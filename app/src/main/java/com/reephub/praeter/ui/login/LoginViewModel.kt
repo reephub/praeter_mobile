@@ -144,7 +144,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun validateEmail() = username.isNotBlank()
-    private fun validatePassword() = password.trim().isBlank()
+    private fun validatePassword() = password.trim().isNotBlank()
     fun makeCallLogin(user: UserDto) {
         Timber.d("makeCallLogin()")
         viewModelScope.launch(IO + SupervisorJob()) {

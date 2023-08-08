@@ -99,7 +99,7 @@ fun Username(viewModel: LoginViewModel, focusRequester: FocusRequester) {
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun Password(viewModel: LoginViewModel, focusRequester: FocusRequester)  {
+fun Password(viewModel: LoginViewModel, focusRequester: FocusRequester) {
     val status by viewModel.loginUiState.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -164,7 +164,8 @@ fun SubmitButton(viewModel: LoginViewModel) = PraeterTheme {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        onClick = { viewModel.login() }
+        onClick = { viewModel.login() },
+        enabled = status is LoginUiState.None || status is LoginUiState.Success
     ) {
         Text(text = stringResource(id = R.string.btn_sign_in))
     }
