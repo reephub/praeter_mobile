@@ -1,10 +1,24 @@
 package com.reephub.praeter.core.compose.theme
 
+import android.app.Activity
+import android.os.Build
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 
 private val LightColors = lightColorScheme(
@@ -73,19 +87,86 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun PraeterTheme(
-  useDarkTheme: Boolean = isSystemInDarkTheme(),
-  content: @Composable() () -> Unit
-) {
-  val colors = if (!useDarkTheme) {
-    LightColors
-  } else {
-    DarkColors
-  }
+private fun animateColor(targetValue: Color) =
+    animateColorAsState(
+        targetValue = targetValue,
+        animationSpec = tween(durationMillis = 2000)
+    ).value
 
-  MaterialTheme(
-    colorScheme = colors,
-      typography = Typography,
-    content = content
-  )
+@Composable
+fun Colors.switch() = copy(
+    primary = animateColor(primary),
+    primaryVariant = animateColor(primaryVariant),
+    secondary = animateColor(secondary),
+    secondaryVariant = animateColor(secondaryVariant),
+    background = animateColor(background),
+    surface = animateColor(surface),
+    error = animateColor(error),
+    onPrimary = animateColor(onPrimary),
+    onSecondary = animateColor(onSecondary),
+    onBackground = animateColor(onBackground),
+    onSurface = animateColor(onSurface),
+    onError = animateColor(onError)
+)
+
+@Composable
+fun ColorScheme.switch() = copy(
+    primary = animateColor(primary),
+    onPrimary = animateColor(onPrimary),
+    primaryContainer = animateColor(primaryContainer),
+    secondary = animateColor(secondary),
+    onSecondary = animateColor(onSecondary),
+    secondaryContainer = animateColor(secondaryContainer),
+    onSecondaryContainer = animateColor(onSecondaryContainer),
+    tertiary = animateColor(tertiary),
+    onTertiary = animateColor(onTertiary),
+    tertiaryContainer = animateColor(tertiaryContainer),
+    background = animateColor(background),
+    surface = animateColor(surface),
+    error = animateColor(error),
+    onError = animateColor(onError),
+    errorContainer = animateColor(errorContainer),
+    onErrorContainer = animateColor(onErrorContainer),
+    onBackground = animateColor(onBackground),
+    onSurface = animateColor(onSurface)
+)
+
+@Composable
+fun PraeterTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    // Dynamic color is available on Android 12+
+    dynamicColor: Boolean = true,
+    content: @Composable() () -> Unit
+) {
+    /*val colors = if (!useDarkTheme) {
+      LightColors
+    } else {
+      DarkColors
+    }*/
+    val colors = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+
+        useDarkTheme -> DarkColors
+        else -> LightColors
+    }
+
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            (view.context as Activity).window.statusBarColor = colors.primary.toArgb()
+            WindowCompat.getInsetsController(
+                (view.context as Activity).window,
+                view
+            ).isAppearanceLightStatusBars = useDarkTheme
+        }
+    }
+
+    MaterialTheme(
+        colorScheme = colors.switch(),
+        typography = Typography,
+        content = content
+    )
 }
