@@ -3,8 +3,8 @@ package com.reephub.praeter.ui.signup.userform
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,14 +30,25 @@ fun UserFormContent(navController: NavHostController, viewModel: SignUpViewModel
 
     PraeterTheme {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+            /* .onGloballyPositioned {
+
+             }*/,
             state = lazyListState
         ) {
             item {
-                OutlinedTextField(
+                // Last name
+                TextField(
                     value = viewModel.lastname,
                     onValueChange = { viewModel.updateLastname(it) },
                     label = { Text(text = stringResource(id = R.string.hint_last_name)) })
+
+                // First name
+                TextField(
+                    value = viewModel.lastname,
+                    onValueChange = { viewModel.updateFirstname(it) },
+                    label = { Text(text = stringResource(id = R.string.hint_first_name)) })
             }
         }
     }

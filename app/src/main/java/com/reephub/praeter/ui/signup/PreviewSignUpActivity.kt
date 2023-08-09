@@ -1,5 +1,8 @@
 package com.reephub.praeter.ui.signup
 
+import android.annotation.SuppressLint
+import android.content.Context
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,11 +29,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.reephub.praeter.R
 import com.reephub.praeter.core.compose.annotation.DevicePreviews
 import com.reephub.praeter.core.compose.theme.PraeterTheme
+import com.reephub.praeter.core.compose.utils.BackInvokeHandler
 import com.reephub.praeter.core.compose.utils.findActivity
+import com.reephub.praeter.core.utils.PraeterCompatibilityManager
 import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.local.model.Screen
 import com.reephub.praeter.ui.signup.plan.PlanContent
@@ -50,6 +57,7 @@ fun SignUpProgression(
     modifier: Modifier,
     navController: NavHostController
 ) {
+    Timber.v("@Composable | SignUpProgression()")
     PraeterTheme {
         Row(
             modifier = Modifier.then(modifier),
@@ -57,9 +65,6 @@ fun SignUpProgression(
             verticalAlignment = Alignment.Top
         ) {
             repeat(viewModel.routesIndexed.size) {
-
-                val index: Int = viewModel.getIndexForRoute(viewModel.currentRoute.route)
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -69,11 +74,11 @@ fun SignUpProgression(
                 ) {
                     LinearProgressIndicator(
                         modifier = Modifier.height(4.dp),
-                        progress = if (index > it) 0.0f else 1.0f
+                        progress = if (viewModel.currentIndex < it) 0.0f else 1.0f
                     )
 
                     Text(
-                        text = stringResource(id = viewModel.routesIndexed[it].resourceId),
+                        text = stringResource(id = viewModel.routesIndexed[it].first.resourceId),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300
                     )
@@ -83,20 +88,28 @@ fun SignUpProgression(
     }
 }
 
+@SuppressLint("NewApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpContent(viewModel: SignUpViewModel) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val navController = rememberNavController()
-    navController.addOnDestinationChangedListener { controller, destination, arguments ->
-        Timber.i("navController.addOnDestinationChangedListener | onDestinationChanged() | ${destination.route}")
+    navController.apply {
+        this.setLifecycleOwner(lifecycleOwner)
+        this.enableOnBackPressed(true)
+        this.addOnDestinationChangedListener { controller, destination, arguments ->
+            Timber.i("navController.addOnDestinationChangedListener | onDestinationChanged() | ${destination.route}")
 
-        if (controller.popBackStack()) {
-            Timber.e("controller.popBackStack() | attempt to go back ?")
-        }
+            /*if (controller.popBackStack()) {
+                Timber.e("controller.popBackStack() | attempt to go back ?")
+            }*/
 
-        destination.route?.let { currentRoute ->
-            viewModel.updateCurrentRoute(Screen.findByRoute(currentRoute))
+            destination.route?.let { currentRoute ->
+                    val screen: Screen = Screen.findByRoute(currentRoute)
+                    viewModel.getIndexForRoute(screen.route)
+                    viewModel.updateCurrentRoute(screen)
+            }
         }
     }
 
@@ -120,7 +133,9 @@ fun SignUpContent(viewModel: SignUpViewModel) {
                 )
 
                 Column(
-                    modifier = Modifier.weight(2f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(2f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -183,7 +198,7 @@ fun SignUpContent(viewModel: SignUpViewModel) {
                                         navController.navigate(Screen.SuccessfulSignUp.route)
                                     } else {
                                         Timber.e("runCatching | Else branch")
-                                        val nextRoute = viewModel.routesIndexed[index + 1].route
+                                        val nextRoute = viewModel.routesIndexed[index + 1].first.route
                                         Timber.d("  navController.navigate($nextRoute)")
                                         navController.navigate(nextRoute)
                                     }
@@ -211,10 +226,23 @@ fun SignUpContent(viewModel: SignUpViewModel) {
         }
     }
 
-    BackHandler {
-        Timber.d("BackHandler | onBackClicked()")
+    if (PraeterCompatibilityManager.isTiramisu()) {
+        BackInvokeHandler(handleBackHandler = true) {
+            Timber.d("BackInvokeHandler | onBackClicked()")
 
-        (context.findActivity() as SignUpActivity).finish()
+            navController.popBackStack()
+
+            navController.currentDestination?.route?.let { currentRoute ->
+                val screen: Screen = Screen.findByRoute(currentRoute)
+                viewModel.getIndexForRoute(screen.route)
+                viewModel.updateCurrentRoute(screen)
+            }
+        }
+    } else {
+        BackHandler {
+            Timber.d("BackHandler | onBackClicked()")
+            (context.findActivity() as SignUpActivity).finish()
+        }
     }
 }
 
@@ -227,7 +255,9 @@ fun SignUpContent(viewModel: SignUpViewModel) {
 @DevicePreviews
 @Composable
 private fun Preview() {
+    val context: Context = LocalContext.current
     val viewModel: SignUpViewModel = hiltViewModel()
+    val backDispatcher = (context.findActivity() as SignUpActivity).onBackPressedDispatcher
 
     PraeterTheme {
         SignUpContent(viewModel = viewModel)

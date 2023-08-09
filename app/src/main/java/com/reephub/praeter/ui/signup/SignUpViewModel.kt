@@ -26,17 +26,17 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val repository: IRepository) : ViewModel() {
 
-    val routesIndexed: List<Screen> = listOf(
-        Screen.Terms,
-        Screen.UserForm,
-        Screen.Plan,
-        Screen.Premium,
-        Screen.SuccessfulSignUp
+    val routesIndexed: List<Pair<Screen, Int>> = listOf(
+        Pair(Screen.Terms, 0),
+        Pair(Screen.UserForm, 1),
+        Pair(Screen.Plan, 2),
+        Pair(Screen.Premium, 3),
+        Pair(Screen.SuccessfulSignUp, 4)
     )
 
     fun findRoute(navController: NavHostController): Screen? {
         Timber.d("findRoute() | ${navController.currentDestination?.route}")
-        return routesIndexed.find { it.route == navController.currentDestination?.route }
+        return routesIndexed.find { it.first.route == navController.currentDestination?.route }?.first
     }
 
     fun getIndexForRoute(route: String): Int = Screen
@@ -44,12 +44,16 @@ class SignUpViewModel @Inject constructor(private val repository: IRepository) :
         .run {
             if (Screen.UNKOWN == this) {
                 -1
-            } else
-                routesIndexed.indexOf(this)
+            } else {
+                updateCurrentIndex(routesIndexed.indexOfFirst { it.first == this })
+                routesIndexed.indexOfFirst { it.first == this }
+            }
         }
 
 
     var currentRoute: Screen by mutableStateOf(Screen.Terms)
+        private set
+    var currentIndex: Int by mutableStateOf(0)
         private set
 
     var isTermsChecked: Boolean by mutableStateOf(false)
@@ -73,6 +77,10 @@ class SignUpViewModel @Inject constructor(private val repository: IRepository) :
 
     fun updateCurrentRoute(newScreen: Screen) {
         this.currentRoute = newScreen
+    }
+
+    fun updateCurrentIndex(newIndex: Int) {
+        this.currentIndex = newIndex
     }
 
     fun updateIsTermsChecked(checked: Boolean) {
