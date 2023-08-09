@@ -19,8 +19,8 @@ androidxAppCompat = "1.6.1"
 androidxAutoFill = "1.1.0"
 androidxBrowser = "1.5.0"
 # Camera
-androidxCamera = "1.2.0"
-androidxCameraAlpha = "1.3.0-alpha02"
+androidxCamera = "1.2.3"
+androidxCameraAlpha = "1.3.0-beta02"
 # Compose
 androidxComposeBom = "2023.06.01"
 androidxComposeCompiler = "1.5.1"
@@ -86,7 +86,7 @@ jacoco = "0.8.7"
 junit4 = "4.13.2"
 kotlin = "1.9.0"
 kotlinReflect = "1.9.0"
-kotlinxCoroutines = "1.7.1"
+kotlinxCoroutines = "1.7.2"
 kotlinxDatetime = "0.4.0"
 kotlinxParcelize = "1.9.0"
 kotlinPlayServices = "1.7.1"
@@ -103,8 +103,7 @@ mapsUtils = "3.4.0"
 media = "1.6.0"
 mediaRouter = "1.4.0"
 media3 = "1.1.0"
-mockito = "4.8.1"
-moshi = "1.14.0"
+mockito = "5.2.0"
 mpAndroidChart = "3.1.0"
 okhttp = "4.11.0"
 places = "3.2.0"
@@ -262,9 +261,6 @@ maps = { group = "com.google.android.gms", name = "play-services-maps", version.
 maps-utils = { group = "com.google.maps.android", name = "android-maps-utils", version.ref = "mapsUtils" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito" }
-moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
-moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }

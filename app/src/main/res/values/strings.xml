@@ -12,6 +12,7 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="btn_continue">Continue</string>
+    <string name="btn_validate">Validate</string>
     <string name="later">Later</string>
     <string name="enter">Enter</string>
     <string name="exit">Quit</string>

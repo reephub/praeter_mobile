@@ -61,12 +61,12 @@ object UIManager {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     fun showAlertDialog(
-        activity: Activity?,
-        context: Context?,
-        title: String?,
-        message: String?,
+        activity: Activity,
+        context: Context,
+        title: String,
+        message: String,
         negativeMessage: String,
-        positiveMessage: String?
+        positiveMessage: String
     ) {
         Timber.i("Show alert dialog")
         val alertDialog = AlertDialog.Builder(context)
@@ -101,14 +101,15 @@ object UIManager {
     }
 
 
-    fun showActionInToast(context: Context?, textToShow: String?) {
-        Toast.makeText(context, textToShow, Toast.LENGTH_SHORT).show()
-    }
+    fun showActionInToast(context: Context, message: String): Unit =
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
 
     fun showActionInSnackBar(
-        context: Activity, view: View?,
-        message: String, type: SnackBarType,
+        context: Activity,
+        view: View,
+        message: String,
+        type: SnackBarType,
         actionText: String?,
         listener: View.OnClickListener?
     ) {

@@ -3,9 +3,18 @@ package com.reephub.praeter.ui.signup
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,6 +25,7 @@ import com.reephub.praeter.ui.signup.premium.PremiumFragment
 import com.reephub.praeter.ui.signup.successfulsignup.SuccessfulSignUpFragment
 import com.reephub.praeter.ui.signup.terms.TermsOfServiceFragment
 import com.reephub.praeter.ui.signup.userform.UserFormFragment
+import com.reephub.praeter.ui.splashscreen.SplashScreenContent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -23,26 +33,12 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
-class SignUpActivity : AppCompatActivity(),
-    CoroutineScope, NextViewPagerClickListener {
+class SignUpActivity : ComponentActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
-    private var _viewBinding: ActivitySignUpBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _viewBinding!!
-
     private val mViewModel: SignUpViewModel by viewModels()
-
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private var pagerAdapter: FragmentStateAdapter? = null
-    private var fragmentList: MutableList<Fragment>? = null
 
     /////////////////////////////////////
     //
@@ -51,70 +47,31 @@ class SignUpActivity : AppCompatActivity(),
     /////////////////////////////////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        _viewBinding = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initViews()
         initViewModelsObservers()
+
+        lifecycleScope.launch(coroutineContext) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                setContent {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        SignUpContent(mViewModel)
+                    }
+                }
+            }
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _viewBinding = null
-    }
 
     /////////////////////////////////////
     //
     // CLASSES METHODS
     //
     /////////////////////////////////////
-
-    private fun initViews() {
-        // Instantiate a ViewPager2 and a PagerAdapter.
-        fragmentList = ArrayList()
-
-        // add Fragments in your ViewPagerFragmentAdapter class
-        fragmentList!!.add(TermsOfServiceFragment.newInstance())
-        fragmentList!!.add(UserFormFragment.newInstance())
-        fragmentList!!.add(PlanFragment.newInstance())
-        fragmentList!!.add(PremiumFragment.newInstance())
-        fragmentList!!.add(SuccessfulSignUpFragment.newInstance())
-
-        pagerAdapter = ViewPager2Adapter(this@SignUpActivity, fragmentList as ArrayList<Fragment>)
-
-        // set Orientation in your ViewPager2
-        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.viewPager.adapter = pagerAdapter
-
-        binding.viewPager.isUserInputEnabled = false
-
-        binding.tabLayout.let { tabLayout ->
-            binding.viewPager.let { viewPager2 ->
-                TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-                    //Some implementation
-                }.attach()
-            }
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private fun initViewModelsObservers() {
         Timber.d("initViewModelsObservers()")
     }
-
-    override fun onNextViewPagerClicked() {
-        Timber.d("onNextViewPagerClicked()")
-        binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
-    }
-
-    override fun onLastViewPagerClicked() {
-        binding.viewPager.setCurrentItem(pagerAdapter?.itemCount?.minus(1)!!, true)
-    }
-
-    override fun onFinishSignUp() {
-        startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
-        finish()
-    }
-
 }

@@ -8,7 +8,7 @@ class GoogleDirectionsResponse constructor(
     @JsonNames("geocoded_waypoints")
     val geocodedWaypoints: List<GeocodedWaypoints>,
 
-    @JsonNames("routes")
+    @JsonNames("routesIndexed")
     val routes: List<Routes>,
 
     @JsonNames("status")

@@ -1,22 +1,115 @@
 package com.reephub.praeter.ui.signup
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.reephub.praeter.data.IRepository
+import com.reephub.praeter.data.local.model.Screen
 import com.reephub.praeter.data.remote.dto.UserDto
 import com.reephub.praeter.data.remote.dto.UserResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
-    private val repository: IRepository
-) : ViewModel() {
+class SignUpViewModel @Inject constructor(private val repository: IRepository) : ViewModel() {
+
+    val routesIndexed: List<Screen> = listOf(
+        Screen.Terms,
+        Screen.UserForm,
+        Screen.Plan,
+        Screen.Premium,
+        Screen.SuccessfulSignUp
+    )
+
+    fun findRoute(navController: NavHostController): Screen? {
+        Timber.d("findRoute() | ${navController.currentDestination?.route}")
+        return routesIndexed.find { it.route == navController.currentDestination?.route }
+    }
+
+    fun getIndexForRoute(route: String): Int = Screen
+        .findByRoute(route)
+        .run {
+            if (Screen.UNKOWN == this) {
+                -1
+            } else
+                routesIndexed.indexOf(this)
+        }
+
+
+    var currentRoute: Screen by mutableStateOf(Screen.Terms)
+        private set
+
+    var isTermsChecked: Boolean by mutableStateOf(false)
+        private set
+    var lastname: String by mutableStateOf("")
+        private set
+    var firstname: String by mutableStateOf("")
+        private set
+    var email: String by mutableStateOf("")
+        private set
+    var password: String by mutableStateOf("")
+        private set
+    var confirmedPassword: String by mutableStateOf("")
+        private set
+    var phoneNumber: String by mutableStateOf("")
+        private set
+    var dateOfBirth: String by mutableStateOf("")
+        private set
+    var isPremiumPlanSelected: Boolean by mutableStateOf(false)
+        private set
+
+    fun updateCurrentRoute(newScreen: Screen) {
+        this.currentRoute = newScreen
+    }
+
+    fun updateIsTermsChecked(checked: Boolean) {
+        this.isTermsChecked = checked
+    }
+
+    fun updateLastname(value: String) {
+        this.lastname = value
+    }
+
+    fun updateFirstname(value: String) {
+        this.firstname = value
+    }
+
+    fun updateEmail(value: String) {
+        this.email = value
+    }
+
+    fun updatePassword(value: String) {
+        this.password = value
+    }
+
+    fun updateConfirmedPassword(value: String) {
+        this.confirmedPassword = value
+    }
+
+    fun updatePhoneNumber(value: String) {
+        this.phoneNumber = value
+    }
+
+    fun updateDateOfBirth(value: String) {
+        this.dateOfBirth = value
+    }
+
+    fun updateIsPremiumPLanSelected(isPremium: Boolean) {
+        this.isPremiumPlanSelected = isPremium
+    }
 
     private val shouldShowHideLoading: MutableLiveData<Boolean> = MutableLiveData()
     private val shouldEnableDisableUI: MutableLiveData<Boolean> = MutableLiveData()
@@ -29,10 +122,10 @@ class SignUpViewModel @Inject constructor(
     private lateinit var currentUser: UserDto
 
     /////////////////////////////////////
-    //
-    // OBSERVERS
-    //
-    /////////////////////////////////////
+//
+// OBSERVERS
+//
+/////////////////////////////////////
     fun getShowHideLoading(): LiveData<Boolean> = shouldShowHideLoading
     fun getEnabledDisableUI(): LiveData<Boolean> = shouldEnableDisableUI
     fun getSuccessCreditCard(): LiveData<Boolean> = shouldShowSuccessCreditCard
@@ -42,11 +135,11 @@ class SignUpViewModel @Inject constructor(
 
 
     /////////////////////////////////////
-    //
-    // CLASSES METHODS
-    //
-    /////////////////////////////////////
-    // Form
+//
+// CLASSES METHODS
+//
+/////////////////////////////////////
+// Form
     fun setFormUser(
         gender: String,
         firstName: String,
@@ -93,7 +186,7 @@ class SignUpViewModel @Inject constructor(
         currentUser.isCustomer = true
         currentUser.isProvider = false
 
-        viewModelScope.launch(ioContext) {
+        viewModelScope.launch(IO) {
             try {
                 supervisorScope {
                     val saveResponse = repository.saveUser(currentUser)
@@ -102,7 +195,7 @@ class SignUpViewModel @Inject constructor(
                     // Simulate long-time running operation
                     delay(3000)
 
-                    withContext(mainContext) {
+                    withContext(Main) {
                         if (401 == saveResponse.code) {
                             saveUserError.value = saveResponse
                         }
@@ -116,11 +209,5 @@ class SignUpViewModel @Inject constructor(
                 Timber.e(e.message)
             }
         }
-    }
-
-
-    companion object {
-        val ioContext = Dispatchers.IO + Job()
-        val mainContext = Dispatchers.Main + Job()
     }
 }
