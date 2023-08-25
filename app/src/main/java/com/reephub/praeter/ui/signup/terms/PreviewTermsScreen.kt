@@ -1,5 +1,6 @@
 package com.reephub.praeter.ui.signup.terms
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,6 +60,7 @@ fun TermsContent(viewModel: SignUpViewModel) {
                     checked = viewModel.isTermsChecked,
                     onCheckedChange = { viewModel.updateIsTermsChecked(it) })
                 Text(
+                    modifier = Modifier.clickable { viewModel.updateIsTermsChecked(!viewModel.isTermsChecked) },
                     text = stringResource(id = R.string.accept_agreement_license),
                     color = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )

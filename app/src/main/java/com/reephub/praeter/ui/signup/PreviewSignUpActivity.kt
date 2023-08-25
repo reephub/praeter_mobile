@@ -2,7 +2,6 @@ package com.reephub.praeter.ui.signup
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -29,15 +27,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.reephub.praeter.R
 import com.reephub.praeter.core.compose.annotation.DevicePreviews
 import com.reephub.praeter.core.compose.theme.PraeterTheme
 import com.reephub.praeter.core.compose.utils.BackInvokeHandler
 import com.reephub.praeter.core.compose.utils.findActivity
 import com.reephub.praeter.core.utils.PraeterCompatibilityManager
-import com.reephub.praeter.core.utils.UIManager
 import com.reephub.praeter.data.local.model.Screen
 import com.reephub.praeter.ui.signup.plan.PlanContent
 import com.reephub.praeter.ui.signup.premium.PremiumContent
@@ -89,7 +84,6 @@ fun SignUpProgression(
 }
 
 @SuppressLint("NewApi")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpContent(viewModel: SignUpViewModel) {
     val context = LocalContext.current
@@ -106,9 +100,9 @@ fun SignUpContent(viewModel: SignUpViewModel) {
             }*/
 
             destination.route?.let { currentRoute ->
-                    val screen: Screen = Screen.findByRoute(currentRoute)
-                    viewModel.getIndexForRoute(screen.route)
-                    viewModel.updateCurrentRoute(screen)
+                val screen: Screen = Screen.findByRoute(currentRoute)
+                viewModel.getIndexForRoute(screen.route)
+                viewModel.updateCurrentRoute(screen)
             }
         }
     }
@@ -167,61 +161,13 @@ fun SignUpContent(viewModel: SignUpViewModel) {
                     }
                 }
 
-                Column(
+                SignUpButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(0.35f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Button(
-                        onClick = {
-                            Timber.d("current route: ${viewModel.currentRoute.route}")
-
-                            runCatching {
-                                Timber.d("runCatching | attempt to navigate to next destination")
-
-                                val index = viewModel.getIndexForRoute(viewModel.currentRoute.route)
-                                val canGoNext = viewModel.currentRoute != Screen.SuccessfulSignUp
-
-                                if (!canGoNext) {
-                                    Timber.e("runCatching | Cannot go to next screen")
-                                    Timber.d("runCatching | Sign up successful")
-                                } else {
-                                    if (viewModel.currentRoute == Screen.Terms && !viewModel.isTermsChecked) {
-                                        Timber.d("runCatching | Checkbox not checked display toast message")
-                                        UIManager.showActionInToast(
-                                            context,
-                                            context.getString(R.string.err_msg_license_agreement_approval_mandatory)
-                                        )
-                                    } else if (viewModel.currentRoute == Screen.Plan && !viewModel.isPremiumPlanSelected) {
-                                        navController.navigate(Screen.SuccessfulSignUp.route)
-                                    } else {
-                                        Timber.e("runCatching | Else branch")
-                                        val nextRoute = viewModel.routesIndexed[index + 1].first.route
-                                        Timber.d("  navController.navigate($nextRoute)")
-                                        navController.navigate(nextRoute)
-                                    }
-                                }
-                            }
-                                .onFailure {
-                                    it.printStackTrace()
-                                    Timber.e("runCatching | onFailure | error caught with message: ${it.message}")
-                                }
-                                .onSuccess {
-                                    Timber.d("runCatching | onSuccess | navigation successfully done")
-
-                                }
-                        }
-                    ) {
-                        Text(
-                            modifier = Modifier,
-                            text = if (viewModel.currentRoute == Screen.SuccessfulSignUp) stringResource(
-                                id = R.string.btn_validate
-                            ) else stringResource(id = R.string.btn_continue)
-                        )
-                    }
-                }
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
         }
     }
