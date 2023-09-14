@@ -3,6 +3,8 @@ package com.reephub.praeter.ui.splashscreen
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.reephub.praeter.R
 import com.reephub.praeter.core.compose.annotation.DevicePreviews
 import com.reephub.praeter.core.compose.theme.PraeterTheme
+import com.reephub.praeter.core.compose.theme.md_theme_dark_background
+import com.reephub.praeter.core.compose.theme.md_theme_light_background
 import com.reephub.praeter.core.compose.utils.findActivity
 import com.reephub.praeter.core.compose.utils.isPreview
 import com.reephub.praeter.ui.login.LoginActivity
@@ -41,12 +46,17 @@ import timber.log.Timber
 @Composable
 fun SplashScreenContent(viewModel: SplashScreenViewModel) {
     val context = LocalContext.current
+    val textAndImageColor = if (isSystemInDarkTheme()) Color.White else Color.Black
 
     var expanded by remember { mutableStateOf(false) }
     var loadingVisible by remember { mutableStateOf(false) }
 
     PraeterTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(if (isSystemInDarkTheme()) md_theme_dark_background else md_theme_light_background)
+        ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,10 +64,16 @@ fun SplashScreenContent(viewModel: SplashScreenViewModel) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_praeter_logo),
-                    contentDescription = "praeter logo"
+                    contentDescription = "praeter logo",
+                    colorFilter = ColorFilter.tint(
+                        color = textAndImageColor
+                    )
                 )
                 AnimatedVisibility(visible = if (isPreview()) true else expanded) {
-                    Text(text = stringResource(id = R.string.splash_catch_phrase))
+                    Text(
+                        text = stringResource(id = R.string.splash_catch_phrase),
+                        color = textAndImageColor
+                    )
                 }
             }
 

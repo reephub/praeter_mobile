@@ -13,9 +13,6 @@ import timber.log.Timber
 @HiltAndroidApp
 class PraeterApplication : MultiDexApplication() {
 
-    // Firebase
-    private var mFirebaseCrashlytics: FirebaseCrashlytics? = null
-
     override fun onCreate() {
         super.onCreate()
 

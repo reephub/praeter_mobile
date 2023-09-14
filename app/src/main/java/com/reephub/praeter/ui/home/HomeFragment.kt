@@ -208,6 +208,7 @@ class HomeFragment : BaseFragment(),
                     Timber.e("User chose not to make required location settings changes.")
                     mRequestingLocationUpdates = false
                 }
+
                 else -> {
                     Timber.e("else branch")
                 }
@@ -227,69 +228,68 @@ class HomeFragment : BaseFragment(),
     /////////////////////////////////////
     private fun initViewModelsObservers() {
         Timber.i("initViewModelsObservers()")
-        mLocationViewModel.getGoogleDirection()
-            .observe(
-                requireActivity(),
-                { response ->
-                    Timber.d("getGoogleDirection().observe")
+        mLocationViewModel
+            .getGoogleDirection()
+            .observe(requireActivity()) { response ->
+                Timber.d("getGoogleDirection().observe")
 
-                    try {
-                        Timber.d("Overview : ${response.routes[0].overviewPolyline.points}")
-                        val overview = response.routes[0].overviewPolyline.points
+                try {
+                    Timber.d("Overview : ${response.routes[0].overviewPolyline.points}")
+                    val overview = response.routes[0].overviewPolyline.points
 
-                        val stepsNumber = response.routes[0].legs[0].steps.size
+                    val stepsNumber = response.routes[0].legs[0].steps.size
 
-                        val polylines: Array<String?> = arrayOfNulls(stepsNumber)
+                    val polylines: Array<String?> = arrayOfNulls(stepsNumber)
 
-                        for ((i, step: Steps) in response.routes[0].legs[0].steps.withIndex()) {
+                    for ((i, step: Steps) in response.routes[0].legs[0].steps.withIndex()) {
 
-                            val polygone: String = step.polyline.points
+                        val polygone: String = step.polyline.points
 
-                            polylines[i] = polygone
-                        }
-
-                        Timber.e("Polylines : $polylines")
-                        val polylinesCount = polylines.size
-
-                        for (i in 0..polylinesCount) {
-
-                            val option = PolylineOptions()
-                            option.color(
-                                ContextCompat.getColor(
-                                    requireActivity(),
-                                    R.color.black
-                                )
-                            )
-                            option.addAll(PolyUtil.decode(overview))
-
-                            mMap.addPolyline(option)
-                        }
-
-                        val southWestBounds = TARGET_LOCATION_TO_STRING.split(",")
-                        val northEastBounds = CURRENT_LOCATION_TO_STRING.split(",")
-
-
-                        /*val australiaBounds = LatLngBounds(
-                            LatLng(
-                                southWestBounds[0].toDouble(),
-                                southWestBounds[1].toDouble()
-                            ),  // SW bounds
-                            LatLng(
-                                northEastBounds[0].toDouble(),
-                                northEastBounds[1].toDouble()
-                            ) // NE bounds
-                        )
-                        mMap.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                australiaBounds.center,
-                                10f
-                            )
-                        )*/
-
-                    } catch (exception: Exception) {
-                        exception.printStackTrace()
+                        polylines[i] = polygone
                     }
-                })
+
+                    Timber.e("Polylines : $polylines")
+                    val polylinesCount = polylines.size
+
+                    for (i in 0..polylinesCount) {
+
+                        val option = PolylineOptions()
+                        option.color(
+                            ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.black
+                            )
+                        )
+                        option.addAll(PolyUtil.decode(overview))
+
+                        mMap.addPolyline(option)
+                    }
+
+                    val southWestBounds = TARGET_LOCATION_TO_STRING.split(",")
+                    val northEastBounds = CURRENT_LOCATION_TO_STRING.split(",")
+
+
+                    /*val australiaBounds = LatLngBounds(
+                        LatLng(
+                            southWestBounds[0].toDouble(),
+                            southWestBounds[1].toDouble()
+                        ),  // SW bounds
+                        LatLng(
+                            northEastBounds[0].toDouble(),
+                            northEastBounds[1].toDouble()
+                        ) // NE bounds
+                    )
+                    mMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            australiaBounds.center,
+                            10f
+                        )
+                    )*/
+
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+            }
     }
 
     @SuppressLint("MissingPermission")
