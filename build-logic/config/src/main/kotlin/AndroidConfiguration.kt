@@ -1,5 +1,5 @@
 object AndroidConfiguration {
-    val buildTools: Version = Version(major = 30, minor = 0, patch = 3)
+    val buildTools: Version = Version(major = 34, minor = 0, patch = 0)
 
     object Sdk {
         const val compilation: Int = 34
