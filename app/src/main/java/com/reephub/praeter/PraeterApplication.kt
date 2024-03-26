@@ -22,7 +22,7 @@ class PraeterApplication : MultiDexApplication() {
         initFirebase()
 //        initAds()
 
-        Timber.d("Application successfully created")
+        Timber.d("${PraeterApplication::class.java.simpleName} successfully created")
     }
 
     private fun init() {

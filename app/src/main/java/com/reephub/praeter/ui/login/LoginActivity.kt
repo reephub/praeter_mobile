@@ -2,32 +2,22 @@ package com.reephub.praeter.ui.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
-import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -35,14 +25,11 @@ import com.reephub.praeter.BuildConfig
 import com.reephub.praeter.R
 import com.reephub.praeter.core.utils.PraeterNetworkManagerNewAPI
 import com.reephub.praeter.core.utils.UIManager
-import com.reephub.praeter.data.remote.dto.UserDto
-import com.reephub.praeter.databinding.ActivityLoginBinding
 import com.reephub.praeter.ui.mainactivity.MainActivity
 import com.reephub.praeter.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
@@ -162,11 +149,9 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun onLoginFailed() {
-        Timber.e("onLoginFailed()")
-      getString(R.string.err_msg_wrong_email_or_password)
-         getString(R.string.err_msg_wrong_email_or_password)
+        val message = getString(R.string.err_msg_wrong_email_or_password)
+        Timber.e("onLoginFailed() | message: $message")
     }
-
 
 
     private fun requestFocus(view: View) {
@@ -201,10 +186,8 @@ class LoginActivity : ComponentActivity() {
         return true
     }*/
 
-    private fun isValidEmail(email: String): Boolean {
-        return (!TextUtils.isEmpty(email)
-                && Patterns.EMAIL_ADDRESS.matcher(email).matches())
-    }
+    private fun isValidEmail(email: String): Boolean =
+        !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     private fun callMainActivity() {
         Timber.d("callMainActivity()")

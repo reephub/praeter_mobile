@@ -10,22 +10,19 @@ class GlideListener(
     private val onLoadingFailed: () -> Boolean = { false },
     private val onLoadingSuccess: (resource: Drawable?) -> Boolean
 ) : RequestListener<Drawable> {
+
     override fun onLoadFailed(
         e: GlideException?,
         model: Any?,
-        target: Target<Drawable>?,
+        target: Target<Drawable>,
         isFirstResource: Boolean
-    ): Boolean {
-        return onLoadingFailed()
-    }
+    ): Boolean = onLoadingFailed()
 
     override fun onResourceReady(
-        resource: Drawable?,
-        model: Any?,
+        resource: Drawable,
+        model: Any,
         target: Target<Drawable>?,
-        dataSource: DataSource?,
+        dataSource: DataSource,
         isFirstResource: Boolean
-    ): Boolean {
-        return onLoadingSuccess(resource)
-    }
+    ): Boolean = onLoadingSuccess(resource)
 }
