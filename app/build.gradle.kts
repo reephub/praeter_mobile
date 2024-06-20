@@ -17,6 +17,8 @@ plugins {
     id("jacoco")
     id("androidx.navigation.safeargs.kotlin")
     id("praeter.firebase")
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -71,6 +73,10 @@ android {
     }
 
     namespace = "com.reephub.praeter"
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 dependencies {
@@ -158,7 +164,7 @@ dependencies {
     // Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
 
     // Worker & concurrent

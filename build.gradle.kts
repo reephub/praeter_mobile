@@ -2,9 +2,12 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false
+    // Compose Compiler - Introduced by Kotlin 2.0
+    alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
     alias(libs.plugins.secrets) apply false
     // Google Services
     alias(libs.plugins.playservices) apply false
