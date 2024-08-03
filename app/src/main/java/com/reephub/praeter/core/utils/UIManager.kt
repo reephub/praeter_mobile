@@ -89,9 +89,9 @@ object UIManager {
         }
         alertDialog.setPositiveButton(positiveMessage) { _: DialogInterface?, _: Int ->
             showActionInToast(context, positiveMessage)
-            activity?.onBackPressed()
+            activity.onBackPressed()
             if (negativeMessage.equals("Quitter", ignoreCase = true)) {
-                activity!!.finish()
+                activity.finish()
             }
         }
         alertDialog.setCancelable(false)

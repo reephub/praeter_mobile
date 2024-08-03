@@ -69,7 +69,7 @@ fun Username(viewModel: LoginViewModel, focusRequester: FocusRequester) {
                     .focusRequester(focusRequester),
                 value = viewModel.username,
                 onValueChange = { viewModel.updateUsername(it) },
-                placeholder = { androidx.compose.material3.Text(text = "Login") },
+                placeholder = { Text(text = "Login") },
                 maxLines = 1,
                 singleLine = true,
                 leadingIcon = {
@@ -84,7 +84,7 @@ fun Username(viewModel: LoginViewModel, focusRequester: FocusRequester) {
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
                 ),
-                colors = TextFieldDefaults.textFieldColors(
+                colors = TextFieldDefaults.colors(
                     // containerColor = if (!focus.value) Color.DarkGray else lightBlue,
                     // textColor = if (!focus.value) Color.Gray else Color.White,
                     cursorColor = Color.Blue,
@@ -97,7 +97,7 @@ fun Username(viewModel: LoginViewModel, focusRequester: FocusRequester) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Password(viewModel: LoginViewModel, focusRequester: FocusRequester) {
     val status by viewModel.loginUiState.collectAsStateWithLifecycle()
@@ -142,7 +142,7 @@ fun Password(viewModel: LoginViewModel, focusRequester: FocusRequester) {
                         keyboardController?.hide()
                     }
                 ),
-                colors = TextFieldDefaults.textFieldColors(
+                colors = TextFieldDefaults.colors(
                     // containerColor = if (!focus.value) Color.DarkGray else lightBlue,
                     // textColor = if (!focus.value) Color.Gray else Color.White,
                     cursorColor = Color.Blue,

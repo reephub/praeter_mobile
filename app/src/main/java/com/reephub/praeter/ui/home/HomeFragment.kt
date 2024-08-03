@@ -1,5 +1,7 @@
 package com.reephub.praeter.ui.home
 
+/*import com.google.maps.android.ktx.addMarker
+import com.google.maps.android.ktx.awaitMap*/
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -29,7 +31,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -45,8 +55,6 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.maps.android.PolyUtil
-/*import com.google.maps.android.ktx.addMarker
-import com.google.maps.android.ktx.awaitMap*/
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -64,11 +72,16 @@ import com.reephub.praeter.databinding.FragmentHomeBinding
 import com.reephub.praeter.ui.base.BaseFragment
 import com.reephub.praeter.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
@@ -304,8 +317,8 @@ class HomeFragment : BaseFragment(),
         // ref : https://stackoverflow.com/questions/36398061/how-to-change-text-size-in-places-autocompletefragment-in-android
         // placeAutocompleteFragment - is my PlaceAutocompleteFragment instance
         (autocompleteFragment.view
-            ?.findViewById(R.id.places_autocomplete_search_input) as EditText)
-            .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            ?.findViewById<EditText>(com.google.android.libraries.places.R.id.places_autocomplete_search_input))
+            ?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
 
         /**
          * Initialize Places. For simplicity, the API key is hard-coded. In a production

@@ -57,7 +57,7 @@ class LoginViewModel @Inject constructor(
         private set
 
     val isUserNameValid: Boolean by derivedStateOf {
-        username.isNotBlank() == true
+        username.isNotBlank()
     }
 
     fun updateLoginUiState(newState: LoginUiState) {
@@ -132,14 +132,12 @@ class LoginViewModel @Inject constructor(
         showLoading()
 
         username.let { userLogin ->
-            password.let { userPassword ->
-                makeCallLogin(
-                    UserDto(
-                        userLogin,
-                        LoginUtils.encodedHashedPassword(LoginUtils.convertToSHA1(userPassword)!!)!!
-                    )
+            makeCallLogin(
+                UserDto(
+                    userLogin,
+                    LoginUtils.encodedHashedPassword(LoginUtils.convertToSHA1(password)!!)!!
                 )
-            }
+            )
         }
     }
 

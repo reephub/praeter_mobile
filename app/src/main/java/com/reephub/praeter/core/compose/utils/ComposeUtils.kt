@@ -3,7 +3,6 @@ package com.reephub.praeter.core.compose.utils
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.window.OnBackInvokedCallback
@@ -29,8 +28,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.reephub.praeter.ui.signup.SignUpActivity
 import timber.log.Timber
 

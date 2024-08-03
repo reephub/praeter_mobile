@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import com.reephub.praeter.core.utils.PraeterCompatibilityManager
 
 abstract class BaseComponentActivity : ComponentActivity() {
+
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

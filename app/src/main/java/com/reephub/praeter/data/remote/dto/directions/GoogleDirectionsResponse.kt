@@ -1,10 +1,11 @@
 package com.reephub.praeter.data.remote.dto.directions
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
 @Serializable
-class GoogleDirectionsResponse constructor(
+class GoogleDirectionsResponse @OptIn(ExperimentalSerializationApi::class) constructor(
     @JsonNames("geocoded_waypoints")
     val geocodedWaypoints: List<GeocodedWaypoints>,
 

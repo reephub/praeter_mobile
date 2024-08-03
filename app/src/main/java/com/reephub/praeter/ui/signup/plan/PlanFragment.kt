@@ -132,8 +132,7 @@ class PlanFragment : Fragment(),
         if (hasPlanSelected)
             return
         else {
-            if (!hasPlanSelected)
-                changeButtonState(isChecked)
+            changeButtonState(isChecked)
 
             hasPlanSelected = true
         }

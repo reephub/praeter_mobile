@@ -90,7 +90,7 @@ private val DarkColors = darkColorScheme(
 private fun animateColor(targetValue: Color) =
     animateColorAsState(
         targetValue = targetValue,
-        animationSpec = tween(durationMillis = 2000)
+        animationSpec = tween(durationMillis = 2000), label = "animate_color"
     ).value
 
 @Composable
@@ -136,7 +136,7 @@ fun PraeterTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
     /*val colors = if (!useDarkTheme) {
       LightColors

@@ -74,7 +74,6 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    @NotNull
     fun provideDbAPIService(@ApplicationContext appContext: Context): DbApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL, appContext)
             .create(DbApiService::class.java)
@@ -82,7 +81,6 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    @NotNull
     fun provideUserAPIService(@ApplicationContext appContext: Context): UserApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL, appContext)
             .create(UserApiService::class.java)
@@ -90,7 +88,6 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    @NotNull
     fun provideOrderAPIService(@ApplicationContext appContext: Context): OrderApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL, appContext)
             .create(OrderApiService::class.java)
@@ -98,7 +95,6 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    @NotNull
     fun provideClassesAPIService(@ApplicationContext appContext: Context): ClassesApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL, appContext)
             .create(ClassesApiService::class.java)
@@ -106,14 +102,12 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    @NotNull
     fun provideAncientAPIService(@ApplicationContext appContext: Context): AncientApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_PRAETER_URL, appContext)
             .create(AncientApiService::class.java)
     }
 
     @Provides
-    @NotNull
     fun provideGoogleApiService(@ApplicationContext appContext: Context): GoogleDirectionsApiService {
         return provideRetrofit(Constants.BASE_ENDPOINT_GOOGLE_DIRECTIONS_API, appContext)
             .create(GoogleDirectionsApiService::class.java)

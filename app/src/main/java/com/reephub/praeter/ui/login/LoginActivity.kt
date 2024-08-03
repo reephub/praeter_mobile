@@ -96,7 +96,7 @@ class LoginActivity : ComponentActivity() {
     @SuppressLint("NewApi")
     private fun getConnectionInfo() {
         Timber.d("setListeners()")
-        var isWifiConn: Boolean = false
+        var isWifiConn = false
         var isMobileConn: Boolean = false
         val connectivityManager: ConnectivityManager =
             getSystemService(ConnectivityManager::class.java)

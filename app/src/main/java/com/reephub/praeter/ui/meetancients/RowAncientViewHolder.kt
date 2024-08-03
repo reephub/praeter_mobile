@@ -8,9 +8,6 @@ class RowAncientViewHolder(val binding: RowAncientBinding) : RecyclerView.ViewHo
 
     private val viewBinding: RowAncientBinding get() = binding
 
-    init {
-    }
-
     fun bind(ancientItem: AncientDto) {
         viewBinding.ancient = ancientItem
     }

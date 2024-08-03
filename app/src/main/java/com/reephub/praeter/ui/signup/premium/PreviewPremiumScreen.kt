@@ -2,7 +2,6 @@ package com.reephub.praeter.ui.signup.premium
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.reephub.praeter.R
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.reephub.praeter.core.compose.annotation.DevicePreviews

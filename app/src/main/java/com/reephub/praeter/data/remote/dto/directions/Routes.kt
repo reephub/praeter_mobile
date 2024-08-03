@@ -1,10 +1,11 @@
 package com.reephub.praeter.data.remote.dto.directions
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
 @Serializable
-class Routes constructor(
+class Routes @OptIn(ExperimentalSerializationApi::class) constructor(
     @JsonNames("bounds")
     val bounds: Bounds,
 

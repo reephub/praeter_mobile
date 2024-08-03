@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -68,8 +67,10 @@ fun SignUpProgression(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     LinearProgressIndicator(
+                        progress = {
+                            if (viewModel.currentIndex < it) 0.0f else 1.0f
+                        },
                         modifier = Modifier.height(4.dp),
-                        progress = if (viewModel.currentIndex < it) 0.0f else 1.0f
                     )
 
                     Text(

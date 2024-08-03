@@ -64,7 +64,7 @@ import kotlinx.coroutines.launch
 //
 /////////////////////////////////////
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -146,7 +146,7 @@ fun UserFormContent(navController: NavHostController, viewModel: SignUpViewModel
                                     ) {
                                         Text(
                                             modifier = Modifier.fillMaxWidth(),
-                                            text = "$gender"
+                                            text = gender
                                         )
                                     }
                                 },

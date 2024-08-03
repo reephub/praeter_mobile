@@ -9,7 +9,6 @@ import androidx.navigation.compose.rememberNavController
 import com.reephub.praeter.core.compose.annotation.DevicePreviews
 import com.reephub.praeter.core.compose.theme.PraeterTheme
 import com.reephub.praeter.ui.signup.SignUpViewModel
-import com.reephub.praeter.R
 
 
 /////////////////////////////////////

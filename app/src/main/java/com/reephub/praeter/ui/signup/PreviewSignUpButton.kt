@@ -43,6 +43,8 @@ fun SignUpButton(modifier: Modifier, navController: NavController, viewModel: Si
                         if (!canGoNext) {
                             Timber.e("runCatching | Cannot go to next screen")
                             Timber.d("runCatching | Sign up successful")
+
+                            // TODO If everything is set up correctly, then go to main activity
                         } else {
                             if (viewModel.currentRoute == Screen.Terms && !viewModel.isTermsChecked) {
                                 Timber.d("runCatching | Checkbox not checked display toast message")

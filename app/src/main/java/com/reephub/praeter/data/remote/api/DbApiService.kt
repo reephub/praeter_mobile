@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface DbApiService {
     @GET("/db")
-    suspend fun getDbConnection(): Unit
+    suspend fun getDbConnection()
 }

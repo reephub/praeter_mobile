@@ -13,7 +13,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 @SuppressLint("CheckResult")
 @BindingAdapter("imageResource", "error", requireAll = false)
-public fun loadImage(
+fun loadImage(
     targetImageView: ShapeableImageView,
     iconResDrawable: Drawable,
     error: Drawable,
@@ -46,7 +46,7 @@ class LabGlideUtils {
 
     /*@JvmStatic
     @BindingAdapter("android:src", "error", requireAll = false)*/
-    public fun loadImage(
+    fun loadImage(
         targetImageView: ShapeableImageView,
         iconIntRes: Int,
         error: Drawable,
@@ -62,7 +62,7 @@ class LabGlideUtils {
     }
 
     // @BindingAdapter("app:srcCompat", "error", requireAll = false)
-    public fun loadImage(
+    fun loadImage(
         targetImageView: ShapeableImageView,
         iconIntVectorRes: Int,
         error: Drawable,
@@ -80,7 +80,7 @@ class LabGlideUtils {
 
     /*@JvmStatic
     @BindingAdapter("imageUrl", "error", requireAll = false)*/
-    public fun loadImage(
+    fun loadImage(
         targetImageView: ShapeableImageView,
         iconResDrawable: Drawable,
         error: Drawable,

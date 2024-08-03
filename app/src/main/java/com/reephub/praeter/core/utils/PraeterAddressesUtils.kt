@@ -29,7 +29,7 @@ object PraeterAddressesUtils {
     }
 
 
-    suspend fun getRXAddress(
+    fun getRXAddress(
         geoCoder: Geocoder,
         latitude: Double,
         longitude: Double

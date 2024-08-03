@@ -3,6 +3,7 @@ package com.reephub.praeter.ui.signup
 import android.content.Context
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
@@ -61,7 +62,7 @@ class SignUpViewModel @Inject constructor(
 
     var currentRoute: Screen by mutableStateOf(Screen.Terms)
         private set
-    var currentIndex: Int by mutableStateOf(0)
+    var currentIndex: Int by mutableIntStateOf(0)
         private set
 
     var isTermsChecked: Boolean by mutableStateOf(false)
@@ -297,7 +298,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun validateConfirmPassword(): Boolean {
         if (confirmedPassword.trim().isEmpty()
-            && confirmedPassword.trim() != password.trim().toString()
+            && confirmedPassword.trim() != password.trim()
         ) {
             updateShowToast(application.getString(R.string.err_msg_form_confirm_password))
             //  requestFocus(binding.inputConfirmPassword)

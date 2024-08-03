@@ -89,11 +89,11 @@ class BottomSheetLocationFragment : BottomSheetDialogFragment(),
     /////////////////////////////////////
     private fun initViewModelsObservers() {
         mViewModel.getAddress().observe(
-            requireActivity(),
-            {
-                Timber.e("getAddress().observe - ${it.toString()}")
-                binding.currentAddress = it
-            })
+            requireActivity()
+        ) {
+            Timber.e("getAddress().observe - $it")
+            binding.currentAddress = it
+        }
     }
 
     /////////////////////////////////////

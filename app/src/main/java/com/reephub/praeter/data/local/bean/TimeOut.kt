@@ -6,7 +6,7 @@ enum class TimeOut(val value: Int) {
 
     companion object {
         fun getValue(value: TimeOut): Int {
-            return values().first { it.name == value.name }.value
+            return entries.first { it.name == value.name }.value
         }
     }
 }

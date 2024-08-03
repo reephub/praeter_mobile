@@ -97,16 +97,16 @@ object PraeterLocationUtils {
         return null
     }
 
-    suspend fun getRXAddress(
+    fun getRXAddress(
         geoCoder: Geocoder,
         latitude: Double,
         longitude: Double
     ): List<Address>? {
         val addressList = geoCoder.getFromLocation(latitude, longitude, 1)
-        if (addressList?.isNotEmpty() == true) {
-            return addressList
+        return if (addressList?.isNotEmpty() == true) {
+            addressList
         } else {
-            return null
+            null
         }
     }
 }
