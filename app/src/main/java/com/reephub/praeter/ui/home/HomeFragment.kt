@@ -430,21 +430,23 @@ class HomeFragment : BaseFragment(),
         // Setup Google Map using coroutines
         lifecycle.coroutineScope.launchWhenCreated {
             Timber.d("Setup Google Map using coroutines")
-            mMap /*= mapFragment.awaitMap()*/
 
-            setupMap()
+            mapFragment.getMapAsync {
+                mMap = it
 
-            // Set a preference for minimum and maximum zoom.
-            mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
-            mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
-            //mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
+                setupMap()
 
-            CoroutineScope(coroutineContext).launch {
-                delay(3000)
-                setLocationSettings()
-                hideLoading()
+                // Set a preference for minimum and maximum zoom.
+                mMap.setMinZoomPreference(MapsEnum.WORLD.distance)
+                mMap.setMaxZoomPreference(MapsEnum.DEFAULT_MAX_ZOOM.distance)
+                //mMap.moveCamera(CameraUpdateFactory.zoomTo(MapsEnum.WORLD.distance))
+
+                CoroutineScope(coroutineContext).launch {
+                    delay(3_000L)
+                    setLocationSettings()
+                    hideLoading()
+                }
             }
-
         }
     }
 
