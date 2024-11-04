@@ -37,7 +37,7 @@ class SplashScreenViewModel : ViewModel() {
                     .getPackageInfo(activity.packageName, 0)
             val version = pInfo.versionName
 
-            updateAppVersion(version)
+            version?.let { updateAppVersion(it) }
         } catch (error: PackageManager.NameNotFoundException) {
             Timber.e(error)
         }
