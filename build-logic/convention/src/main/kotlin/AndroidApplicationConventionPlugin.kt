@@ -12,9 +12,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.kapt")
                 apply("kotlin-parcelize")
                 apply("kotlinx-serialization")
+                apply("com.google.devtools.ksp")
             }
 
             extensions.configure<ApplicationExtension> {

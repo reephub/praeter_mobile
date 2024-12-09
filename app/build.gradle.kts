@@ -20,7 +20,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("praeter.firebase")
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
+    // alias(libs.plugins.ksp)
 }
 
 android {
@@ -183,7 +183,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModel.ktx)
     implementation(libs.androidx.lifecycle.viewModel.savedState)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    kapt(libs.androidx.lifecycle.compiler)
+    ksp(libs.androidx.lifecycle.compiler)
     implementation(libs.androidx.lifecycle.service)
     implementation(libs.androidx.lifecycle.process)
 
@@ -197,10 +197,9 @@ dependencies {
      * the following dependencies */
     // Hilt
     //implementation(Dependencies.hilt)
-    //kapt(Dependencies.hiltCompiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.ext.work)
-    kapt(libs.hilt.ext.compiler)
+    ksp(libs.hilt.ext.compiler)
 
     // Google Location (Maps / Places)
     implementation(libs.maps)
@@ -217,6 +216,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.perf)
 
 
     /* Retrofit using RxJava3, Okhttp, Okhttp logging interceptor, Moshi  */
@@ -237,7 +237,7 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
-    kapt(libs.glide.compiler)
+    ksp(libs.glide.compiler)
     implementation(libs.glide.blurry)
     implementation(libs.glide.transformation)
     implementation(libs.glide.landscapist)
@@ -261,6 +261,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
     androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.hilt.compiler)
-    kaptAndroidTest(libs.hilt.ext.compiler)
+    kspAndroidTest(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.ext.compiler)
 }

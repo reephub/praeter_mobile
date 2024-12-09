@@ -40,7 +40,7 @@ class PraeterApplication : MultiDexApplication() {
         FirebaseApp.initializeApp(this@PraeterApplication)
 
         FirebaseCrashlytics.getInstance().apply {
-            setCrashlyticsCollectionEnabled(true)
+            isCrashlyticsCollectionEnabled = true
             if (BuildConfig.DEBUG) {
                 setUserId("wayne")
             }
